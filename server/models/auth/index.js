@@ -1,5 +1,3 @@
-const getDetails = require('./getDetails');
+const getDetails = require('./getDetails')
 
-module.exports = {
-  getDetails
-};
+module.exports = { getDetails }

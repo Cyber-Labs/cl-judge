@@ -7,14 +7,14 @@ if (!config) {
 }
 
 const host = process.env.HOST
-const user = process.env.USER
 const password = process.env.PASSWORD
 const database = process.env.DATABASE
-const port = process.env.PORT || 5000
+// const port = process.env.PORT || 5000
+// const user = process.env.USER
 
 const pool = createPool({
     host: host,
-    user: "root",
+    user: 'root',
     password: password,
     database: database
 })
