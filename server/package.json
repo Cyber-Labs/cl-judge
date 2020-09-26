@@ -4,7 +4,7 @@
   "description": "backend for cyberlabs online judge",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test",
+    "test": "echo \"No test specified\" && exit 0",
     "lint": "eslint ./models ./routes ./*.js",
     "server": "nodemon index.js"
   },
