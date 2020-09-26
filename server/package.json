@@ -1,0 +1,38 @@
+{
+  "name": "cl-judge-backend",
+  "version": "1.0.0",
+  "description": "backend for cyberlabs online judge",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test",
+    "lint": "eslint ./Models ./Routes ./utils ./*.js"
+  },
+  "author": "Cyberlabs",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^6.12.5",
+    "ajv-errors": "^1.0.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.4.11",
+    "otplib": "^12.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.21.2",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2"
+  }
+}
