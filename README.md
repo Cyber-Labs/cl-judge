@@ -146,13 +146,16 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 mysql>
 ```
 
-### Postman
+### Other requirements (preferred, not essential):
+#### Postman
 Download and and install postman by:
 ```
 sudo apt install postman
 ```
+#### VS Code
 Download and install VS code by:
 ```
 sudo snap install --classic code
 ```
+#### MySQl Workbench
 Download and install mysql workbench from here: "https://dev.mysql.com/downloads/workbench/"
