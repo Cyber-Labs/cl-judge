@@ -158,4 +158,50 @@ Download and install VS code by:
 sudo snap install --classic code
 ```
 #### MySQL Workbench
-Download and install mysql workbench from [here](https://dev.mysql.com/downloads/workbench/).
+Download and install mysql workbench from [here](https://dev.mysql.com/downloads/workbench/).  
+After downloading and installing workbench, access may be denied to localhost, the error will look like:
+```
+access denied for 'root'@'localhost'
+````
+This will probably happen in ubuntu 20.04 versions or higher. To solve it:
+Open terminal and run:
+```
+sudo mysql
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+```
+The response will be like:
+```
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+| user             | authentication_string                                                  | plugin                | host      |
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+| debian-sys-maint | $A$005$^�	D)0<j7b9#~jQyAmMc5EuvFkj3wxf1sJtGAbAAvm4XCKOCp.k5S/1d79 | caching_sha2_password | localhost |
+| mysql.infoschema | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| mysql.session    | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| mysql.sys        | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| root             |                                                                        | auth_socket           | localhost |
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+5 rows in set (0.00 sec)
+```
+The problem lies in `auth-socket` plugin and to change it to `mysql_native_password`, run:
+```
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '<Your Passowrd>';
+FLUSH PRIVILEGES;
+```
+Then refresh and again run the command:
+```
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+```
+The response this time will be:
+```
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+| user             | authentication_string                                                  | plugin                | host      |
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+| debian-sys-maint | $A$005$^�	D)0<j7b9#~jQyAmMc5EuvFkj3wxf1sJtGAbAAvm4XCKOCp.k5S/1d79 | caching_sha2_password | localhost |
+| mysql.infoschema | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| mysql.session    | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| mysql.sys        | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| root             | *1B9D6B681B44F7AE2A6976FD7249F0204E6D2FA4                              | mysql_native_password | localhost |
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+5 rows in set (0.00 sec)
+```
+After changing the auth-socket, close workbench and open it again. The `root@localhost` should be accessible now.
