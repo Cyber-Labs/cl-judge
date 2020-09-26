@@ -8,16 +8,16 @@ Ridhish Jain - @ridhishjain
 Chirag Jain - @cjchirag7
 
 ## Index
- * [Requirements](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#requirements)
-   * [git](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#git)
-   * [nvm](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#nvm-node-version-manager--node-model-supervisor)
-   * [node](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#node)
-   * [npm](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#npm-node-package-manager)
-   * [yarn](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#yarn)
-   * [mysql-server](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#mysql-server)
-   * [Other requirements](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#other-requirements-preferred-not-essential)
- * [Setup and installation](#)
- * [API documentation](#)
+ * **[Requirements](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#requirements)**
+   * **[git](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#git)**
+   * **[nvm](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#nvm-node-version-manager--node-model-supervisor)**
+   * **[node](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#node)**
+   * **[npm](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#npm-node-package-manager)**
+   * **[yarn](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#yarn)**
+   * **[mysql-server](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#mysql-server)**
+   * **[Other requirements](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#other-requirements-preferred-not-essential)**
+ * **[Setup and installation](#)**
+ * **[API documentation](#)**
 
 ## Requirements
 
