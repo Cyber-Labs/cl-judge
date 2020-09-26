@@ -1,36 +1,20 @@
-const dotenv = require('dotenv')
-const { createPool } = require('mysql')
+// database connection stable, dummy api working on postman
+// next:
+// create schema, make all auth APIs
 
-const config = dotenv.config()
-if (!config) {
-    console.log(config.error)
+const dotenv = require('dotenv')
+
+if (!process.env.NODE_ENV) {
+    let result = dotenv.config();
+    if (result.error) {
+      console.log(result.error);
+    }
 }
 
 const host = process.env.HOST
-const user = process.env.USER
-const password = process.env.PASSWORD
-const database = process.env.DATABASE
 const port = process.env.PORT || 5000
 
-const pool = createPool({
-    host: host,
-    user: "root",
-    password: password,
-    database: database
-})
-
-
-pool.query(`SELECT * FROM user`, (error, results, fields) => {
-    if(error) {
-        console.log(error)
-        return
-    }
-    console.log(results)
-})
-
-/*
-const server = require('./routes)
+const server = require('./routes')
 server.listen(port, () => {
     console.log(`Server is running on host: ${host} and port: ${port}`)
 })
-*/
