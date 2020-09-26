@@ -158,4 +158,4 @@ Download and install VS code by:
 sudo snap install --classic code
 ```
 #### MySQl Workbench
-Download and install mysql workbench from [here](https://dev.mysql.com/downloads/workbench/)
+Download and install mysql workbench from [here](https://dev.mysql.com/downloads/workbench/).
