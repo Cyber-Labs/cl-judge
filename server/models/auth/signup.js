@@ -1,6 +1,8 @@
 /* eslint-disable no-async-promise-executor */
 const bcrypt = require('bcryptjs')
 const { pool } = require('../database')
+const { sendEmail } = require('../utils')
+const otplib = require('otplib')
 
 /**
  *
@@ -32,13 +34,22 @@ function signup({
         if (error) {
           return reject(error)
         }
+
+        const secretOtp = otplib.authenticator.generateSecret()
+        const otp = otplib.authenticator.generate(secretOtp)
+
         pool.query(
-          `INSERT INTO user (username,secret,full_name,admission_number,email,mobile) VALUES(?,?,?,?,?,?)`,
-          [username, hash, fullName, admissionNumber, email, mobile],
+          `INSERT INTO user (username,secret,full_name,admission_number,email,mobile,otp,otp_valid_upto) 
+          VALUES(?,?,?,?,?,?,?,NOW()+INTERVAL 1 DAY)`,
+          [username, hash, fullName, admissionNumber, email, mobile, otp],
           error => {
             if (error) {
               return reject(error)
             }
+            const subject = 'Email verification'
+            const port = process.env.PORT || 5000
+            const html = emailMessage(fullName, otp, port, username)
+            sendEmail(email, subject, html)
             return resolve(
               'Account created. Please activate your account using the OTP sent to your email address.'
             )
@@ -49,4 +60,12 @@ function signup({
   })
 }
 
+const emailMessage = (fullName, otp, port, username) => {
+  return `<p>Hello ${fullName} !</p>
+          <p>The OTP for verifying your email is ${otp}</p>
+          <p>Please verify your email by visiting the following link</p>
+          <a href='http://${process.env.HOST}:${port}/auth/verify_email?username=${username}'>
+            Verify your email
+          </a>`
+}
 module.exports = signup
