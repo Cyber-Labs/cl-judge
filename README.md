@@ -257,6 +257,17 @@ cd ..
 cd server
 npm install
 ```
+
+Before pushing to the repository, check linting by running:
+```
+cd server && npm run lint
+cd frontend && npm run lint
+```
+If the errors are fixable, run:
+```
+cd server && npm run lint -- --fix
+cd frontend && npm run lint -- --fix
+```
 Next steps to be added: exporting sql file and creating .env to setup database connection!
 
 ## Git commands
