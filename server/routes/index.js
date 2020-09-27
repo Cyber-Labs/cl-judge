@@ -3,15 +3,16 @@ const app = express()
 const router = express.Router()
 
 app.use(
-    express.urlencoded({
-        extended: false
-    })
+  express.urlencoded({
+    extended: false
+  })
 )
 app.use(express.json())
 
 const authRouter = require('./auth')
-router.use('/auth', authRouter)
+
+router.use('/auth', authRouter.getDetailsRouter)
+router.use('/auth', authRouter.signupRouter)
 
 app.use(router)
-
 module.exports = app

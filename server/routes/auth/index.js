@@ -1,3 +1,7 @@
-const getDetails = require('./getDetails')
+const getDetailsRouter = require('./getDetails')
+const signupRouter = require('./signup')
 
-module.exports = getDetails
+module.exports = {
+  getDetailsRouter,
+  signupRouter
+}
