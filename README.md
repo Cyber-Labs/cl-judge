@@ -16,8 +16,9 @@ Chirag Jain - @cjchirag7
    * **[yarn](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#yarn)**
    * **[mysql-server](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#mysql-server)**
    * **[Other requirements](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#other-requirements-preferred-not-essential)**
- * **[Setup and installation](#)**
- * **[API documentation](#)**
+ * **[Setup and installation](https://github.com/ridhishjain/cl-judge/blob/master/README.md#setup-and-installation)**
+ * **[Git commands](https://github.com/ridhishjain/cl-judge/blob/master/README.md#git-commands)**
+ * **[API documentation](https://github.com/ridhishjain/cl-judge/blob/master/README.md#api-documentation)**
 
 ## Requirements
 
@@ -217,3 +218,52 @@ The response this time will be:
 5 rows in set (0.00 sec)
 ```
 After changing the auth-socket, close workbench and open it again. The `root@localhost` should be accessible now.
+
+## Setup and Installation
+First fork the repo to your account.  
+Go to the forked repo and clone it to your local machine:
+```
+git clone https://github.com/<your_username>/cl-judge.git
+```
+This will make a copy of the code to your local machine, now move to the `cl-judge` directory.
+```
+cd cl-judge
+```
+Now check the remote of your local code by:
+```
+git remote -v
+```
+The response should look like:
+```
+origin	https://github.com/ridhishjain/cl-judge.git (fetch)
+origin	https://github.com/ridhishjain/cl-judge.git (push)
+```
+To add upstream to remote, run:
+```
+git remote add upstream https://github.com/Cyber-Labs/cl-judge.git
+```
+Again run `git remote -v`, the response should look like:
+```
+origin	https://github.com/ridhishjain/cl-judge.git (fetch)
+origin	https://github.com/ridhishjain/cl-judge.git (push)
+upstream	https://github.com/Cyber-Labs/cl-judge (fetch)
+upstream	https://github.com/Cyber-Labs/cl-judge (push)
+```
+Once the remote is set, install all the necessary dependencies in both `frontend` and `server` packages:
+```
+cd frontend
+npm install
+cd ..
+cd server
+npm install
+```
+Next steps to be added: exporting sql file and creating .env to setup database connection!
+
+## Git commands
+Forcefully making `origin` even with `upstream`
+```
+git fetch upstream
+git reset --hard upstream/master
+git push origin master --force
+```
+## API documentation
