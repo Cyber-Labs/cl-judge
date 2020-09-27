@@ -1,3 +1,7 @@
 const getDetails = require('./getDetails')
+const signup = require('./signup')
 
-module.exports = { getDetails }
+module.exports = {
+  signup,
+  getDetails
+}

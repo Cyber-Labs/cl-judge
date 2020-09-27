@@ -3,7 +3,7 @@ const { createPool } = require('mysql')
 
 const config = dotenv.config()
 if (!config) {
-    console.log(config.error)
+  console.log(config.error)
 }
 
 const host = process.env.HOST
@@ -13,10 +13,10 @@ const database = process.env.DATABASE
 // const user = process.env.USER
 
 const pool = createPool({
-    host: host,
-    user: 'root',
-    password: password,
-    database: database
+  host: host,
+  user: 'root',
+  password: password,
+  database: database
 })
 
 module.exports = { pool }
