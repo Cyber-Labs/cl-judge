@@ -16,9 +16,9 @@ Chirag Jain - @cjchirag7
    * **[yarn](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#yarn)**
    * **[mysql-server](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#mysql-server)**
    * **[Other requirements](https://github.com/ridhishjain/cl-judge?organization=ridhishjain&organization=ridhishjain#other-requirements-preferred-not-essential)**
- * **[Setup and installation](#)**
- * **[Git commands](#)**
- * **[API documentation](#)**
+ * **[Setup and installation](https://github.com/ridhishjain/cl-judge/blob/master/README.md#setup-and-installation)**
+ * **[Git commands](https://github.com/ridhishjain/cl-judge/blob/master/README.md#git-commands)**
+ * **[API documentation](https://github.com/ridhishjain/cl-judge/blob/master/README.md#api-documentation)**
 
 ## Requirements
 
