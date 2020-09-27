@@ -258,6 +258,7 @@ cd server
 npm install
 ```
 Next steps to be added: exporting sql file and creating .env to setup database connection!
+For email and nodemailer setup: https://medium.com/@nickroach_50526/sending-emails-with-node-js-using-smtp-gmail-and-oauth2-316fe9c790a1
 
 ## Git commands
 Forcefully making `origin` even with `upstream`
