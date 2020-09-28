@@ -17,6 +17,9 @@ router.use('/auth', authRouter.loginRouter)
 router.use('/auth', authRouter.forgotPasswordRouter)
 router.use('/auth', authRouter.resetPassowrdRouter)
 router.use('/auth', authRouter.updatePasswordRouter)
+router.use('/auth', authRouter.updateUserRouter)
+router.use('/auth', authRouter.verifyNewEmailRouter)
+router.use('/users', authRouter.getUserRouter)
 
 app.use(router)
 module.exports = app

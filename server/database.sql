@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `cl_judge` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cl_judge`;
 -- MySQL dump 10.13  Distrib 8.0.21, for Linux (x86_64)
 --
 -- Host: localhost    Database: cl_judge
@@ -23,18 +25,19 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int DEFAULT NULL,
-  `username` varchar(45) DEFAULT NULL,
-  `secret` longtext,
-  `full_name` varchar(45) DEFAULT NULL,
-  `admission_number` varchar(45) DEFAULT NULL,
+  `username` varchar(45) NOT NULL,
+  `secret` longtext NOT NULL,
+  `full_name` varchar(45) NOT NULL,
+  `admission_number` varchar(45) NOT NULL,
   `is_admin` tinyint DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `mobile` varchar(45) DEFAULT NULL,
+  `email` varchar(45) NOT NULL,
+  `mobile` varchar(45) NOT NULL,
   `logged_in` tinyint DEFAULT NULL,
   `otp` varchar(45) DEFAULT NULL,
   `otp_valid_upto` varchar(45) DEFAULT NULL,
-  `verified` tinyint DEFAULT NULL
+  `verified` tinyint DEFAULT NULL,
+  PRIMARY KEY (`username`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -47,4 +50,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-28 11:03:40
+-- Dump completed on 2020-09-28 16:32:52
