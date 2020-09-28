@@ -68,4 +68,5 @@ const emailMessage = (fullName, otp, port, username) => {
             Verify your email
           </a>`
 }
+
 module.exports = signup
