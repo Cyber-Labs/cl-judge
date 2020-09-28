@@ -278,3 +278,5 @@ git reset --hard upstream/master
 git push origin master --force
 ```
 ## API documentation
+
+The current version of API docs is [here](https://documenter.getpostman.com/view/7963087/TVKJwEH1)
