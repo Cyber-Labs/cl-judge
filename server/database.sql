@@ -1,6 +1,3 @@
-CREATE DATABASE
-IF NOT EXISTS `cl_judge` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `cl_judge`;
 -- MySQL dump 10.13  Distrib 8.0.21, for Linux (x86_64)
 --
 -- Host: localhost    Database: cl_judge
@@ -22,35 +19,22 @@ USE `cl_judge`;
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user`
-(
-  `id` int NOT NULL,
-  `username` varchar
-(45) NOT NULL,
-  `secret` varchar
-(45) NOT NULL,
-  `full_name` varchar
-(45) NOT NULL,
-  `admission_number` varchar
-(45) NOT NULL,
-  `is_admin` tinyint NOT NULL,
-  `email` varchar
-(45) NOT NULL,
-  `mobile` varchar
-(45) NOT NULL,
-  `logged_in` tinyint NOT NULL,
-  PRIMARY KEY
-(`id`),
-  UNIQUE KEY `id_UNIQUE`
-(`id`),
-  UNIQUE KEY `username_UNIQUE`
-(`username`),
-  UNIQUE KEY `admission_number_UNIQUE`
-(`admission_number`),
-  UNIQUE KEY `email_UNIQUE`
-(`email`),
-  UNIQUE KEY `mobile_UNIQUE`
-(`mobile`)
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `id` int DEFAULT NULL,
+  `username` varchar(45) DEFAULT NULL,
+  `secret` longtext,
+  `full_name` varchar(45) DEFAULT NULL,
+  `admission_number` varchar(45) DEFAULT NULL,
+  `is_admin` tinyint DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `mobile` varchar(45) DEFAULT NULL,
+  `logged_in` tinyint DEFAULT NULL,
+  `otp` varchar(45) DEFAULT NULL,
+  `otp_valid_upto` varchar(45) DEFAULT NULL,
+  `verified` tinyint DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +47,4 @@ CREATE TABLE `user`
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-27  2:39:35
+-- Dump completed on 2020-09-28 11:03:40
