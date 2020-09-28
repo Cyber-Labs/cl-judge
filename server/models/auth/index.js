@@ -1,9 +1,9 @@
-const getDetails = require('./getDetails')
 const signup = require('./signup')
 const verifyEmail = require('./verifyEmail')
+const login = require('./login')
 
 module.exports = {
   signup,
   verifyEmail,
-  getDetails
+  login
 }

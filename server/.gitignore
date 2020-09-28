@@ -3,3 +3,7 @@ node_modules/
 
 #ignoring .env file
 .env
+
+#ignoring rsa_secret
+rsa_secret
+rsa_secret.pub

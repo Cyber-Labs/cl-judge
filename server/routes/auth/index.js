@@ -1,9 +1,9 @@
-const getDetailsRouter = require('./getDetails')
 const signupRouter = require('./signup')
 const verifyEmailRouter = require('./verifyEmail')
+const loginRouter = require('./login')
 
 module.exports = {
-  getDetailsRouter,
   signupRouter,
-  verifyEmailRouter
+  verifyEmailRouter,
+  loginRouter
 }
