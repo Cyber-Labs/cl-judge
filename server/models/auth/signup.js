@@ -48,7 +48,8 @@ function signup({
             }
             const subject = 'Email verification'
             const port = process.env.PORT || 5000
-            const html = emailMessage(fullName, otp, port, username)
+            const host = process.env.HOST || 'localhost'
+            const html = emailMessage(fullName, otp, port, host, username)
             sendEmail(email, subject, html)
             return resolve(
               'Account created. Please activate your account using the OTP sent to your email address.'
@@ -60,11 +61,11 @@ function signup({
   })
 }
 
-const emailMessage = (fullName, otp, port, username) => {
+const emailMessage = (fullName, otp, port, host, username) => {
   return `<p>Hello ${fullName} !</p>
           <p>The OTP for verifying your email is ${otp}</p>
           <p>Please verify your email by visiting the following link</p>
-          <a href='http://${process.env.HOST}:${port}/auth/verify_email?username=${username}'>
+          <a href='http://${host}:${port}/auth/verify_email?username=${username}'>
             Verify your email
           </a>`
 }
