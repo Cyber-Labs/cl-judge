@@ -1,7 +1,8 @@
 const express = require('express')
+const { corsWithOptions } = require('./cors')
 const app = express()
 const router = express.Router()
-
+app.use(corsWithOptions)
 app.use(
   express.urlencoded({
     extended: false
