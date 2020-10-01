@@ -16,7 +16,13 @@ jobs:
         with:
           node-version: 12
       - run: cd server && npm ci
-      - run: cd server && npm test
+      - run: cd server && npm run build --if-present
+      - run: cd server && npm run lint
+      - run: cd server && npm run test
+      - run: cd frontend && npm ci
+      - run: cd frontend && npm run build --if-present
+      - run: cd frontend && npm run lint
+      - run: cd frontend && npm run test
 
   publish-npm:
     needs: build
@@ -28,7 +34,13 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: cd server && npm ci
-      - run: cd server && npm publish
+      - run: cd server && npm run build --if-present
+      - run: cd server && npm run lint
+      - run: cd server && npm run test
+      - run: cd frontend && npm ci
+      - run: cd frontend && npm run build --if-present
+      - run: cd frontend && npm run lint
+      - run: cd frontend && npm run test
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
 
@@ -42,6 +54,12 @@ jobs:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
       - run: cd server && npm ci
-      - run: cd server && npm publish
+      - run: cd server && npm run build --if-present
+      - run: cd server && npm run lint
+      - run: cd server && npm run test
+      - run: cd frontend && npm ci
+      - run: cd frontend && npm run build --if-present
+      - run: cd frontend && npm run lint
+      - run: cd frontend && npm run test
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
