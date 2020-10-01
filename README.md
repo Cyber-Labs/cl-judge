@@ -1,9 +1,9 @@
 # CL-judge
 
-Online judge version 2.0
+Online judge version 2.0  
+[![Build Status](https://travis-ci.com/Cyber-Labs/cl-judge.svg?branch=master)](https://travis-ci.com/Cyber-Labs/cl-judge)
 
 ## Status
-[![Build Status](https://travis-ci.com/Cyber-Labs/cl-judge.svg?branch=master)](https://travis-ci.com/Cyber-Labs/cl-judge)
 Under Development
 
 ## Maintained by
