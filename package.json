@@ -7,7 +7,8 @@
     "test": "echo \"No test specified\" && exit 0",
     "lint": "cd server && npm run lint",
     "lint:fix": "cd server && npm run lint --fix",
-    "server": "cd server && node index.js"
+    "server": "cd server && node index.js",
+    "client": "cd client && npm run dev"
   },
   "author": "Cyberlabs",
   "license": "ISC",

@@ -15,8 +15,8 @@ function forgotPassword({ email }) {
     const secret = otplib.authenticator.generateSecret()
     const otp = otplib.authenticator.generate(secret)
     const subject = 'Forgot Password'
-    const port = process.env.PORT || 5000
-    const host = process.env.HOST || 'localhost'
+    const port = process.env.FRONTEND_PORT || 3000
+    const host = process.env.FRONTEND_HOST || 'localhost'
     const html = emailMessage(otp, host, port)
     sendEmail(email, subject, html)
 
@@ -37,7 +37,7 @@ const emailMessage = (otp, host, port) => {
   return `<p>Hello !</p>
           <p>The otp for resetting your password is ${otp}</p>
           <p>Please reset your password by visiting the following link</p>
-          <a href='http://${host}:${port}/auth/reset_password'>Reset password</a>`
+          <a href='http://${host}:${port}/auth/reset-password'>Reset password</a>`
 }
 
 module.exports = forgotPassword
