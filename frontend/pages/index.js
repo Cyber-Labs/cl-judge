@@ -1,12 +1,12 @@
-import React from "react";
-import Head from "next/head";
-import { Tab, Tabs } from "react-bootstrap";
-import Link from "next/link";
-import Login from "../components/Login";
-import Signup from "../components/Signup";
-import Footer from "../components/common/Footer";
+import React from 'react'
+import Head from 'next/head'
+import { Tab, Tabs } from 'react-bootstrap'
+import Link from 'next/link'
+import Login from '../components/Login'
+import Signup from '../components/Signup'
+import Footer from '../components/common/Footer'
 
-export default function Home() {
+export default function Home () {
   return (
     <div>
       <Head>
@@ -58,5 +58,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  );
+  )
 }

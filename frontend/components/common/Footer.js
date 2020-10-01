@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react'
 
-function Footer() {
+function Footer () {
   return (
     <div>
       <footer>
         <p>
-          © Copyright 2020{" "}
+          © Copyright 2020{' '}
           <a
             href="https://cyberlabs.club/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {" "}
+            {' '}
             &nbsp; Cyberlabs
           </a>
         </p>
@@ -32,7 +32,7 @@ function Footer() {
         }
       `}</style>
     </div>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

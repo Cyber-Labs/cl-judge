@@ -5,7 +5,7 @@ const ajv = new Ajv({
   coerceTypes: true,
   useDefaults: true,
   jsonPointers: true
-});
+})
 
 require('ajv-errors')(ajv)
 

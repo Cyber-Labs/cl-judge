@@ -1,46 +1,46 @@
-import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
-import { Formik } from "formik";
-import * as yup from "yup";
-import baseUrl from "../shared/baseUrl";
+import React, { useState } from 'react'
+import { Form, Button, Alert } from 'react-bootstrap'
+import { Formik } from 'formik'
+import * as yup from 'yup'
+import baseUrl from '../shared/baseUrl'
 
 const loginSchema = yup.object({
-  username: yup.string().required("Username is required"),
-  password: yup.string().required("Password is required"),
-});
+  username: yup.string().required('Username is required'),
+  password: yup.string().required('Password is required')
+})
 
-function Login() {
-  const [loginError, setLoginError] = useState("");
+function Login () {
+  const [loginError, setLoginError] = useState('')
   return (
     <Formik
       validationSchema={loginSchema}
       onSubmit={(data) => {
-        const { username, password } = data;
-        var urlencoded = new URLSearchParams();
-        urlencoded.append("username", username);
-        urlencoded.append("password", password);
+        const { username, password } = data
+        var urlencoded = new URLSearchParams()
+        urlencoded.append('username', username)
+        urlencoded.append('password', password)
 
         var requestOptions = {
-          method: "POST",
-          body: urlencoded,
-        };
+          method: 'POST',
+          body: urlencoded
+        }
 
         fetch(`${baseUrl}/auth/login`, requestOptions)
           .then((res) => res.json())
           .then((res) => {
-            const { success, error } = res;
+            const { success, error } = res
             if (!success) {
-              if (error.sqlMessage) setLoginError(error.sqlMessage);
-              else setLoginError(error);
+              if (error.sqlMessage) setLoginError(error.sqlMessage)
+              else setLoginError(error)
             }
           })
           .catch((error) => {
-            setLoginError(error.message);
-          });
+            setLoginError(error.message)
+          })
       }}
       initialValues={{
-        username: "",
-        password: "",
+        username: '',
+        password: ''
       }}
     >
       {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -85,7 +85,7 @@ function Login() {
         </Form>
       )}
     </Formik>
-  );
+  )
 }
 
-export default Login;
+export default Login

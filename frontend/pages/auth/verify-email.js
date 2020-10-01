@@ -1,52 +1,52 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { Form, Button, Alert } from "react-bootstrap";
-import baseUrl from "../../shared/baseUrl";
-import Link from "next/link";
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import { Form, Button, Alert } from 'react-bootstrap'
+import baseUrl from '../../shared/baseUrl'
+import Link from 'next/link'
 
-function verifyEmail() {
-  const [otp, setOtp] = useState("");
-  const [otpError, setOtpError] = useState("");
-  const [otpResult, setOtpResult] = useState(false);
-  const router = useRouter();
-  const { username } = router.query;
+function verifyEmail () {
+  const [otp, setOtp] = useState('')
+  const [otpError, setOtpError] = useState('')
+  const [otpResult, setOtpResult] = useState(false)
+  const router = useRouter()
+  const { username } = router.query
 
   return (
     <div
       className="container gray-bg mt-4 ml-auto"
-      style={{ width: "500px", padding: "30px", borderRadius: "10px" }}
+      style={{ width: '500px', padding: '30px', borderRadius: '10px' }}
     >
       <h4>Email Verification</h4>
       <br />
       <Form
         onSubmit={(e) => {
-          e.preventDefault();
-          var urlencoded = new URLSearchParams();
-          urlencoded.append("otp", otp);
-          urlencoded.append("username", username);
+          e.preventDefault()
+          var urlencoded = new URLSearchParams()
+          urlencoded.append('otp', otp)
+          urlencoded.append('username', username)
 
           var requestOptions = {
-            method: "POST",
-            body: urlencoded,
-          };
+            method: 'POST',
+            body: urlencoded
+          }
 
           fetch(`${baseUrl}/auth/verify_email`, requestOptions)
             .then((res) => res.json())
             .then((res) => {
-              const { success, error } = res;
+              const { success, error } = res
               if (success) {
-                setOtpResult(true);
-                setOtpError("");
+                setOtpResult(true)
+                setOtpError('')
               } else {
-                if (error.sqlMessage) setOtpError(error.sqlMessage);
-                else setOtpError(error);
-                setOtpResult(false);
+                if (error.sqlMessage) setOtpError(error.sqlMessage)
+                else setOtpError(error)
+                setOtpResult(false)
               }
             })
             .catch((error) => {
-              setOtpError(error.message);
-              setOtpResult(false);
-            });
+              setOtpError(error.message)
+              setOtpResult(false)
+            })
         }}
       >
         <Form.Group controlId="otp">
@@ -55,7 +55,7 @@ function verifyEmail() {
             placeholder="Enter your OTP"
             value={otp}
             onChange={(e) => {
-              setOtp(e.target.value);
+              setOtp(e.target.value)
             }}
             name="otp"
           />
@@ -67,7 +67,7 @@ function verifyEmail() {
         <br />
         {otpResult && (
           <Alert variant="success">
-            Email verified successfully. Now, you can log in to your account{" "}
+            Email verified successfully. Now, you can log in to your account{' '}
             <Link href="/">
               <a href="/">here</a>
             </Link>
@@ -75,7 +75,7 @@ function verifyEmail() {
         )}
       </Form>
     </div>
-  );
+  )
 }
 
-export default verifyEmail;
+export default verifyEmail

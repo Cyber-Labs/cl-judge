@@ -1,67 +1,67 @@
-import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
-import baseUrl from "../../shared/baseUrl";
-import { Formik } from "formik";
-import * as yup from "yup";
-import Link from "next/link";
+import React, { useState } from 'react'
+import { Form, Button, Alert } from 'react-bootstrap'
+import baseUrl from '../../shared/baseUrl'
+import { Formik } from 'formik'
+import * as yup from 'yup'
+import Link from 'next/link'
 
 const resetPasswordSchema = yup.object({
-  username: yup.string().required("Username is required"),
+  username: yup.string().required('Username is required'),
   password: yup
     .string()
-    .min(8, "Should consist of 8 or more characters")
-    .required("Password is required"),
-  confirmPassword: yup.string().required("Re-enter the above password again"),
-  otp: yup.string().required("OTP is required"),
-});
+    .min(8, 'Should consist of 8 or more characters')
+    .required('Password is required'),
+  confirmPassword: yup.string().required('Re-enter the above password again'),
+  otp: yup.string().required('OTP is required')
+})
 
-function forgotPassword() {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [resultMessage, setResultMessage] = useState(false);
+function forgotPassword () {
+  const [errorMessage, setErrorMessage] = useState('')
+  const [resultMessage, setResultMessage] = useState(false)
   return (
     <div
       className="container gray-bg mt-4 ml-auto"
-      style={{ width: "500px", padding: "30px", borderRadius: "10px" }}
+      style={{ width: '500px', padding: '30px', borderRadius: '10px' }}
     >
       <h4>Reset Password</h4>
       <br />
       <Formik
         validationSchema={resetPasswordSchema}
         onSubmit={(data) => {
-          const { username, password, confirmPassword, otp } = data;
-          var urlencoded = new URLSearchParams();
-          urlencoded.append("username", username);
-          urlencoded.append("password", password);
-          urlencoded.append("password_confirm", confirmPassword);
-          urlencoded.append("otp", otp);
+          const { username, password, confirmPassword, otp } = data
+          var urlencoded = new URLSearchParams()
+          urlencoded.append('username', username)
+          urlencoded.append('password', password)
+          urlencoded.append('password_confirm', confirmPassword)
+          urlencoded.append('otp', otp)
           var requestOptions = {
-            method: "POST",
-            body: urlencoded,
-          };
+            method: 'POST',
+            body: urlencoded
+          }
 
           fetch(`${baseUrl}/auth/reset_password`, requestOptions)
             .then((res) => res.json())
             .then((res) => {
-              const { success, error } = res;
+              const { success, error } = res
               if (success) {
-                setResultMessage(true);
-                setErrorMessage("");
+                setResultMessage(true)
+                setErrorMessage('')
               } else {
-                if (error.sqlMessage) setErrorMessage(error.sqlMessage);
-                else setErrorMessage(error);
-                setResultMessage(false);
+                if (error.sqlMessage) setErrorMessage(error.sqlMessage)
+                else setErrorMessage(error)
+                setResultMessage(false)
               }
             })
             .catch((error) => {
-              setErrorMessage(error.message);
-              setResultMessage(false);
-            });
+              setErrorMessage(error.message)
+              setResultMessage(false)
+            })
         }}
         initialValues={{
-          username: "",
-          password: "",
-          confirmPassword: "",
-          otp: "",
+          username: '',
+          password: '',
+          confirmPassword: '',
+          otp: ''
         }}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -121,7 +121,7 @@ function forgotPassword() {
             <br />
             {resultMessage && (
               <Alert variant="success">
-                Password reset successfully. Now, you can log in to your account{" "}
+                Password reset successfully. Now, you can log in to your account{' '}
                 <Link href="/">
                   <a href="/">here</a>
                 </Link>
@@ -131,7 +131,7 @@ function forgotPassword() {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default forgotPassword;
+export default forgotPassword

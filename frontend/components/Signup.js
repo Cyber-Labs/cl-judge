@@ -1,91 +1,91 @@
-import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
-import { Formik } from "formik";
-import * as yup from "yup";
-import baseUrl from "../shared/baseUrl";
+import React, { useState } from 'react'
+import { Form, Button, Alert } from 'react-bootstrap'
+import { Formik } from 'formik'
+import * as yup from 'yup'
+import baseUrl from '../shared/baseUrl'
 
 const signupSchema = yup.object({
-  fullName: yup.string().required("Full Name is required"),
+  fullName: yup.string().required('Full Name is required'),
   email: yup
     .string()
     .matches(
-      "^[a-z]+.[0-9]{2}[a-z]{2}[0-9]{4}@([a-z]{2,4}.)?iitism.ac.in$",
-      "Enter a valid iit-ism mail id"
+      '^[a-z]+.[0-9]{2}[a-z]{2}[0-9]{4}@([a-z]{2,4}.)?iitism.ac.in$',
+      'Enter a valid iit-ism mail id'
     )
-    .required("Email is required"),
+    .required('Email is required'),
   admNo: yup
     .string()
-    .length(8, "Admission number must be exactly 8 characters long")
+    .length(8, 'Admission number must be exactly 8 characters long')
     .matches(
-      "^[0-9]{2}[a-z]{2}[0-9]{4}$",
-      "Enter a valid admission number in lowercase"
+      '^[0-9]{2}[a-z]{2}[0-9]{4}$',
+      'Enter a valid admission number in lowercase'
     )
-    .required("Admission Number is required"),
+    .required('Admission Number is required'),
   username: yup
     .string()
-    .min(4, "Must be 4 characters or more")
-    .required("Username is required"),
+    .min(4, 'Must be 4 characters or more')
+    .required('Username is required'),
   password: yup
     .string()
-    .min(8, "Must be 8 characters or more")
-    .required("Password is required"),
-  confirmPassword: yup.string().required("Re-enter your password here"),
+    .min(8, 'Must be 8 characters or more')
+    .required('Password is required'),
+  confirmPassword: yup.string().required('Re-enter your password here'),
   mobile: yup
     .string()
     .matches(
-      "^[0-9]{10}$",
+      '^[0-9]{10}$',
       "Don't include country code etc. Must be a 10-digit number"
     )
-    .required("Contact No. is required"),
-});
+    .required('Contact No. is required')
+})
 
-function Signup() {
-  const [signupError, setSignUpError] = useState("");
-  const [signupResult, setSignUpResult] = useState("");
+function Signup () {
+  const [signupError, setSignUpError] = useState('')
+  const [signupResult, setSignUpResult] = useState('')
   return (
     <Formik
       validationSchema={signupSchema}
       onSubmit={(data) => {
-        const { fullName, email, admNo, username, password, mobile } = data;
-        var urlencoded = new URLSearchParams();
-        urlencoded.append("username", username);
-        urlencoded.append("password", password);
-        urlencoded.append("full_name", fullName);
-        urlencoded.append("admission_number", admNo);
-        urlencoded.append("email", email);
-        urlencoded.append("mobile", mobile);
+        const { fullName, email, admNo, username, password, mobile } = data
+        var urlencoded = new URLSearchParams()
+        urlencoded.append('username', username)
+        urlencoded.append('password', password)
+        urlencoded.append('full_name', fullName)
+        urlencoded.append('admission_number', admNo)
+        urlencoded.append('email', email)
+        urlencoded.append('mobile', mobile)
 
         var requestOptions = {
-          method: "POST",
-          body: urlencoded,
-        };
+          method: 'POST',
+          body: urlencoded
+        }
 
         fetch(`${baseUrl}/auth/signup`, requestOptions)
           .then((res) => res.json())
           .then((res) => {
-            const { success, error, results } = res;
+            const { success, error, results } = res
             if (success) {
-              setSignUpError("");
-              setSignUpResult(results);
+              setSignUpError('')
+              setSignUpResult(results)
             } else {
-              setSignUpResult("");
-              if (error.sqlMessage) setSignUpError(error.sqlMessage);
-              else setSignUpError(error);
+              setSignUpResult('')
+              if (error.sqlMessage) setSignUpError(error.sqlMessage)
+              else setSignUpError(error)
             }
           })
           .catch((error) => {
-            setSignUpResult("");
-            setSignUpError(error);
-          });
+            setSignUpResult('')
+            setSignUpError(error)
+          })
       }}
       initialValues={{
-        username: "",
-        password: "",
-        confirmPassword: "",
-        admNo: "",
-        fullName: "",
-        mobile: "",
-        email: "",
+        username: '',
+        password: '',
+        confirmPassword: '',
+        admNo: '',
+        fullName: '',
+        mobile: '',
+        email: ''
       }}
     >
       {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -215,7 +215,7 @@ function Signup() {
         </Form>
       )}
     </Formik>
-  );
+  )
 }
 
-export default Signup;
+export default Signup
