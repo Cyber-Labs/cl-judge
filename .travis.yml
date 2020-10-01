@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - lts/*
+
+jobs:
+  include:
+    - stage: 'Server Test'
+      before_install: cd server
+      script: npm run lint
+
+    - stage: 'Frontend test'
+      before_install: cd frontend
+      script: npm run lint
