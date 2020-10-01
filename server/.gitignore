@@ -1,5 +1,5 @@
 # ignoring node modules
-node_modules/
+/node_modules
 
 # ignoring .env file
 .env
@@ -8,5 +8,7 @@ node_modules/
 rsa_secret
 rsa_secret.pub
 
-# ignoring lock file
-package-lock.json
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

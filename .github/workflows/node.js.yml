@@ -26,4 +26,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: cd server && npm ci
     - run: cd server && npm run build --if-present
-    - run: cd server && npm test
+    - run: cd server && npm run lint
+    - run: cd server && npm run test
+    - run: cd frontend && npm ci
+    - run: cd frontend && npm run build --if-present
+    - run: cd frontend && npm run lint
+    - run: cd frontend && npm run test
