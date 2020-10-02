@@ -17,5 +17,5 @@ module.exports = {
   updatePasswordRouter,
   updateUserRouter,
   verifyNewEmailRouter,
-  getUserRouter
+  getUserRouter,
 }

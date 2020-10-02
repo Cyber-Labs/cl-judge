@@ -32,7 +32,7 @@ function updatePassword({ username, password, new_password: newPassword }) {
           pool.query(
             `UPDATE user SET secret=? WHERE username=?`,
             [hash, username],
-            error => {
+            (error) => {
               if (error) {
                 return reject(error)
               }

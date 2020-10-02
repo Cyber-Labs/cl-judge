@@ -19,7 +19,7 @@ function updateUser({
   email,
   full_name: fullName,
   admission_number: admissionNumber,
-  mobile
+  mobile,
 }) {
   return new Promise((resolve, reject) => {
     const secret = otplib.authenticator.generateSecret()
@@ -48,7 +48,7 @@ function updateUser({
     }
     query += ` WHERE username=?`
     arr.push(username)
-    pool.query(query, arr, error => {
+    pool.query(query, arr, (error) => {
       if (error) {
         return reject(error)
       }

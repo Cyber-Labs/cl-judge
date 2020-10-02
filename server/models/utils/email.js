@@ -22,11 +22,11 @@ function sendEmail(email, subject, html) {
     service: mailService,
     auth: {
       user: senderMail,
-      pass: senderPassword
-    }
+      pass: senderPassword,
+    },
   })
 
-  transporter.verify(error => {
+  transporter.verify((error) => {
     if (error) {
       console.error(error)
     }
@@ -36,10 +36,10 @@ function sendEmail(email, subject, html) {
     from: senderMail,
     to: email,
     subject,
-    html
+    html,
   }
 
-  transporter.sendMail(mailConfigurations, error => {
+  transporter.sendMail(mailConfigurations, (error) => {
     if (error) {
       console.log(error)
       return

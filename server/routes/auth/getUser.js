@@ -12,30 +12,30 @@ router.get(
       return response.status(400).json({
         succes: false,
         results: null,
-        error: 'No user found with the given username'
+        error: 'No user found with the given username',
       })
     }
     auth
       .getUser(username)
-      .then(results => {
+      .then((results) => {
         return response.status(200).json({
           success: true,
           error: null,
-          results
+          results,
         })
       })
-      .catch(error => {
+      .catch((error) => {
         if (error === 'User not found') {
           return response.status(404).json({
             success: false,
             error,
-            results: null
+            results: null,
           })
         }
         return response.status(400).json({
           success: false,
           error,
-          results: null
+          results: null,
         })
       })
   }

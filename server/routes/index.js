@@ -5,7 +5,7 @@ const router = express.Router()
 app.use(corsWithOptions)
 app.use(
   express.urlencoded({
-    extended: false
+    extended: false,
   })
 )
 app.use(express.json())
