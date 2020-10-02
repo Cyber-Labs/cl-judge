@@ -26,30 +26,30 @@ router.post(
       return response.status(400).json({
         success: false,
         results: null,
-        error: sumErrors(validate.errors)
+        error: sumErrors(validate.errors),
       })
     }
     auth
       .updatePassword(request.body)
-      .then(results => {
+      .then((results) => {
         return response.status(200).json({
           success: true,
           error: null,
-          results
+          results,
         })
       })
-      .catch(error => {
+      .catch((error) => {
         if (error === 'Password incorrect') {
           return response.status(401).json({
             success: false,
             error,
-            results: null
+            results: null,
           })
         }
         return response.status(400).json({
           success: false,
           error,
-          results: null
+          results: null,
         })
       })
   }

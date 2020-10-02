@@ -23,7 +23,7 @@ function verifyUserAccessToken(request, response, next) {
         response.status(401).json({
           success: false,
           results: null,
-          error
+          error,
         })
         return
       }
@@ -34,7 +34,7 @@ function verifyUserAccessToken(request, response, next) {
     response.status(401).json({
       success: false,
       results: null,
-      error: 'Access code not included in the header of the request'
+      error: 'Access code not included in the header of the request',
     })
     return
   }

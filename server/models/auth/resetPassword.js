@@ -15,7 +15,7 @@ function resetPassword({
   username,
   password_confirm: passwordConfirm,
   password,
-  otp
+  otp,
 }) {
   return new Promise((resolve, reject) => {
     if (password !== passwordConfirm) {

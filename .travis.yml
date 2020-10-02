@@ -1,29 +1,21 @@
 language: node_js
-os:
-  - linux
-  - osx
-  - windows
 node_js:
-  - 14
-  - 12
-  - 10
+  - lts/*
 cache:
   directories:
     - node_modules
     - frontend/node_modules
     - server/node_modules
 stages:
-  - Server Test Lint
-  - Frontend Test Lint
-  - test
-  - integration
+  - Frontend Test
+  - Server Test
 
 jobs:
   include:
-    - stage: 'Server Test Lint'
-      before_install: cd server
-      script: npm run lint
-
-    - stage: 'Frontend Test Lint'
+    - stage: 'Frontend Test'
       before_install: cd frontend
-      script: npm run lint
+      script: npm run lint && npm run test
+    
+    - stage: 'Server Test'
+      before_install: cd server
+      script: npm run lint && npm run test

@@ -41,7 +41,7 @@ function forgotPassword({ email }) {
     pool.query(
       `UPDATE user SET otp=?,otp_valid_upto=NOW()+INTERVAL 1 DAY WHERE email=?`,
       [otp, email],
-      error => {
+      (error) => {
         if (error) {
           return reject(error)
         }

@@ -21,23 +21,23 @@ router.post('/signup', async (request, response) => {
     return response.status(400).json({
       success: false,
       error: sumErrors(validate.errors),
-      results: null
+      results: null,
     })
   }
   auth
     .signup(request.body)
-    .then(results => {
+    .then((results) => {
       return response.status(200).json({
         success: true,
         error: null,
-        results
+        results,
       })
     })
-    .catch(error => {
+    .catch((error) => {
       return response.status(400).json({
         success: false,
         error,
-        results: null
+        results: null,
       })
     })
 })

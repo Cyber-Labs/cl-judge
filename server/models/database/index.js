@@ -16,7 +16,7 @@ const pool = createPool({
   host: host,
   user: 'root',
   password: password,
-  database: database
+  database: database,
 })
 
 module.exports = { pool }

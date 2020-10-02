@@ -26,23 +26,23 @@ router.post(
       return response.status(400).json({
         success: false,
         results: null,
-        error: sumErrors(validate.errors)
+        error: sumErrors(validate.errors),
       })
     }
     auth
       .updateUser(request.body)
-      .then(results => {
+      .then((results) => {
         return response.status(200).json({
           success: true,
           results,
-          error: null
+          error: null,
         })
       })
-      .catch(error => {
+      .catch((error) => {
         return response.status(400).json({
           success: false,
           results: null,
-          error
+          error,
         })
       })
   }
