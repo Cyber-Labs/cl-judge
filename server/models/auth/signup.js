@@ -23,7 +23,7 @@ function signup({
   full_name: fullName,
   admission_number: admissionNumber,
   email,
-  mobile
+  mobile,
 }) {
   return new Promise(async (resolve, reject) => {
     bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS), (error, salt) => {
@@ -42,7 +42,7 @@ function signup({
           `INSERT INTO user (username,secret,full_name,admission_number,email,mobile,otp,otp_valid_upto) 
           VALUES(?,?,?,?,?,?,?,NOW()+INTERVAL 1 DAY)`,
           [username, hash, fullName, admissionNumber, email, mobile, otp],
-          error => {
+          (error) => {
             if (error) {
               return reject(error)
             }

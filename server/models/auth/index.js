@@ -17,5 +17,5 @@ module.exports = {
   updatePassword,
   updateUser,
   verifyNewEmail,
-  getUser
+  getUser,
 }

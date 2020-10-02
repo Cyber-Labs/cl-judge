@@ -21,23 +21,23 @@ router.post('/reset_password', async (request, response) => {
     return response.status(400).json({
       success: false,
       results: null,
-      error: sumErrors(validate.errors)
+      error: sumErrors(validate.errors),
     })
   }
   auth
     .resetPassword(request.body)
-    .then(results => {
+    .then((results) => {
       return response.status(200).json({
         success: true,
         error: null,
-        results
+        results,
       })
     })
-    .catch(error => {
+    .catch((error) => {
       return response.status(400).json({
         success: false,
         error,
-        results: null
+        results: null,
       })
     })
 })
