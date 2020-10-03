@@ -21,6 +21,24 @@ function forgotPassword({ email }) {
     sendEmail(email, subject, html)
 
     pool.query(
+      `SELECT verified FROM user WHERE email=?`,
+      [email],
+      (error, results) => {
+        if (error) {
+          return reject(error)
+        }
+        if (!results.length) {
+          return reject('No account exists with the given email!')
+        }
+        const { verified } = results[0]
+        if (verified !== 1) {
+          return reject(
+            'The account with this email is not verified yet, please verify your email account first!'
+          )
+        }
+      }
+    )
+    pool.query(
       `UPDATE user SET otp=?,otp_valid_upto=NOW()+INTERVAL 1 DAY WHERE email=?`,
       [otp, email],
       (error) => {
