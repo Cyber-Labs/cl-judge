@@ -21,6 +21,7 @@ Chirag Jain - [@cjchirag7](https://github.com/cjchirag7)
   - **[yarn](#yarn)**
   - **[mysql-server](#mysql-server)**
   - **[Other requirements](#other-requirements-preferred-not-essential)**
+- **[Tech Stack](#tech-stack)**
 - **[Setup and installation](#setup-and-installation)**
   - **[Setting up the repository locally](#setting-up-the-repository-locally)**
   - **[Exporting the sql file](#exporting-the-sql-file)**
@@ -287,6 +288,18 @@ The response this time will be:
 ```
 
 After changing the auth-socket, close workbench and open it again. The `root@localhost` should be accessible now.
+
+## Tech Stack
+
+- **Frontend design and development - `ReactJS`, `NextJS`**
+- **Server and API development - `NodeJS`, `ExpressJS`**
+- **Unit testing - `Mocha`**
+- **End to End API testing - `Jest`**
+- **Continuous Integration and testing - `Travis CI`**
+- **Database - `MySQL`**
+- **API Documentation - `Postman`**
+- **Frontend hosting and deployment - `Netlify`**
+- **Server hosting and deployment - `AWS`**
 
 ## Setup and Installation
 
