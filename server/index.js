@@ -1,7 +1,3 @@
-// database connection stable, dummy api working on postman
-// next:
-// create schema, make all auth APIs
-
 const dotenv = require('dotenv')
 
 if (!process.env.NODE_ENV) {

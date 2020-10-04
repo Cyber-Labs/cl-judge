@@ -22,5 +22,13 @@ router.use('/auth', authRouter.updateUserRouter)
 router.use('/auth', authRouter.verifyNewEmailRouter)
 router.use('/users', authRouter.getUserRouter)
 
+router.get('/ridhishjain', async (request, response) => {
+  return response.status(200).json({
+    success: true,
+    results: {}, 
+    error: null
+  })
+})
+
 app.use(router)
 module.exports = app
