@@ -18,5 +18,11 @@
         "react"
     ],
     "rules": {
+    },
+    "settings": {
+        "pragma": "React", 
+        "react": {
+            "version": "detect"
+        }
     }
 }

@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { Form, Button, Alert } from 'react-bootstrap'
 import { Formik } from 'formik'
 import * as yup from 'yup'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import CONSTANTS from '../shared/CONSTANTS'
 import baseUrl from '../shared/baseUrl'
 
 const loginSchema = yup.object({
@@ -9,7 +12,9 @@ const loginSchema = yup.object({
   password: yup.string().required('Password is required')
 })
 
-function Login () {
+function Login (props) {
+  const { setIsLoggedIn, setUser } = props
+  const router = useRouter()
   const [loginError, setLoginError] = useState('')
   return (
     <Formik
@@ -28,10 +33,18 @@ function Login () {
         fetch(`${baseUrl}/auth/login`, requestOptions)
           .then((res) => res.json())
           .then((res) => {
-            const { success, error } = res
+            const { success, error, results } = res
             if (!success) {
               if (error.sqlMessage) setLoginError(error.sqlMessage)
               else setLoginError(error)
+            } else {
+              localStorage.setItem(
+                CONSTANTS.KEYS.CL_JUDGE_AUTH,
+                JSON.stringify(results)
+              )
+              setIsLoggedIn(true)
+              setUser(results)
+              router.push('account-settings')
             }
           })
           .catch((error) => {
@@ -46,7 +59,7 @@ function Login () {
       {({ handleSubmit, handleChange, values, touched, errors }) => (
         <Form onSubmit={handleSubmit}>
           <br />
-          <h4>Login to (IIT-ISM Online Judge)</h4>
+          <h4>Login to CL Judge</h4>
           <br />
           <Form.Group controlId="loginUsername">
             <Form.Label>Username</Form.Label>
@@ -86,6 +99,11 @@ function Login () {
       )}
     </Formik>
   )
+}
+
+Login.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired
 }
 
 export default Login
