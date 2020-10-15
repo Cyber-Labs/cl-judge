@@ -91,7 +91,7 @@ function Signup () {
       {({ handleSubmit, handleChange, values, touched, errors }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <br />
-          <h4>Join (IIT-ISM Online Judge)</h4>
+          <h4>Join CL Judge</h4>
           <br />
           <Form.Group controlId="signupFullName">
             <Form.Label>Full Name</Form.Label>
@@ -206,9 +206,11 @@ function Signup () {
             </Form.Control.Feedback>
           </Form.Group>
           {signupError && <Alert variant="danger">{signupError}</Alert>}
-          <Button variant="primary" type="submit">
-            Sign Up
-          </Button>
+          <div className="text-center">
+            <Button variant="primary" type="submit">
+              Sign Up
+            </Button>
+          </div>
           <br />
           <br />
           {signupResult && <Alert variant="info">{signupResult}</Alert>}

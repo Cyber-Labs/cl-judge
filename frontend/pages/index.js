@@ -2,27 +2,34 @@ import React from 'react'
 import Head from 'next/head'
 import { Tab, Tabs } from 'react-bootstrap'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Login from '../components/Login'
 import Signup from '../components/Signup'
-import Footer from '../components/common/Footer'
+import PropTypes from 'prop-types'
 
-export default function Home () {
+function Home (props) {
+  const { isLoggedIn, setIsLoggedIn, setUser } = props
+  const router = useRouter()
+  if (isLoggedIn) {
+    router.push('account-settings')
+  }
   return (
     <div>
       <Head>
-        <title>Online Judge IIT-ISM</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>CL Judge</title>
+        <link rel="icon" href="/images/logo.png" />
       </Head>
 
       <main>
         <div className="container">
           <div className="row pb-5 align-items-center">
-            <div className="col-md-6 mt-4">
-              <h1>ONLINE JUDGE</h1>
+            <div className="col-md-6 left-heading">
+              <br />
+              <br />
+              <h1>CL JUDGE</h1>
             </div>
 
-            <div className=" col-lg-6 sm-12 mt-4">
-              <br />
+            <div className="col-lg-6 sm-12 right-content">
               <br />
               <br />
               <br />
@@ -30,7 +37,7 @@ export default function Home () {
               <Tabs defaultActiveKey="login" id="uncontrolled-tab-example">
                 <Tab eventKey="login" title="Log In ">
                   <div>
-                    <Login />
+                    <Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
                     <br />
                     <Link href="/auth/forgot-password">
                       <a>Forgot Password?</a>
@@ -47,7 +54,6 @@ export default function Home () {
           </div>
         </div>
       </main>
-      <Footer />
       <style jsx>{`
         main {
           flex: 1;
@@ -56,7 +62,29 @@ export default function Home () {
           justify-content: center;
           align-items: center;
         }
+        @media (max-width: 768px) {
+          .left-heading {
+            text-align: center;
+          }
+        }
+        @media (min-width: 768px) {
+          .left-heading {
+            position: fixed;
+            top: 40%;
+          }
+          .right-content {
+            margin-left: 50%;
+          }
+        }
       `}</style>
     </div>
   )
 }
+
+Home.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired
+}
+
+export default Home
