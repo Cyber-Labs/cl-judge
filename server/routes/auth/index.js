@@ -7,6 +7,7 @@ const updatePasswordRouter = require('./updatePassword')
 const updateUserRouter = require('./updateUser')
 const verifyNewEmailRouter = require('./verifyNewEmail')
 const getUserRouter = require('./getUser')
+const uploadProfileImage = require('./uploadProfileImage')
 
 module.exports = {
   signupRouter,
@@ -18,4 +19,5 @@ module.exports = {
   updateUserRouter,
   verifyNewEmailRouter,
   getUserRouter,
+  uploadProfileImage,
 }
