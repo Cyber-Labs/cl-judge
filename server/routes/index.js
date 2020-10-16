@@ -19,8 +19,17 @@ router.use('/auth', authRouter.forgotPasswordRouter)
 router.use('/auth', authRouter.resetPassowrdRouter)
 router.use('/auth', authRouter.updatePasswordRouter)
 router.use('/auth', authRouter.updateUserRouter)
+router.use('/auth', authRouter.uploadProfileImage)
 router.use('/auth', authRouter.verifyNewEmailRouter)
 router.use('/users', authRouter.getUserRouter)
 
 app.use(router)
+
+// Default error handler for internal server errors
+app.use(function (error, req, res, next) {
+  console.error(error.stack)
+  res.status(500).json({ success: false, results: null, error })
+  next()
+})
+
 module.exports = app

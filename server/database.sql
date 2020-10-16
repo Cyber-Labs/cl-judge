@@ -38,7 +38,8 @@ CREATE TABLE `user` (
   `verified` tinyint DEFAULT NULL,
   `department` int NOT NULL,
   `branch` int NOT NULL,
-  `bio` varchar(45) DEFAULT NULL,
+  `bio` varchar(110) DEFAULT NULL,
+  `profile_img` varchar(110) DEFAULT NULL,  
   PRIMARY KEY (`username`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -7,6 +7,7 @@ const updatePassword = require('./updatePassword')
 const updateUser = require('./updateUser')
 const verifyNewEmail = require('./verifyNewEmail')
 const getUser = require('./getUser')
+const uploadProfileImage = require('./uploadProfileImage')
 
 module.exports = {
   signup,
@@ -18,4 +19,5 @@ module.exports = {
   updateUser,
   verifyNewEmail,
   getUser,
+  uploadProfileImage,
 }
