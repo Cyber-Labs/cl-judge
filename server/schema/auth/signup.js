@@ -6,6 +6,8 @@ const schema = {
     'admission_number',
     'email',
     'mobile',
+    'department',
+    'branch',
   ],
   properties: {
     username: { type: 'string', minLength: 4 },
@@ -27,6 +29,16 @@ const schema = {
       maxlength: 10,
       pattern: '^[0-9]{10}$',
     },
+    department: {
+      type: 'number',
+      minimum: 0,
+      maximum: 14,
+    },
+    branch: {
+      type: 'number',
+      minimum: 0,
+      maximum: 3,
+    },
   },
   errorMessage: {
     required: {
@@ -36,6 +48,8 @@ const schema = {
       admission_number: 'Admission Number required',
       email: 'Email required',
       mobile: 'Mobile Number required',
+      department: 'Department required',
+      branch: 'Branch required',
     },
     properties: {
       username: 'Invalid username',
@@ -44,6 +58,8 @@ const schema = {
       admission_number: 'Invalid admission number',
       email: 'Invlalid email',
       mobile: 'Invalid mobile number',
+      department: 'Invalid department',
+      branch: 'Invalid branch',
     },
     _: 'Invalid data',
   },

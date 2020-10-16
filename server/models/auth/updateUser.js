@@ -9,7 +9,10 @@ const otplib = require('otplib')
  * @param {String} param0.email
  * @param {String} param0.full_name
  * @param {String} param0.admission_number
- * @param {Number} param0.mobile
+ * @param {String} param0.mobile
+ * @param {Number} param0.department
+ * @param {Number} param0.branch
+ * @param {String} param0.bio
  * @return {Promise}
  *
  */
@@ -20,6 +23,9 @@ function updateUser({
   full_name: fullName,
   admission_number: admissionNumber,
   mobile,
+  department,
+  branch,
+  bio,
 }) {
   return new Promise((resolve, reject) => {
     const secret = otplib.authenticator.generateSecret()
@@ -38,6 +44,18 @@ function updateUser({
     if (mobile) {
       query += `mobile=?,`
       arr.push(mobile)
+    }
+    if (Number.isInteger(department)) {
+      query += `department=?,`
+      arr.push(department)
+    }
+    if (Number.isInteger(branch)) {
+      query += `branch=?,`
+      arr.push(branch)
+    }
+    if (bio) {
+      query += `bio=?,`
+      arr.push(bio)
     }
     if (email) {
       query += `email=?,verified=?,`
