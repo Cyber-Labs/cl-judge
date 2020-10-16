@@ -1,6 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
+const { pool } = require('../database')
 const isCorrect = require('./isCorrect')
 
 /**
@@ -33,6 +34,15 @@ function login({ username, password }) {
           if (error) {
             return reject(`error = ${error}`)
           }
+          pool.query(
+            `UPDATE user SET logged_in=? WHERE username=?`,
+            [1, username],
+            (error) => {
+              if (error) {
+                return reject(error)
+              }
+            }
+          )
           return resolve({ username, access_token: accessToken })
         }
       )

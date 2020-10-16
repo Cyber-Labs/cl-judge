@@ -13,6 +13,8 @@ const otplib = require('otplib')
  * @param {String} param0.admission_number
  * @param {String} param0.email
  * @param {String} param0.mobile
+ * @param {Number} param0.department
+ * @param {Number} param0.branch
  * @return {Promise}
  *
  */
@@ -24,6 +26,8 @@ function signup({
   admission_number: admissionNumber,
   email,
   mobile,
+  department,
+  branch,
 }) {
   return new Promise(async (resolve, reject) => {
     bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS), (error, salt) => {
@@ -39,9 +43,19 @@ function signup({
         const otp = otplib.authenticator.generate(secretOtp)
 
         pool.query(
-          `INSERT INTO user (username,secret,full_name,admission_number,email,mobile,otp,otp_valid_upto) 
-          VALUES(?,?,?,?,?,?,?,NOW()+INTERVAL 1 DAY)`,
-          [username, hash, fullName, admissionNumber, email, mobile, otp],
+          `INSERT INTO user (username,secret,full_name,admission_number,email,mobile,department,branch,otp,otp_valid_upto) 
+          VALUES(?,?,?,?,?,?,?,?,?,NOW()+INTERVAL 1 DAY)`,
+          [
+            username,
+            hash,
+            fullName,
+            admissionNumber,
+            email,
+            mobile,
+            department,
+            branch,
+            otp,
+          ],
           (error) => {
             if (error) {
               return reject(error)

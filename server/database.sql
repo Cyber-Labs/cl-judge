@@ -36,6 +36,9 @@ CREATE TABLE `user` (
   `otp` varchar(45) DEFAULT NULL,
   `otp_valid_upto` varchar(45) DEFAULT NULL,
   `verified` tinyint DEFAULT NULL,
+  `department` int NOT NULL,
+  `branch` int NOT NULL,
+  `bio` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`username`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -50,4 +53,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-28 16:32:52
+-- Dump completed on 2020-10-16  6:01:34

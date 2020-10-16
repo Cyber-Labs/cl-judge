@@ -19,6 +19,20 @@ const schema = {
       maxLength: 10,
       pattern: '^[0-9]{10}$',
     },
+    department: {
+      type: 'number',
+      minimum: 0,
+      maximum: 14,
+    },
+    branch: {
+      type: 'number',
+      minimum: 0,
+      maximum: 3,
+    },
+    bio: {
+      type: 'string',
+      maxLength: 100,
+    },
   },
   errorMessage: {
     required: {
@@ -30,6 +44,9 @@ const schema = {
       full_name: 'Invalid name',
       admission_number: 'Invalid Admission number',
       mobile: 'Invalid mobile number',
+      department: 'Invalid department',
+      branch: 'Invalid branch',
+      bio: 'Invalid bio',
     },
     _: 'Invalid data',
   },
