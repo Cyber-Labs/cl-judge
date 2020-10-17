@@ -6,30 +6,24 @@ const otplib = require('otplib')
  *
  * @param {*} param0
  * @param {String} param0.username
- * @param {String} param0.email
- * @param {String} param0.full_name
- * @param {String} param0.admission_number
- * @param {String} param0.mobile
- * @param {Number} param0.department
- * @param {Number} param0.branch
- * @param {String} param0.bio
+ * @param {Object} param0.body
  * @return {Promise}
  *
  */
 
-function updateUser({
-  username,
-  email,
-  full_name: fullName,
-  admission_number: admissionNumber,
-  mobile,
-  department,
-  branch,
-  bio,
-}) {
+function updateUser({ username, body }) {
   return new Promise((resolve, reject) => {
     const secret = otplib.authenticator.generateSecret()
     const otp = otplib.authenticator.generate(secret)
+    const {
+      full_name: fullName,
+      admissionNumber: admissionNumber,
+      email,
+      mobile,
+      department,
+      branch,
+      bio,
+    } = body
     let query = `UPDATE user SET `
     const arr = []
     //let needsChange = true;

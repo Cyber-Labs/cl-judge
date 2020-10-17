@@ -21,7 +21,7 @@ router.use('/auth', authRouter.updatePasswordRouter)
 router.use('/auth', authRouter.updateUserRouter)
 router.use('/auth', authRouter.uploadProfileImage)
 router.use('/auth', authRouter.verifyNewEmailRouter)
-router.use('/users', authRouter.getUserRouter)
+router.use('/user', authRouter.getUserRouter)
 
 app.use(router)
 
