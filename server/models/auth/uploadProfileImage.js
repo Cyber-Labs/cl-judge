@@ -16,7 +16,7 @@ function uploadProfileImage({ file, username }) {
     } else {
       const results = { profileImg: file.path }
       pool.query(
-        'UPDATE user SET profile_img=? WHERE username=?',
+        'UPDATE users SET profile_img=? WHERE username=?',
         [results.profileImg, username],
         (error) => {
           if (error) {

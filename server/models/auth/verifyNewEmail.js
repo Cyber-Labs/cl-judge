@@ -12,7 +12,7 @@ const { pool } = require('../database')
 function verifyNewEmail({ username, otp }) {
   return new Promise((resolve, reject) => {
     pool.query(
-      `UPDATE user SET verified=? WHERE username=? AND otp=? AND otp_valid_upto>=NOW()`,
+      `UPDATE users SET verified=? WHERE username=? AND otp=? AND otp_valid_upto>=NOW()`,
       [1, username, otp],
       (error, results) => {
         if (error) {

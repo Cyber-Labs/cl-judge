@@ -21,7 +21,7 @@ function forgotPassword({ email }) {
     sendEmail(email, subject, html)
 
     pool.query(
-      `SELECT verified FROM user WHERE email=?`,
+      `SELECT verified FROM users WHERE email=?`,
       [email],
       (error, results) => {
         if (error) {
@@ -39,7 +39,7 @@ function forgotPassword({ email }) {
       }
     )
     pool.query(
-      `UPDATE user SET otp=?,otp_valid_upto=NOW()+INTERVAL 1 DAY WHERE email=?`,
+      `UPDATE users SET otp=?,otp_valid_upto=NOW()+INTERVAL 1 DAY WHERE email=?`,
       [otp, email],
       (error) => {
         if (error) {

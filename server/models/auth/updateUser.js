@@ -24,7 +24,7 @@ function updateUser({ username, body }) {
       branch,
       bio,
     } = body
-    let query = `UPDATE user SET `
+    let query = `UPDATE users SET `
     const arr = []
     //let needsChange = true;
     if (fullName) {

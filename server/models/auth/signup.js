@@ -43,7 +43,7 @@ function signup({
         const otp = otplib.authenticator.generate(secretOtp)
 
         pool.query(
-          `INSERT INTO user (username,secret,full_name,admission_number,email,mobile,department,branch,otp,otp_valid_upto) 
+          `INSERT INTO users (username,secret,full_name,admission_number,email,mobile,department,branch,otp,otp_valid_upto) 
           VALUES(?,?,?,?,?,?,?,?,?,NOW()+INTERVAL 1 DAY)`,
           [
             username,

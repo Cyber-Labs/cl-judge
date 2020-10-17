@@ -30,7 +30,7 @@ function resetPassword({
           return reject(error)
         }
         pool.query(
-          `UPDATE user SET secret=?,otp_valid_upto=NOW() WHERE username=? AND otp_valid_upto>=NOW() AND otp=?`,
+          `UPDATE users SET secret=?,otp_valid_upto=NOW() WHERE username=? AND otp_valid_upto>=NOW() AND otp=?`,
           [hash, username, otp],
           (error, results) => {
             if (error) {
