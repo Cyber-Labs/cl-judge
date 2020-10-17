@@ -1,15 +1,17 @@
 # CL-judge
 
-Online judge version 2.0  
+**Online judge version 2.0**  
+**API Documentation - [Postman](https://documenter.getpostman.com/view/7963087/TVKJwEH1)**  
 [![Build Status](https://travis-ci.com/Cyber-Labs/cl-judge.svg?branch=master)](https://travis-ci.com/Cyber-Labs/cl-judge)
 
 ## Status
-Under Development
+**Under Development**
 
 ## Maintained by
 
-Ridhish Jain - [@ridhishjain](https://github.com/ridhishjain)  
-Chirag Jain - [@cjchirag7](https://github.com/cjchirag7)
+**Ridhish Jain - [@ridhishjain](https://github.com/ridhishjain)**
+
+**Chirag Jain - [@cjchirag7](https://github.com/cjchirag7)**
 
 ## Index
 
@@ -27,7 +29,6 @@ Chirag Jain - [@cjchirag7](https://github.com/cjchirag7)
   - **[Exporting the sql file](#exporting-the-sql-file)**
   - **[Setting up environment variables](#setting-up-environment-variables)**
 - **[Git commands](#git-commands)**
-- **[API documentation](#api-documentation)**
 - **[Development Workflow](#development-workflow)**
 
 ## Requirements
@@ -397,10 +398,6 @@ git fetch upstream
 git reset --hard upstream/master
 git push origin master --force
 ```
-
-## API documentation
-
-The current version of API docs is [here](https://documenter.getpostman.com/view/7963087/TVKJwEH1)
 
 ## Development workflow
 
