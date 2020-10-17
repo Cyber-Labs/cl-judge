@@ -9,7 +9,7 @@ const { pool } = require('../database')
 function getUser(username) {
   return new Promise((resolve, reject) => {
     pool.query(
-      `SELECT username,full_name,email,admission_number,mobile,department,branch,bio,profile_img FROM users WHERE username=?`,
+      `SELECT username,full_name,email,admission_number,admission_year,mobile,department,course,bio,profile_img FROM users WHERE username=?`,
       [username],
       (error, results) => {
         if (error || !results.length) {

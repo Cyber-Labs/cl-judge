@@ -107,15 +107,16 @@ CREATE TABLE `users` (
   `full_name` varchar(45) NOT NULL,
   `admission_number` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `mobile` varchar(45) NOT NULL,
+  `mobile` varchar(45) DEFAULT NULL,
   `is_admin` tinyint DEFAULT NULL,
   `otp` varchar(45) DEFAULT NULL,
   `otp_valid_upto` varchar(45) DEFAULT NULL,
   `verified` tinyint DEFAULT NULL,
   `department` int NOT NULL,
-  `branch` int NOT NULL,
+  `course` int NOT NULL,
   `bio` varchar(110) DEFAULT NULL,
   `profile_img` varchar(110) DEFAULT NULL,
+  `admission_year` int NOT NULL,  
   PRIMARY KEY (`username`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

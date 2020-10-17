@@ -5,9 +5,9 @@ const schema = {
     'full_name',
     'admission_number',
     'email',
-    'mobile',
+    'admission_year',
     'department',
-    'branch',
+    'course',
   ],
   properties: {
     username: { type: 'string', minLength: 4 },
@@ -23,21 +23,18 @@ const schema = {
       type: 'string',
       pattern: '^[a-z]+.[0-9]{2}[a-z]{2}[0-9]{4}@([a-z]{2,4}.)?iitism.ac.in$',
     },
-    mobile: {
-      type: 'string',
-      minLength: 10,
-      maxlength: 10,
-      pattern: '^[0-9]{10}$',
+    admission_year: {
+      type: 'number',
     },
     department: {
       type: 'number',
       minimum: 0,
       maximum: 14,
     },
-    branch: {
+    course: {
       type: 'number',
       minimum: 0,
-      maximum: 3,
+      maximum: 4,
     },
   },
   errorMessage: {
@@ -47,9 +44,9 @@ const schema = {
       full_name: 'Name required',
       admission_number: 'Admission Number required',
       email: 'Email required',
-      mobile: 'Mobile Number required',
+      admission_year: 'Admission Year required',
       department: 'Department required',
-      branch: 'Branch required',
+      course: 'Course required',
     },
     properties: {
       username: 'Invalid username',
@@ -57,9 +54,9 @@ const schema = {
       full_name: 'Invalid name',
       admission_number: 'Invalid admission number',
       email: 'Invlalid email',
-      mobile: 'Invalid mobile number',
+      admission_year: 'Invalid admission year',
       department: 'Invalid department',
-      branch: 'Invalid branch',
+      course: 'Invalid course',
     },
     _: 'Invalid data',
   },

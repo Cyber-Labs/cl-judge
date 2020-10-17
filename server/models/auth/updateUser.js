@@ -17,11 +17,12 @@ function updateUser({ username, body }) {
     const otp = otplib.authenticator.generate(secret)
     const {
       full_name: fullName,
-      admissionNumber: admissionNumber,
+      admission_number: admissionNumber,
+      admission_year: admissionYear,
       email,
       mobile,
       department,
-      branch,
+      course,
       bio,
     } = body
     let query = `UPDATE users SET `
@@ -35,6 +36,10 @@ function updateUser({ username, body }) {
       query += `admission_number=?,`
       arr.push(admissionNumber)
     }
+    if (Number.isInteger(admissionYear)) {
+      query += `admission_year=?,`
+      arr.push(admissionYear)
+    }
     if (mobile) {
       query += `mobile=?,`
       arr.push(mobile)
@@ -43,9 +48,9 @@ function updateUser({ username, body }) {
       query += `department=?,`
       arr.push(department)
     }
-    if (Number.isInteger(branch)) {
-      query += `branch=?,`
-      arr.push(branch)
+    if (Number.isInteger(course)) {
+      query += `course=?,`
+      arr.push(course)
     }
     if (bio) {
       query += `bio=?,`
@@ -55,8 +60,13 @@ function updateUser({ username, body }) {
       query += `email=?,verified=?,`
       arr.push(email)
       arr.push(0)
-      query += `otp=?,otp_valid_upto=NOW()+INTERVAL 1 DAY `
+      query += `otp=?,otp_valid_upto=NOW()+INTERVAL 1 DAY,`
       arr.push(otp)
+    }
+    if (query[query.length - 1] === ',') {
+      query = query.substr(0, query.length - 1)
+    } else {
+      reject('No update requested')
     }
     query += ` WHERE username=?`
     arr.push(username)

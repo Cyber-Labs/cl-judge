@@ -2,14 +2,15 @@ const KEYS = {
   CL_JUDGE_AUTH: 'CL_JUDGE_AUTH'
 }
 
-const BRANCH = [
+const COURSES = [
   'B.Tech',
   'M.Tech',
   'Dual Degree',
-  'Integrated B.Tech and M.Tech'
+  'Integrated B.Tech and M.Tech',
+  'PhD'
 ]
 
-const DEPARTMENT = [
+const DEPARTMENTS = [
   'Electrical Engineering',
   'Computer Science and Engineering',
   'Electronics Engineering',
@@ -29,6 +30,6 @@ const DEPARTMENT = [
 
 export default {
   KEYS,
-  BRANCH,
-  DEPARTMENT
+  COURSES,
+  DEPARTMENTS
 }
