@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs')
 function isCorrect(username, password) {
   return new Promise((resolve, reject) => {
     pool.query(
-      `SELECT secret FROM user WHERE username=? AND verified=?`,
+      `SELECT secret FROM users WHERE username=? AND verified=?`,
       [username, 1],
       (error, results) => {
         if (error) {
