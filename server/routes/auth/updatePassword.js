@@ -30,7 +30,7 @@ router.post(
       })
     }
     auth
-      .updatePassword(request.body)
+      .updatePassword(request)
       .then((results) => {
         return response.status(200).json({
           success: true,

@@ -7,14 +7,14 @@ const isCorrect = require('./isCorrect')
  *
  * @param {*} param0
  * @param {String} param0.username
- * @param {String} param0.password
- * @param {String} param0.new_password
+ * @param {Object} param0.body
  * @return {Promise}
  */
 
-function updatePassword({ username, password, new_password: newPassword }) {
+function updatePassword({ username, body }) {
   return new Promise(async (resolve, reject) => {
     let ans
+    const { password, new_password: newPassword } = body
     try {
       ans = await isCorrect(username, password)
     } catch (error) {

@@ -27,7 +27,7 @@ function verifyUserAccessToken(request, response, next) {
         })
         return
       }
-      request.username = request.body.username = decoded.username
+      request.username = decoded.username
       next()
     })
   } else {

@@ -30,7 +30,7 @@ router.post(
       })
     }
     auth
-      .updateUser(request.body)
+      .updateUser(request)
       .then((results) => {
         return response.status(200).json({
           success: true,
