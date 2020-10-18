@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const auth = require('../../models/auth')
+const user = require('../../models/user')
 const middleware = require('../middlewares')
 
 router.get('/', middleware.verifyUserAccessToken, async (request, response) => {
@@ -12,7 +12,7 @@ router.get('/', middleware.verifyUserAccessToken, async (request, response) => {
       error: 'No user found with the given username',
     })
   }
-  auth
+  user
     .getUser(username)
     .then((results) => {
       return response.status(200).json({

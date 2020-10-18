@@ -11,17 +11,19 @@ app.use(
 app.use(express.json())
 
 const authRouter = require('./auth')
+const userRouter = require('./user')
 
 router.use('/auth', authRouter.signupRouter)
 router.use('/auth', authRouter.verifyEmailRouter)
 router.use('/auth', authRouter.loginRouter)
 router.use('/auth', authRouter.forgotPasswordRouter)
 router.use('/auth', authRouter.resetPassowrdRouter)
-router.use('/auth', authRouter.updatePasswordRouter)
-router.use('/auth', authRouter.updateUserRouter)
-router.use('/auth', authRouter.uploadProfileImage)
 router.use('/auth', authRouter.verifyNewEmailRouter)
-router.use('/user', authRouter.getUserRouter)
+
+router.use('/user', userRouter.getUserRouter)
+router.use('/user', userRouter.updateUserRouter)
+router.use('/user', userRouter.updatePasswordRouter)
+router.use('/user', userRouter.updateProfileImageRouter)
 
 app.use(router)
 

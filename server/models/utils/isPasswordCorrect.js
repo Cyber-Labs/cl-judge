@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs')
  * @return {Promise}
  */
 
-function isCorrect(username, password) {
+function isPasswordCorrect(username, password) {
   return new Promise((resolve, reject) => {
     pool.query(
       `SELECT secret FROM users WHERE username=? AND verified=?`,
@@ -35,4 +35,4 @@ function isCorrect(username, password) {
   })
 }
 
-module.exports = isCorrect
+module.exports = isPasswordCorrect

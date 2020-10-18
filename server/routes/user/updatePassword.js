@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const middleware = require('../middlewares')
-const auth = require('../../models/auth')
+const user = require('../../models/user')
 const ajv = require('../../schema')
-const { updateUserSchema } = require('../../schema/auth')
+const { updatePasswordSchema } = require('../../schema/user')
 
 /**
  *
@@ -17,10 +17,10 @@ function sumErrors(errArray) {
 }
 
 router.post(
-  '/update_user',
+  '/update_password',
   middleware.verifyUserAccessToken,
   async (request, response) => {
-    const validate = ajv.compile(updateUserSchema)
+    const validate = ajv.compile(updatePasswordSchema)
     const isValid = validate(request.body)
     if (!isValid) {
       return response.status(400).json({
@@ -29,20 +29,27 @@ router.post(
         error: sumErrors(validate.errors),
       })
     }
-    auth
-      .updateUser(request)
+    user
+      .updatePassword(request)
       .then((results) => {
         return response.status(200).json({
           success: true,
-          results,
           error: null,
+          results,
         })
       })
       .catch((error) => {
+        if (error === 'Password incorrect') {
+          return response.status(401).json({
+            success: false,
+            error,
+            results: null,
+          })
+        }
         return response.status(400).json({
           success: false,
-          results: null,
           error,
+          results: null,
         })
       })
   }
