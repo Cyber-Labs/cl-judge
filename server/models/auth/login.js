@@ -28,7 +28,7 @@ function login({ username, password }) {
       jwt.sign(
         { username },
         privateKey,
-        { expiresIn: '720h' },
+        { expiresIn: '24h' },
         (error, accessToken) => {
           if (error) {
             return reject(`error = ${error}`)

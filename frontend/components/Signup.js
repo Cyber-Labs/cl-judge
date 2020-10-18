@@ -3,6 +3,7 @@ import { Form, Button, Alert } from 'react-bootstrap'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import baseUrl from '../shared/baseUrl'
+import CONSTANTS from '../shared/CONSTANTS'
 
 const signupSchema = yup.object({
   fullName: yup.string().required('Full Name is required'),
@@ -21,6 +22,9 @@ const signupSchema = yup.object({
       'Enter a valid admission number in lowercase'
     )
     .required('Admission Number is required'),
+  admissionYear: yup
+    .number('Must be a number')
+    .required('Admission Year is required'),
   username: yup
     .string()
     .min(4, 'Must be 4 characters or more')
@@ -29,32 +33,37 @@ const signupSchema = yup.object({
     .string()
     .min(8, 'Must be 8 characters or more')
     .required('Password is required'),
-  confirmPassword: yup.string().required('Re-enter your password here'),
-  mobile: yup
-    .string()
-    .matches(
-      '^[0-9]{10}$',
-      "Don't include country code etc. Must be a 10-digit number"
-    )
-    .required('Contact No. is required')
+  confirmPassword: yup.string().required('Re-enter your password here')
 })
 
 function Signup () {
   const [signupError, setSignUpError] = useState('')
   const [signupResult, setSignUpResult] = useState('')
+  const [selectedCourse, setSelectedCourse] = useState(0)
+  const [selectedDepartment, setSelectedDepartment] = useState(0)
   return (
     <Formik
       validationSchema={signupSchema}
       onSubmit={(data) => {
-        const { fullName, email, admNo, username, password, mobile } = data
+        const {
+          fullName,
+          email,
+          admNo,
+          username,
+          password,
+          admissionYear
+        } = data
         var urlencoded = new URLSearchParams()
         urlencoded.append('username', username)
         urlencoded.append('password', password)
         urlencoded.append('full_name', fullName)
         urlencoded.append('admission_number', admNo)
         urlencoded.append('email', email)
-        urlencoded.append('mobile', mobile)
+        urlencoded.append('course', selectedCourse)
+        urlencoded.append('department', selectedDepartment)
+        urlencoded.append('admission_year', admissionYear)
 
+        console.log(urlencoded)
         var requestOptions = {
           method: 'POST',
           body: urlencoded
@@ -75,7 +84,7 @@ function Signup () {
           })
           .catch((error) => {
             setSignUpResult('')
-            setSignUpError(error)
+            setSignUpError(error.message)
           })
       }}
       initialValues={{
@@ -84,7 +93,6 @@ function Signup () {
         confirmPassword: '',
         admNo: '',
         fullName: '',
-        mobile: '',
         email: ''
       }}
     >
@@ -145,7 +153,7 @@ function Signup () {
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter a username for OJ"
+              placeholder="Enter a username for CL Judge"
               name="username"
               value={values.username}
               onChange={handleChange}
@@ -154,6 +162,55 @@ function Signup () {
             />
             <Form.Control.Feedback type="invalid">
               {errors.username}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId="course">
+            <Form.Label>Course</Form.Label>
+            <Form.Control
+              as="select"
+              defaultValue={CONSTANTS.COURSES[0]}
+              onClick={(e) => {
+                setSelectedCourse(e.target.value)
+                console.log(e.target.value)
+              }}
+            >
+              {CONSTANTS.COURSES.map((course, index) => (
+                <option value={index} key={course}>
+                  {course}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId="department">
+            <Form.Label>Department</Form.Label>
+            <Form.Control
+              as="select"
+              defaultValue={CONSTANTS.DEPARTMENTS[0]}
+              onClick={(e) => {
+                setSelectedDepartment(e.target.value)
+                console.log(e.target.value)
+              }}
+            >
+              {CONSTANTS.DEPARTMENTS.map((dept, index) => (
+                <option key={dept} value={index}>
+                  {dept}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId="admissionYear">
+            <Form.Label>Year of admission</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your year of admission"
+              name="admissionYear"
+              value={values.admissionYear}
+              onChange={handleChange}
+              isValid={touched.admissionYear && !errors.admissionYear}
+              isInvalid={!touched.admissionYear || !!errors.admissionYear}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.admissionYear}
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="signupPassword">
@@ -188,21 +245,6 @@ function Signup () {
             />
             <Form.Control.Feedback type="invalid">
               {errors.confirmPassword}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group controlId="signupMobile">
-            <Form.Label>Contact No.</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your contact no."
-              name="mobile"
-              value={values.mobile}
-              onChange={handleChange}
-              isValid={touched.mobile && !errors.mobile}
-              isInvalid={!touched.mobile || !!errors.mobile}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.mobile}
             </Form.Control.Feedback>
           </Form.Group>
           {signupError && <Alert variant="danger">{signupError}</Alert>}

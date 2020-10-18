@@ -12,9 +12,9 @@ const otplib = require('otplib')
  * @param {String} param0.full_name
  * @param {String} param0.admission_number
  * @param {String} param0.email
- * @param {String} param0.mobile
+ * @param {String} param0.admission_year
  * @param {Number} param0.department
- * @param {Number} param0.branch
+ * @param {Number} param0.course
  * @return {Promise}
  *
  */
@@ -25,9 +25,9 @@ function signup({
   full_name: fullName,
   admission_number: admissionNumber,
   email,
-  mobile,
+  admission_year: admissionYear,
   department,
-  branch,
+  course,
 }) {
   return new Promise(async (resolve, reject) => {
     bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS), (error, salt) => {
@@ -43,7 +43,7 @@ function signup({
         const otp = otplib.authenticator.generate(secretOtp)
 
         pool.query(
-          `INSERT INTO users (username,secret,full_name,admission_number,email,mobile,department,branch,otp,otp_valid_upto) 
+          `INSERT INTO users (username,secret,full_name,admission_number,email,admission_year,department,course,otp,otp_valid_upto) 
           VALUES(?,?,?,?,?,?,?,?,?,NOW()+INTERVAL 1 DAY)`,
           [
             username,
@@ -51,13 +51,18 @@ function signup({
             fullName,
             admissionNumber,
             email,
-            mobile,
+            admissionYear,
             department,
-            branch,
+            course,
             otp,
           ],
           (error) => {
             if (error) {
+              if (error.code === 'ER_DUP_ENTRY') {
+                return reject(
+                  `A user with this username '${username}' already exists.`
+                )
+              }
               return reject(error)
             }
             const subject = 'Email verification'
