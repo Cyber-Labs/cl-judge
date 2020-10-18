@@ -4,6 +4,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import baseUrl from '../shared/baseUrl'
 import CONSTANTS from '../shared/CONSTANTS'
+import MiniLoader from '../components/common/MiniLoader'
 
 const signupSchema = yup.object({
   fullName: yup.string().required('Full Name is required'),
@@ -37,6 +38,7 @@ const signupSchema = yup.object({
 })
 
 function Signup () {
+  const [signUpProgress, setSignUpProgress] = useState(false)
   const [signupError, setSignUpError] = useState('')
   const [signupResult, setSignUpResult] = useState('')
   const [selectedCourse, setSelectedCourse] = useState(0)
@@ -45,6 +47,7 @@ function Signup () {
     <Formik
       validationSchema={signupSchema}
       onSubmit={(data) => {
+        setSignUpProgress(true)
         const {
           fullName,
           email,
@@ -81,10 +84,12 @@ function Signup () {
               if (error.sqlMessage) setSignUpError(error.sqlMessage)
               else setSignUpError(error)
             }
+            setSignUpProgress(false)
           })
           .catch((error) => {
             setSignUpResult('')
             setSignUpError(error.message)
+            setSignUpProgress(false)
           })
       }}
       initialValues={{
@@ -110,7 +115,7 @@ function Signup () {
               value={values.fullName}
               onChange={handleChange}
               isValid={touched.fullName && !errors.fullName}
-              isInvalid={!touched.fullName || !!errors.fullName}
+              isInvalid={!!errors.fullName}
             />
             <Form.Control.Feedback type="invalid">
               {errors.fullName}
@@ -125,7 +130,7 @@ function Signup () {
               value={values.email}
               onChange={handleChange}
               isValid={touched.email && !errors.email}
-              isInvalid={!touched.email || !!errors.email}
+              isInvalid={!!errors.email}
             />
             <Form.Control.Feedback type="invalid">
               {errors.email}
@@ -143,7 +148,7 @@ function Signup () {
               value={values.admNo}
               onChange={handleChange}
               isValid={touched.admNo && !errors.admNo}
-              isInvalid={!touched.admNo || !!errors.admNo}
+              isInvalid={!!errors.admNo}
             />
             <Form.Control.Feedback type="invalid">
               {errors.admNo}
@@ -158,7 +163,7 @@ function Signup () {
               value={values.username}
               onChange={handleChange}
               isValid={touched.username && !errors.username}
-              isInvalid={!touched.username || !!errors.username}
+              isInvalid={!!errors.username}
             />
             <Form.Control.Feedback type="invalid">
               {errors.username}
@@ -207,7 +212,7 @@ function Signup () {
               value={values.admissionYear}
               onChange={handleChange}
               isValid={touched.admissionYear && !errors.admissionYear}
-              isInvalid={!touched.admissionYear || !!errors.admissionYear}
+              isInvalid={!!errors.admissionYear}
             />
             <Form.Control.Feedback type="invalid">
               {errors.admissionYear}
@@ -222,7 +227,7 @@ function Signup () {
               value={values.password}
               onChange={handleChange}
               isValid={touched.password && !errors.password}
-              isInvalid={!touched.password || !!errors.password}
+              isInvalid={!!errors.password}
             />
             <Form.Control.Feedback type="invalid">
               {errors.password}
@@ -241,7 +246,7 @@ function Signup () {
                 !errors.confirmPassword &&
                 values.confirmPassword === values.password
               }
-              isInvalid={!touched.confirmPassword || !!errors.confirmPassword}
+              isInvalid={!!errors.confirmPassword}
             />
             <Form.Control.Feedback type="invalid">
               {errors.confirmPassword}
@@ -250,7 +255,8 @@ function Signup () {
           {signupError && <Alert variant="danger">{signupError}</Alert>}
           <div className="text-center">
             <Button variant="primary" type="submit">
-              Sign Up
+              Sign Up &nbsp;
+              {signUpProgress && <MiniLoader />}
             </Button>
           </div>
           <br />

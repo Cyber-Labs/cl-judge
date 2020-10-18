@@ -1,5 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
 import { Tab, Tabs } from 'react-bootstrap'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -11,15 +10,10 @@ function Home (props) {
   const { isLoggedIn, setIsLoggedIn, setUser } = props
   const router = useRouter()
   if (isLoggedIn) {
-    router.push('account-settings')
+    router.push('/user/edit-profile')
   }
   return (
     <div>
-      <Head>
-        <title>CL Judge</title>
-        <link rel="icon" href="/images/logo.png" />
-      </Head>
-
       <main>
         <div className="container">
           <div className="row pb-5 align-items-center">

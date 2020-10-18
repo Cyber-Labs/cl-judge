@@ -1,45 +1,55 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Form, Button, Alert } from 'react-bootstrap'
-import baseUrl from '../../shared/baseUrl'
 import { Formik } from 'formik'
 import * as yup from 'yup'
-import Link from 'next/link'
+import baseUrl from '../../shared/baseUrl'
+import withPrivateRoute from '../../components/utils/withPrivateRoute'
 
-const resetPasswordSchema = yup.object({
-  username: yup.string().required('Username is required'),
+const changePasswordSchema = yup.object({
+  oldPassword: yup.string().required('Current Password is required'),
   password: yup
     .string()
     .min(8, 'Should consist of 8 or more characters')
     .required('Password is required'),
-  confirmPassword: yup.string().required('Re-enter the above password again'),
-  otp: yup.string().required('OTP is required')
+  confirmPassword: yup.string().required('Re-enter the above password again')
 })
 
-function ResetPassword () {
+function ChangePassword (props) {
   const [errorMessage, setErrorMessage] = useState('')
   const [resultMessage, setResultMessage] = useState(false)
+  const { user } = props
+  const { username, access_token: accessToken } = user
+  var reqHeaders = new Headers()
+  reqHeaders.append('access_token', accessToken)
+
   return (
     <div
       className="container gray-bg mt-4 ml-auto"
       style={{ width: '500px', padding: '30px', borderRadius: '10px' }}
     >
-      <h4 align="center">Reset Password</h4>
+      <h4 align="center">Change Password</h4>
       <br />
       <Formik
-        validationSchema={resetPasswordSchema}
+        validationSchema={changePasswordSchema}
         onSubmit={(data) => {
-          const { username, password, confirmPassword, otp } = data
+          const { oldPassword, password, confirmPassword } = data
+          if (password !== confirmPassword) {
+            setResultMessage(false)
+            setErrorMessage("New password and re-entered password don't match")
+            return
+          }
           var urlencoded = new URLSearchParams()
           urlencoded.append('username', username)
-          urlencoded.append('password', password)
-          urlencoded.append('password_confirm', confirmPassword)
-          urlencoded.append('otp', otp)
+          urlencoded.append('password', oldPassword)
+          urlencoded.append('new_password', password)
           var requestOptions = {
             method: 'POST',
-            body: urlencoded
+            body: urlencoded,
+            headers: reqHeaders
           }
 
-          fetch(`${baseUrl}/auth/reset_password`, requestOptions)
+          fetch(`${baseUrl}/user/update_password`, requestOptions)
             .then((res) => res.json())
             .then((res) => {
               const { success, error } = res
@@ -61,17 +71,18 @@ function ResetPassword () {
           username: '',
           password: '',
           confirmPassword: '',
-          otp: ''
+          oldPassword: ''
         }}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="username">
+            <Form.Group controlId="oldPassword">
+              <Form.Label>Current password</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter your OJ username"
-                name="username"
-                value={values.username}
+                type="password"
+                placeholder="Current Password"
+                name="oldPassword"
+                value={values.oldPassword}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -84,7 +95,7 @@ function ResetPassword () {
                 value={values.password}
                 onChange={handleChange}
                 isValid={touched.password && !errors.password}
-                isInvalid={!touched.password || !!errors.password}
+                isInvalid={!!errors.password}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.password}
@@ -99,20 +110,11 @@ function ResetPassword () {
                 value={values.confirmPassword}
                 onChange={handleChange}
                 isValid={touched.confirmPassword && !errors.confirmPassword}
-                isInvalid={!touched.confirmPassword || !!errors.confirmPassword}
+                isInvalid={!!errors.confirmPassword}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.confirmPassword}
               </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="otp">
-              <Form.Control
-                type="text"
-                placeholder="Enter your OTP"
-                name="otp"
-                value={values.otp}
-                onChange={handleChange}
-              />
             </Form.Group>
             {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
             <br />
@@ -122,12 +124,7 @@ function ResetPassword () {
             <br />
             <br />
             {resultMessage && (
-              <Alert variant="success">
-                Password reset successfully. Now, you can log in to your account{' '}
-                <Link href="/">
-                  <a href="/">here</a>
-                </Link>
-              </Alert>
+              <Alert variant="success">Password changed successfully.</Alert>
             )}
           </Form>
         )}
@@ -136,4 +133,11 @@ function ResetPassword () {
   )
 }
 
-export default ResetPassword
+ChangePassword.propTypes = {
+  user: PropTypes.shape({
+    username: PropTypes.string,
+    access_token: PropTypes.string
+  })
+}
+
+export default withPrivateRoute(ChangePassword)
