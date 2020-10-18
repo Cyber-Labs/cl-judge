@@ -1,7 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 const { pool } = require('../database')
 const bcrypt = require('bcryptjs')
-const isCorrect = require('./isCorrect')
+const { isPasswordCorrect } = require('../utils')
 
 /**
  *
@@ -16,7 +16,7 @@ function updatePassword({ username, body }) {
     let ans
     const { password, new_password: newPassword } = body
     try {
-      ans = await isCorrect(username, password)
+      ans = await isPasswordCorrect(username, password)
     } catch (error) {
       return reject(error)
     }

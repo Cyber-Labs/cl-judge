@@ -1,7 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
-const isCorrect = require('./isCorrect')
+const { isPasswordCorrect } = require('../utils')
 
 /**
  *
@@ -15,7 +15,7 @@ function login({ username, password }) {
   return new Promise(async (resolve, reject) => {
     let ans
     try {
-      ans = await isCorrect(username, password)
+      ans = await isPasswordCorrect(username, password)
     } catch (error) {
       return reject(error)
     }
