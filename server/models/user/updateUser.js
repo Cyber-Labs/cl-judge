@@ -76,8 +76,8 @@ function updateUser({ username, body }) {
       }
       if (email) {
         const subject = 'Email verification'
-        const port = process.env.PORT || 5000
-        const host = process.env.HOST || 'localhost'
+        const port = process.env.FRONTEND_PORT || 3000
+        const host = process.env.FRONTEND_HOST || 'localhost'
         const html = emailMessage(username, otp, host, port, email)
         sendEmail(email, subject, html)
         return resolve('User info updated. Please verify your email')
@@ -92,7 +92,7 @@ const emailMessage = (username, otp, host, port, email) => {
   return `<p>Hello ${username} !</p>
           <p>The OTP for verifying your new email is ${otp}</p>
           <p>Please verify your email by visiting the following link</p>
-          <a href='http://${host}:${port}/auth/verify_new_email?email_id=${email}&username=${username}'>Verify your email</a>`
+          <a href='http://${host}:${port}/auth/verify-new-email?username=${username}&email=${email}'>Verify your email</a>`
 }
 
 module.exports = updateUser

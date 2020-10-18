@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import CONSTANTS from '../shared/CONSTANTS'
 import baseUrl from '../shared/baseUrl'
+import MiniLoader from '../components/common/MiniLoader'
 
 const loginSchema = yup.object({
   username: yup.string().required('Username is required'),
@@ -16,10 +17,12 @@ function Login (props) {
   const { setIsLoggedIn, setUser } = props
   const router = useRouter()
   const [loginError, setLoginError] = useState('')
+  const [loginProgress, setLoginProgress] = useState(false)
   return (
     <Formik
       validationSchema={loginSchema}
       onSubmit={(data) => {
+        setLoginProgress(true)
         const { username, password } = data
         var urlencoded = new URLSearchParams()
         urlencoded.append('username', username)
@@ -44,11 +47,13 @@ function Login (props) {
               )
               setIsLoggedIn(true)
               setUser(results)
-              router.push('account-settings')
+              router.push('/user/edit-profile')
             }
+            setLoginProgress(false)
           })
           .catch((error) => {
             setLoginError(error.message)
+            setLoginProgress(false)
           })
       }}
       initialValues={{
@@ -70,7 +75,7 @@ function Login (props) {
               value={values.username}
               onChange={handleChange}
               isValid={touched.username && !errors.username}
-              isInvalid={!touched.username || !!errors.username}
+              isInvalid={!!errors.username}
             />
             <Form.Control.Feedback type="invalid">
               {errors.username}
@@ -85,7 +90,7 @@ function Login (props) {
               value={values.password}
               onChange={handleChange}
               isValid={touched.password && !errors.password}
-              isInvalid={!touched.password || !!errors.password}
+              isInvalid={!!errors.password}
             />
             <Form.Control.Feedback type="invalid">
               {errors.password}
@@ -93,7 +98,8 @@ function Login (props) {
           </Form.Group>
           {loginError && <Alert variant="danger">{loginError}</Alert>}
           <Button variant="primary" type="submit">
-            Login
+            Login &nbsp;
+            {loginProgress && <MiniLoader />}
           </Button>
         </Form>
       )}

@@ -112,12 +112,12 @@ function Header (props) {
                     </Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
-                    <Link href="/account-settings" passHref>
-                      <a className="dropdown-link">Account Settings</a>
+                    <Link href="/user/edit-profile" passHref>
+                      <a className="dropdown-link">Edit Profile</a>
                     </Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item active={false}>
-                    <Link href="/auth/change-password" passHref>
+                    <Link href="/user/change-password" passHref>
                       <a className="dropdown-link">Change Password</a>
                     </Link>
                   </NavDropdown.Item>

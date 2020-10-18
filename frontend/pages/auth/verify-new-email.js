@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Form, Button, Alert } from 'react-bootstrap'
 import baseUrl from '../../shared/baseUrl'
-import Link from 'next/link'
 
-function VerifyEmail () {
+function VerifyNewEmail () {
   const [otp, setOtp] = useState('')
   const [otpError, setOtpError] = useState('')
   const [otpResult, setOtpResult] = useState(false)
+
   const router = useRouter()
-  const { username } = router.query
+  const { username, email } = router.query
 
   return (
     <div
@@ -23,6 +23,7 @@ function VerifyEmail () {
           e.preventDefault()
           var urlencoded = new URLSearchParams()
           urlencoded.append('otp', otp)
+          urlencoded.append('email', email)
           urlencoded.append('username', username)
 
           var requestOptions = {
@@ -30,7 +31,7 @@ function VerifyEmail () {
             body: urlencoded
           }
 
-          fetch(`${baseUrl}/auth/verify_email`, requestOptions)
+          fetch(`${baseUrl}/auth/verify_new_email`, requestOptions)
             .then((res) => res.json())
             .then((res) => {
               const { success, error } = res
@@ -68,16 +69,11 @@ function VerifyEmail () {
         <br />
         <br />
         {otpResult && (
-          <Alert variant="success">
-            Email verified successfully. Now, you can log in to your account{' '}
-            <Link href="/">
-              <a href="/">here</a>
-            </Link>
-          </Alert>
+          <Alert variant="success">Email verified successfully.</Alert>
         )}
       </Form>
     </div>
   )
 }
 
-export default VerifyEmail
+export default VerifyNewEmail
