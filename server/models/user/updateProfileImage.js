@@ -9,7 +9,7 @@ const { pool } = require('../database')
  *
  */
 
-function uploadProfileImage({ file, username }) {
+function updateProfileImage({ file, username }) {
   return new Promise((resolve, reject) => {
     if (!file) {
       return reject('File not uploaded')
@@ -29,4 +29,4 @@ function uploadProfileImage({ file, username }) {
   })
 }
 
-module.exports = uploadProfileImage
+module.exports = updateProfileImage

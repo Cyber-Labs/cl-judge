@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const middleware = require('../middlewares')
-const auth = require('../../models/auth')
+const user = require('../../models/user')
 const multer = require('multer')
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const cloudinary = require('../../config/cloudinary')
@@ -38,12 +38,12 @@ const imageFilter = function (req, file, cb) {
 const uploadImage = multer({ storage: storage, fileFilter: imageFilter })
 
 router.post(
-  '/upload_profile_image',
+  '/update_profile_image',
   middleware.verifyUserAccessToken,
   uploadImage.single('profileImage'),
   async (request, response) => {
-    auth
-      .uploadProfileImage(request)
+    user
+      .updateProfileImage(request)
       .then((results) => {
         return response.status(200).json({
           success: true,

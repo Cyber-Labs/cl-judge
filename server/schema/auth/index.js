@@ -4,8 +4,6 @@ const verifyEmailSchema = require('./verifyEmail')
 const loginSchema = require('./login')
 const forgotPassowrdSchema = require('./forgotPassword')
 const resetPasswordSchema = require('./resetPassword')
-const updatePasswordSchema = require('./updatePassword')
-const updateUserSchema = require('./updateUser')
 const verifyNewEmailSchema = require('./verifyNewEmail')
 
 ajv.addFormat('password', (data) => {
@@ -18,7 +16,5 @@ module.exports = {
   loginSchema,
   forgotPassowrdSchema,
   resetPasswordSchema,
-  updatePasswordSchema,
-  updateUserSchema,
   verifyNewEmailSchema,
 }
