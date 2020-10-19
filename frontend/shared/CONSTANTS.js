@@ -28,8 +28,13 @@ const DEPARTMENTS = [
   'Mining Machinery Engineering'
 ]
 
+const OTHERS = {
+  JWT_EXPIRY_TIME: 24 * 60 * 60 // in seconds
+}
+
 export default {
   KEYS,
   COURSES,
-  DEPARTMENTS
+  DEPARTMENTS,
+  OTHERS
 }

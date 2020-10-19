@@ -20,10 +20,15 @@ function verifyUserAccessToken(request, response, next) {
     const pubKey = fs.readFileSync(path.resolve('rsa_secret.pub'), 'utf-8')
     jwt.verify(request.headers.access_token, pubKey, (error, decoded) => {
       if (error) {
+        const { name } = error
+        let errMessage = ''
+        if (name === 'TokenExpiredError')
+          errMessage =
+            'It has been a long time since you have logged in. You need to logout and login again, to continue.'
         response.status(401).json({
           success: false,
           results: null,
-          error,
+          error: errMessage || error.message,
         })
         return
       }
