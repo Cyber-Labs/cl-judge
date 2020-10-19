@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Form, Button, Alert } from 'react-bootstrap'
 import { Formik } from 'formik'
 import * as yup from 'yup'
-import baseUrl from '../shared/baseUrl'
-import CONSTANTS from '../shared/CONSTANTS'
-import MiniLoader from '../components/common/MiniLoader'
+import baseUrl from '../../shared/baseUrl'
+import CONSTANTS from '../../shared/CONSTANTS'
+import MiniLoader from '../common/MiniLoader'
 
 const signupSchema = yup.object({
   fullName: yup.string().required('Full Name is required'),
@@ -66,7 +66,6 @@ function Signup () {
         urlencoded.append('department', selectedDepartment)
         urlencoded.append('admission_year', admissionYear)
 
-        console.log(urlencoded)
         var requestOptions = {
           method: 'POST',
           body: urlencoded
@@ -176,7 +175,6 @@ function Signup () {
               defaultValue={CONSTANTS.COURSES[0]}
               onClick={(e) => {
                 setSelectedCourse(e.target.value)
-                console.log(e.target.value)
               }}
             >
               {CONSTANTS.COURSES.map((course, index) => (
@@ -193,7 +191,6 @@ function Signup () {
               defaultValue={CONSTANTS.DEPARTMENTS[0]}
               onClick={(e) => {
                 setSelectedDepartment(e.target.value)
-                console.log(e.target.value)
               }}
             >
               {CONSTANTS.DEPARTMENTS.map((dept, index) => (

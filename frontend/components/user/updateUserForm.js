@@ -178,7 +178,6 @@ function UpdateUserForm (props) {
                   defaultValue={CONSTANTS.COURSES[0]}
                   onClick={(e) => {
                     setSelectedCourse(e.target.value)
-                    console.log(e.target.value)
                   }}
                 >
                   {CONSTANTS.COURSES.map((course, index) => (
@@ -195,7 +194,6 @@ function UpdateUserForm (props) {
                   defaultValue={CONSTANTS.DEPARTMENTS[0]}
                   onClick={(e) => {
                     setSelectedDepartment(e.target.value)
-                    console.log(e.target.value)
                   }}
                 >
                   {CONSTANTS.DEPARTMENTS.map((dept, index) => (

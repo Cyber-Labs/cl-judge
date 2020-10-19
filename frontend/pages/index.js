@@ -2,8 +2,8 @@ import React from 'react'
 import { Tab, Tabs } from 'react-bootstrap'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Login from '../components/Login'
-import Signup from '../components/Signup'
+import Login from '../components/auth/Login'
+import Signup from '../components/auth/Signup'
 import PropTypes from 'prop-types'
 
 function Home (props) {

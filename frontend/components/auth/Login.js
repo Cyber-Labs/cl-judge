@@ -4,9 +4,9 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-import CONSTANTS from '../shared/CONSTANTS'
-import baseUrl from '../shared/baseUrl'
-import MiniLoader from '../components/common/MiniLoader'
+import CONSTANTS from '../../shared/CONSTANTS'
+import baseUrl from '../../shared/baseUrl'
+import MiniLoader from '../common/MiniLoader'
 
 const loginSchema = yup.object({
   username: yup.string().required('Username is required'),
@@ -37,6 +37,7 @@ function Login (props) {
           .then((res) => res.json())
           .then((res) => {
             const { success, error, results } = res
+            results.loginTime = new Date().getTime() / 1000 // login time in seconds
             if (!success) {
               if (error.sqlMessage) setLoginError(error.sqlMessage)
               else setLoginError(error)
