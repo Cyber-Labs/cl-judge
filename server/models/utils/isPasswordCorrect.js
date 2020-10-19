@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs')
 function isPasswordCorrect(username, password) {
   return new Promise((resolve, reject) => {
     pool.query(
-      `SELECT secret FROM users WHERE username=? AND verified=?`,
+      `SELECT secret, is_admin FROM users WHERE username=? AND verified=?`,
       [username, 1],
       (error, results) => {
         if (error) {
@@ -25,9 +25,9 @@ function isPasswordCorrect(username, password) {
           }
 
           if (!res) {
-            return resolve(false)
+            return resolve({ correct: false, isAdmin: false })
           } else {
-            return resolve(true)
+            return resolve({ correct: true, isAdmin: results[0].is_admin })
           }
         })
       }

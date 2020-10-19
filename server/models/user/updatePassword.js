@@ -13,14 +13,15 @@ const { isPasswordCorrect } = require('../utils')
 
 function updatePassword({ username, body }) {
   return new Promise(async (resolve, reject) => {
-    let ans
+    let correct
     const { password, new_password: newPassword } = body
     try {
-      ans = await isPasswordCorrect(username, password)
+      const status = await isPasswordCorrect(username, password)
+      correct = status.correct
     } catch (error) {
       return reject(error)
     }
-    if (ans) {
+    if (correct) {
       bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS), (error, salt) => {
         if (error) {
           return reject(error)
