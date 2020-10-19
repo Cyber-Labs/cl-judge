@@ -33,6 +33,20 @@ export default function privateRoute (WrappedComponent) {
       this.setState({ user: user }, () => {
         if (!user || !user.username || !user.access_token) {
           Router.replace('/')
+        } else {
+          const { loginTime } = user
+          const currentTime = new Date().getTime() / 1000 // in seconds
+          const tokenExpired =
+            currentTime >= loginTime + CONSTANTS.OTHERS.JWT_EXPIRY_TIME
+          if (tokenExpired) {
+            localStorage.removeItem(CONSTANTS.KEYS.CL_JUDGE_AUTH)
+            Router.replace('/')
+            alert(
+              `It has been more than ${
+                CONSTANTS.OTHERS.JWT_EXPIRY_TIME / 3600
+              } hours, since you have logged in. You need to login again to continue, for security reasons`
+            )
+          }
         }
       })
     }

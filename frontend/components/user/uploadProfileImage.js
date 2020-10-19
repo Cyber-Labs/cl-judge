@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Button, Alert } from 'react-bootstrap'
+import { Modal, Button, Alert, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import ImageUploading from 'react-images-uploading'
 import baseUrl from '../../shared/baseUrl'
 import MiniLoader from '../common/MiniLoader'
@@ -34,7 +34,6 @@ function UploadProfileImage (props) {
       headers: reqHeaders,
       body: formdata
     }
-    console.log(formdata, image[0])
     fetch(`${baseUrl}/user/update_profile_image`, requestOptions)
       .then((res) => res.json())
       .then((res) => {
@@ -55,6 +54,12 @@ function UploadProfileImage (props) {
       })
   }
 
+  const updateImageTooltip = (props) => (
+    <Tooltip id="upload-image-tooltip" {...props}>
+      Click here to update profile image
+    </Tooltip>
+  )
+
   return (
     <div className="row mt-5 ">
       <div className="col text-center">
@@ -64,12 +69,18 @@ function UploadProfileImage (props) {
           onKeyDown={handleShow}
           style={{ cursor: 'pointer' }}
         >
-          <img
-            alt="User Profile Image"
-            width="250px"
-            height="250px"
-            src={defaultProfileImage || '/images/profile.png'}
-          />
+          <OverlayTrigger
+            placement="right"
+            delay={{ show: 250, hide: 400 }}
+            overlay={updateImageTooltip}
+          >
+            <img
+              alt="User Profile Image"
+              width="250px"
+              height="250px"
+              src={defaultProfileImage || '/images/profile.png'}
+            />
+          </OverlayTrigger>
         </div>
       </div>
       <Modal
