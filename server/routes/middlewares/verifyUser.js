@@ -28,6 +28,7 @@ function verifyUserAccessToken(request, response, next) {
         return
       }
       request.username = decoded.username
+      request.isAdmin = decoded.isAdmin
       next()
     })
   } else {

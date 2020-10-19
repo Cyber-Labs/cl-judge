@@ -45,9 +45,8 @@ DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE `notifications` (
   `id` varchar(45) NOT NULL,
   `heading` varchar(110) NOT NULL,
-  `description` varchar(110) DEFAULT NULL,
-  `created_at` varchar(110) NOT NULL,
-  `link` varchar(110) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -85,6 +84,7 @@ CREATE TABLE `user_notifications` (
   `id` varchar(45) NOT NULL,
   `username` varchar(45) NOT NULL,
   `notification_id` varchar(45) NOT NULL,
+  `read`  tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `user_notifications_fk_username_idx` (`username`),

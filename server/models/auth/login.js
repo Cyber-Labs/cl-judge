@@ -13,27 +13,29 @@ const { isPasswordCorrect } = require('../utils')
 
 function login({ username, password }) {
   return new Promise(async (resolve, reject) => {
-    let ans
+    let correct, isAdmin
     try {
-      ans = await isPasswordCorrect(username, password)
+      const status = await isPasswordCorrect(username, password)
+      correct = status.correct
+      isAdmin = status.isAdmin
     } catch (error) {
       return reject(error)
     }
-    if (ans) {
+    if (correct) {
       const path = require('path')
       const privateKey = fs.readFileSync(
         path.resolve('rsa_secret.pub'),
         'utf-8'
       )
       jwt.sign(
-        { username },
+        { username, isAdmin },
         privateKey,
         { expiresIn: '24h' },
         (error, accessToken) => {
           if (error) {
             return reject(`error = ${error}`)
           }
-          return resolve({ username, access_token: accessToken })
+          return resolve({ username, isAdmin, access_token: accessToken })
         }
       )
     } else {
