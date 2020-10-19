@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const ajv = require('../../schema')
 const groups = require('../../models/groups')
-const { createGroupSchema } = require('../../schema/groups')
+const { removeGroupSchema } = require('../../schema/groups')
 const middleware = require('../middlewares')
 
 /**
@@ -15,13 +15,13 @@ function sumErrors(errArray) {
   return errArray.reduce(cb, '')
 }
 
-router.post(
-  '/',
+router.delete(
+  '/:group_id',
   middleware.verifyUserAccessToken,
   middleware.verifyAdmin,
   async (request, response) => {
-    const validate = ajv.compile(createGroupSchema)
-    const isValid = validate(request.body)
+    const validate = ajv.compile(removeGroupSchema)
+    const isValid = validate(request.params)
     if (!isValid) {
       return response.status(400).json({
         success: false,
@@ -30,7 +30,7 @@ router.post(
       })
     }
     groups
-      .createGroup(request)
+      .removeGroup(request)
       .then((results) => {
         return response.status(200).json({
           success: true,

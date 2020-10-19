@@ -1,5 +1,5 @@
 const createGroupRouter = require('./createGroup')
-// const removeGroupRouter = require('./removeGroup')
+const removeGroupRouter = require('./removeGroup')
 // const addBranchRouter = require('./addBranch')
 // const removeBranchRouter = require('./removeBranch')
 // const addMembersRouter = require('./addMembers')
@@ -13,4 +13,5 @@ const createGroupRouter = require('./createGroup')
 
 module.exports = {
   createGroupRouter,
+  removeGroupRouter,
 }

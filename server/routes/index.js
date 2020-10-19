@@ -27,7 +27,7 @@ router.use('/user', userRouter.updatePasswordRouter)
 router.use('/user', userRouter.updateProfileImageRouter)
 
 router.use('/groups', groupsRouter.createGroupRouter)
-//router.use('/groups', groupsRouter.removeGroupRouter)
+router.use('/groups', groupsRouter.removeGroupRouter)
 //router.use('/groups', groupsRouter.addBranchRouter)
 //router.use('/groups', groupsRouter.removeBranchRouter)
 //router.use('/groups', groupsRouter.addMembersRouter)
