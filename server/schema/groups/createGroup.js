@@ -5,7 +5,7 @@ const schema = {
       type: 'string',
       minLength: 4,
     },
-    confidentail: {
+    confidential: {
       type: 'boolean',
     },
     members: {
@@ -15,12 +15,12 @@ const schema = {
   errorMessage: {
     required: {
       group_name: 'Group name required',
-      confidentail: 'Confidentiality required',
+      confidential: 'Confidentiality required',
       members: 'Members array required',
     },
     properties: {
       group_name: 'Invalid group name',
-      confidentail: 'Invalid confidentiality',
+      confidential: 'Invalid confidentiality',
       members: 'Invalid members array',
     },
     _: 'Invalid data',
