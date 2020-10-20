@@ -37,11 +37,11 @@ function Login (props) {
           .then((res) => res.json())
           .then((res) => {
             const { success, error, results } = res
-            results.loginTime = new Date().getTime() / 1000 // login time in seconds
             if (!success) {
               if (error.sqlMessage) setLoginError(error.sqlMessage)
               else setLoginError(error)
             } else {
+              results.loginTime = new Date().getTime() / 1000 // login time in seconds
               localStorage.setItem(
                 CONSTANTS.KEYS.CL_JUDGE_AUTH,
                 JSON.stringify(results)

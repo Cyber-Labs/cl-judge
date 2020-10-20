@@ -102,7 +102,8 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
     FOREIGN KEY (`username`) 
     REFERENCES `users` (`username`) 
     ON DELETE CASCADE 
-    ON UPDATE CASCADE) 
+    ON UPDATE CASCADE,
+  UNIQUE `unique_member`(`username`, `group_id`)) 
 ENGINE = InnoDB 
 DEFAULT CHARACTER SET = utf8mb4 
 COLLATE = utf8mb4_0900_ai_ci;
@@ -130,7 +131,8 @@ CREATE TABLE IF NOT EXISTS `user_notifications` (
   FOREIGN KEY (`username`) 
   REFERENCES `users` (`username`) 
   ON DELETE CASCADE 
-  ON UPDATE CASCADE) 
+  ON UPDATE CASCADE,
+  UNIQUE `unique_notification_map`(`username`, `notification_id`)) 
 ENGINE = InnoDB 
 DEFAULT CHARACTER SET = utf8mb4 
 COLLATE = utf8mb4_0900_ai_ci;
