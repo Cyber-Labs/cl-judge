@@ -10,7 +10,7 @@ DROP SCHEMA IF EXISTS `cl_judge` ;
 -- -----------------------------------------------------
 -- Schema cl_judge
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `cl_judge` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+CREATE DATABASE  IF NOT EXISTS `cl_judge` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `cl_judge` ;
 
 -- -----------------------------------------------------
@@ -35,10 +35,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `profile_img` VARCHAR(110) NULL DEFAULT NULL,
   `admission_year` INT NOT NULL,
   PRIMARY KEY (`username`),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+  UNIQUE KEY `username_UNIQUE` (`username`)) 
+  ENGINE = InnoDB 
+  DEFAULT CHARACTER SET = utf8mb4 
+  COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -53,16 +53,15 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `creator` VARCHAR(45) NOT NULL,
   `member_count` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  INDEX `groups_fk_creator` (`creator` ASC),
-  CONSTRAINT `groups_fk_creator`
-    FOREIGN KEY (`creator`)
-    REFERENCES `users` (`username`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+  KEY `groups_fk_creator` (`creator`),
+  CONSTRAINT `groups_fk_creator` 
+    FOREIGN KEY (`creator`) 
+    REFERENCES `users` (`username`) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE) 
+    ENGINE = InnoDB 
+    DEFAULT CHARACTER SET = utf8mb4 
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -75,11 +74,10 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `heading` VARCHAR(110) NOT NULL,
   `description` VARCHAR(255) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`)) 
+  ENGINE = InnoDB 
+  DEFAULT CHARACTER SET = utf8mb4 
+  COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -93,21 +91,20 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
   `group_id` INT NOT NULL,
   `is_group_moderator` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  INDEX `user_groups_fk_username_idx` (`username` ASC),
-  INDEX `user_groups_fk_group_id_idx` (`group_id` ASC),
-  CONSTRAINT `user_groups_fk_group_id`
-    FOREIGN KEY (`group_id`)
-    REFERENCES `groups` (`id`)
-    ON DELETE CASCADE
+  KEY `user_groups_fk_username_idx` (`username`),
+  KEY `user_groups_fk_group_id_idx` (`group_id`),
+  CONSTRAINT `user_groups_fk_group_id` 
+    FOREIGN KEY (`group_id`) 
+    REFERENCES `groups` (`id`) 
+    ON DELETE CASCADE 
     ON UPDATE CASCADE,
-  CONSTRAINT `user_groups_fk_username`
-    FOREIGN KEY (`username`)
-    REFERENCES `users` (`username`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
+  CONSTRAINT `user_groups_fk_username` 
+    FOREIGN KEY (`username`) 
+    REFERENCES `users` (`username`) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE) 
+ENGINE = InnoDB 
+DEFAULT CHARACTER SET = utf8mb4 
 COLLATE = utf8mb4_0900_ai_ci;
 
 
@@ -122,21 +119,20 @@ CREATE TABLE IF NOT EXISTS `user_notifications` (
   `notification_id` INT NOT NULL,
   `read` TINYINT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  INDEX `user_notifications_fk_username_idx` (`username` ASC),
-  INDEX `user_notifications_fk_notification_id_idx` (`notification_id` ASC),
-  CONSTRAINT `user_notifications_fk_notification_id`
-    FOREIGN KEY (`notification_id`)
-    REFERENCES `notifications` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `user_notifications_fk_username`
-    FOREIGN KEY (`username`)
-    REFERENCES `users` (`username`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
+  KEY `user_notifications_fk_username_idx` (`username`),
+  KEY `user_notifications_fk_notification_id_idx` (`notification_id`),
+  CONSTRAINT `user_notifications_fk_notification_id` 
+  FOREIGN KEY (`notification_id`) 
+  REFERENCES `notifications` (`id`) 
+  ON DELETE CASCADE 
+  ON UPDATE CASCADE,
+  CONSTRAINT `user_notifications_fk_username` 
+  FOREIGN KEY (`username`) 
+  REFERENCES `users` (`username`) 
+  ON DELETE CASCADE 
+  ON UPDATE CASCADE) 
+ENGINE = InnoDB 
+DEFAULT CHARACTER SET = utf8mb4 
 COLLATE = utf8mb4_0900_ai_ci;
 
 
