@@ -13,6 +13,7 @@ app.use(express.json())
 const authRouter = require('./auth')
 const userRouter = require('./user')
 const groupsRouter = require('./groups')
+const notificationsRouter = require('./notifications')
 
 router.use('/auth', authRouter.signupRouter)
 router.use('/auth', authRouter.verifyEmailRouter)
@@ -38,6 +39,9 @@ router.use('/groups', groupsRouter.updateGroupNameRouter)
 router.use('/groups', groupsRouter.getModeratorGroupsRouter)
 router.use('/groups', groupsRouter.getGroupRouter)
 router.use('/groups', groupsRouter.getAllGroupsRouter)
+
+router.use('/notifications', notificationsRouter.createNotificationRouter)
+router.use('/notifications', notificationsRouter.getNotificationsRouter)
 
 app.use(router)
 

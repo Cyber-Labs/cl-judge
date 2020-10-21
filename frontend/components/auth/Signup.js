@@ -142,7 +142,7 @@ function Signup () {
             <Form.Label>Admission Number</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter your admission no."
+              placeholder="eg. 18je0243"
               name="admNo"
               value={values.admNo}
               onChange={handleChange}
@@ -201,10 +201,10 @@ function Signup () {
             </Form.Control>
           </Form.Group>
           <Form.Group controlId="admissionYear">
-            <Form.Label>Year of admission</Form.Label>
+            <Form.Label>Year of admission (in YYYY format)</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter your year of admission"
+              placeholder="eg. 2018"
               name="admissionYear"
               value={values.admissionYear}
               onChange={handleChange}
