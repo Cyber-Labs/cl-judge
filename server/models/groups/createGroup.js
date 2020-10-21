@@ -1,7 +1,7 @@
 const { pool } = require('../database')
 
 /**
- *z
+ *
  * @param {*} param0
  * @param {String} param0.username
  * @param {Object} param0.body

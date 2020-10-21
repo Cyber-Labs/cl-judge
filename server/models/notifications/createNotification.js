@@ -46,7 +46,9 @@ function createNotification({ username, body }) {
           })
         }
         let invalidUsernames = []
+        let counter = 0
         targetUsernames.forEach((username) => {
+          counter++
           pool.query(
             `INSERT INTO user_notifications(notification_id,username) VALUES (?,?)`,
             [notificationId, username],
@@ -54,13 +56,15 @@ function createNotification({ username, body }) {
               if (error || results === undefined) {
                 invalidUsernames.push(username)
               }
+              if (counter === targetUsernames.length) {
+                resolve({
+                  message: 'Notification created successfully',
+                  notificationId: notificationId,
+                  invalidUsernames: invalidUsernames,
+                })
+              }
             }
           )
-        })
-        resolve({
-          message: 'Notification created successfully',
-          notificationId: notificationId,
-          invalidUsernames: invalidUsernames,
         })
       }
     )
