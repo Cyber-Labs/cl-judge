@@ -3,12 +3,13 @@ const { pool } = require('../database')
 /**
  *
  * @param {*} param0
+ * @param {String} param0.username
  * @param {Object} param0.body
  * @return {Promise}
  *
  */
 
-function createNotification({ body }) {
+function createNotification({ username, body }) {
   return new Promise((resolve, reject) => {
     const {
       heading,
@@ -17,8 +18,8 @@ function createNotification({ body }) {
       target_usernames: targetUsernames,
     } = body
     pool.query(
-      `INSERT INTO notifications (heading,description) VALUES(?,?)`,
-      [heading, description],
+      `INSERT INTO notifications (heading,description,creator) VALUES(?,?,?)`,
+      [heading, description, username],
       (error, results) => {
         if (error) {
           return reject(error)

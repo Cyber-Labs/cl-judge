@@ -74,7 +74,14 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `heading` VARCHAR(110) NOT NULL,
   `description` VARCHAR(255) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)) 
+  `creator` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `notifications_fk_creator` (`creator`),
+  CONSTRAINT `notifications_fk_creator` 
+    FOREIGN KEY (`creator`) 
+    REFERENCES `users` (`username`) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE) 
   ENGINE = InnoDB 
   DEFAULT CHARACTER SET = utf8mb4 
   COLLATE = utf8mb4_0900_ai_ci;

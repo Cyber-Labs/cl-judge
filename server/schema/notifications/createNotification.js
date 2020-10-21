@@ -1,5 +1,5 @@
 const schema = {
-  required: ['heading', 'description', 'public', 'target_usernames'],
+  required: ['heading', 'public', 'target_usernames'],
   properties: {
     heading: {
       type: 'string',
@@ -7,7 +7,6 @@ const schema = {
     },
     description: {
       type: 'string',
-      minLength: 8,
     },
     public: {
       type: 'boolean',
@@ -19,11 +18,10 @@ const schema = {
   errorMessage: {
     required: {
       heading: 'Heading required',
-      description: 'Description required',
     },
     properties: {
       heading: 'Heading should have minimum 3 characters',
-      description: 'Description should have minimum 8 characters',
+      description: 'Description should be a string',
       public: 'Public should be a boolean',
       target_usernames: 'Target usernames should be an array',
     },
