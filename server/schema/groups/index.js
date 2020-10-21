@@ -7,6 +7,7 @@ const removeMembersSchema = require('./removeMembers')
 const addModeratorSchema = require('./addModerator')
 const removeModeratorSchema = require('./removeModerator')
 const updateGroupNameSchema = require('./updateGroupName')
+const getGroupSchema = require('./getGroup')
 
 module.exports = {
   createGroupSchema,
@@ -18,4 +19,5 @@ module.exports = {
   addModeratorSchema,
   removeModeratorSchema,
   updateGroupNameSchema,
+  getGroupSchema,
 }
