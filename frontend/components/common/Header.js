@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Navbar,
   Nav,
@@ -12,9 +12,26 @@ import Link from 'next/link'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import CONSTANTS from '../../shared/CONSTANTS'
+import timeSince from '../../utils/timeSince'
 
 function Header (props) {
-  const { isLoggedIn, setIsLoggedIn, user, setUser } = props
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    user,
+    setUser,
+    topNotifications,
+    setTopNotifications
+  } = props
+  const [unread, setUnread] = useState(false)
+
+  useEffect(() => {
+    const unreadNotifications = topNotifications.some(
+      (notification) => !notification.read
+    )
+    setUnread(unreadNotifications)
+  }, [topNotifications])
+
   const router = useRouter()
   const logout = () => {
     if (!isLoggedIn) {
@@ -27,9 +44,14 @@ function Header (props) {
   }
   return (
     <div className="align-items-center">
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        variant="dark"
+        style={{ backgroundColor: '#0d1829' }}
+      >
         <Navbar.Brand className="mr-auto brand" href="/">
-          <img src="/images/logo.png" height="30" alt="" />
+          <img src="/images/logo.png" height="25" alt="" />
           &nbsp; CL Judge
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -48,6 +70,9 @@ function Header (props) {
                 </Link>
                 <Link href="/community" passHref>
                   <Nav.Link>&nbsp;Community&nbsp;</Nav.Link>
+                </Link>
+                <Link href="https://cp.cyberlabs.club/docs/roadmap/" passHref>
+                  <Nav.Link>&nbsp;Roadmap&nbsp;</Nav.Link>
                 </Link>
               </Nav>
               <Form inline>
@@ -69,18 +94,51 @@ function Header (props) {
                 <NavDropdown
                   title={
                     <span>
-                      <i className="fa fa-bell fa-md ml-2" />
+                      <i
+                        className={`fa fa-bell fa-md ml-2 ${
+                          unread ? 'text-warning' : ''
+                        }`}
+                      />
                     </span>
                   }
                   id="notification-dropdown"
                   alignRight
+                  onClick={() => {
+                    let newTopNotifications = [...topNotifications]
+                    newTopNotifications = newTopNotifications.map(
+                      (notification) => {
+                        notification.read = true
+                        return notification
+                      }
+                    )
+                    setTopNotifications(newTopNotifications)
+                  }}
                 >
-                  <NavDropdown.Item>
-                    <p>
-                      <b>Welcome to Online Judge</b>
-                      <br />2 minutes ago
-                    </p>
-                  </NavDropdown.Item>
+                  {topNotifications.map(
+                    ({ id, heading, read, created_at: createdAt }) => {
+                      const createdDate = new Date(createdAt)
+                      return (
+                        <NavDropdown.Item
+                          key={id.toString()}
+                          style={!read ? { backgroundColor: '#e6f0f0' } : null}
+                          onClick={() => {
+                            router.push('/notifications')
+                          }}
+                        >
+                          <Link href="/notifications">
+                            <p>
+                              <b>{heading}</b>
+                              <br />
+                              {timeSince(createdDate)} ago
+                            </p>
+                          </Link>
+                        </NavDropdown.Item>
+                      )
+                    }
+                  )}
+                  {!topNotifications.length && (
+                    <p align="center"> No new notifications yet </p>
+                  )}
                   <NavDropdown.Item>
                     <Link href="/notifications" passHref>
                       <Button variant="dark" block size="sm">
@@ -98,7 +156,13 @@ function Header (props) {
                   id="account-dropdown"
                   alignRight
                 >
-                  <NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() => {
+                      if (user) {
+                        router.push(`/profile/${user.username}`)
+                      }
+                    }}
+                  >
                     <Link
                       href={user ? `/profile/${user.username}` : '/'}
                       passHref
@@ -106,17 +170,32 @@ function Header (props) {
                       <a className="dropdown-link">Profile</a>
                     </Link>
                   </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Link href="/manage" passHref>
-                      <a className="dropdown-link">Manage</a>
-                    </Link>
-                  </NavDropdown.Item>
-                  <NavDropdown.Item>
+                  {user && user.isAdmin && (
+                    <NavDropdown.Item
+                      onClick={() => {
+                        router.push('/manage/notifications')
+                      }}
+                    >
+                      <Link href="/manage/notifications" passHref>
+                        <a className="dropdown-link">Manage</a>
+                      </Link>
+                    </NavDropdown.Item>
+                  )}
+                  <NavDropdown.Item
+                    onClick={() => {
+                      router.push('/user/edit-profile')
+                    }}
+                  >
                     <Link href="/user/edit-profile" passHref>
                       <a className="dropdown-link">Edit Profile</a>
                     </Link>
                   </NavDropdown.Item>
-                  <NavDropdown.Item active={false}>
+                  <NavDropdown.Item
+                    active={false}
+                    onClick={() => {
+                      router.push('/user/change-password')
+                    }}
+                  >
                     <Link href="/user/change-password" passHref>
                       <a className="dropdown-link">Change Password</a>
                     </Link>
@@ -153,9 +232,18 @@ Header.propTypes = {
   setIsLoggedIn: PropTypes.func.isRequired,
   user: PropTypes.shape({
     username: PropTypes.string,
-    access_token: PropTypes.string
+    access_token: PropTypes.string,
+    isAdmin: PropTypes.number
   }),
-  setUser: PropTypes.func.isRequired
+  setUser: PropTypes.func.isRequired,
+  topNotifications: PropTypes.arrayOf(
+    PropTypes.shape({
+      heading: PropTypes.string,
+      description: PropTypes.string,
+      created_at: PropTypes.string
+    })
+  ),
+  setTopNotifications: PropTypes.func.isRequired
 }
 
 export default Header
