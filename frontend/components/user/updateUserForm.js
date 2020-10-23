@@ -95,17 +95,16 @@ function UpdateUserForm (props) {
             urlencoded.append('bio', bio)
             newUserInfo.bio = bio
           }
-          if (mobile !== defaultMobile) {
+          if (mobile !== defaultMobile && mobile !== '') {
             urlencoded.append('mobile', mobile)
             newUserInfo.mobile = mobile
           }
-
+          console.log(newUserInfo, urlencoded)
           var requestOptions = {
             method: 'POST',
             headers: reqHeaders,
             body: urlencoded
           }
-
           fetch(`${baseUrl}/user/update_user`, requestOptions)
             .then((res) => res.json())
             .then((res) => {
@@ -275,7 +274,11 @@ function UpdateUserForm (props) {
               <Alert variant="danger">{updateUserError}</Alert>
             )}
             <div className="text-center">
-              <Button variant="success" type="submit">
+              <Button
+                variant="success"
+                type="submit"
+                disabled={updateUserProgress}
+              >
                 &nbsp;Save &nbsp;
                 {updateUserProgress && <MiniLoader />}
               </Button>

@@ -10,6 +10,7 @@ import {
   Col,
   Badge
 } from 'react-bootstrap'
+import Link from 'next/link'
 import baseUrl from '../../shared/baseUrl'
 
 function SearchUsers (props) {
@@ -74,7 +75,11 @@ function SearchUsers (props) {
               key={selectedUser.username + i.toString()}
             >
               <Badge variant="dark">
-                {selectedUser}
+                <Link href={`/profile/${selectedUser}`} passHref>
+                  <a style={{ color: 'white' }} target="_blank">
+                    {selectedUser}
+                  </a>
+                </Link>
                 &nbsp;
                 <i
                   className="fa fa-times"
@@ -112,7 +117,10 @@ function SearchUsers (props) {
             <ListGroup.Item key={userResult.username}>
               <Row>
                 <Col xs={8}>
-                  {userResult.username} - {userResult.admission_number}
+                  <Link href={`/profile/${userResult.username}`} passHref>
+                    <a target="_blank">{userResult.username}</a>
+                  </Link>{' '}
+                  &nbsp; - &nbsp; {userResult.admission_number}
                 </Col>
                 <Col xs={4}>
                   <Button

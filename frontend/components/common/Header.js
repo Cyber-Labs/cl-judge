@@ -72,7 +72,7 @@ function Header (props) {
                   <Nav.Link>&nbsp;Community&nbsp;</Nav.Link>
                 </Link>
                 <Link href="https://cp.cyberlabs.club/docs/roadmap/" passHref>
-                  <Nav.Link>&nbsp;Roadmap&nbsp;</Nav.Link>
+                  <Nav.Link target="_blank">&nbsp;Roadmap&nbsp;</Nav.Link>
                 </Link>
               </Nav>
               <Form inline>
@@ -120,7 +120,6 @@ function Header (props) {
                       return (
                         <NavDropdown.Item
                           key={id.toString()}
-                          style={!read ? { backgroundColor: '#e6f0f0' } : null}
                           onClick={() => {
                             router.push('/notifications')
                           }}
