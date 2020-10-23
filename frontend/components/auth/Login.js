@@ -98,7 +98,7 @@ function Login (props) {
             </Form.Control.Feedback>
           </Form.Group>
           {loginError && <Alert variant="danger">{loginError}</Alert>}
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" disabled={loginProgress}>
             Login &nbsp;
             {loginProgress && <MiniLoader />}
           </Button>

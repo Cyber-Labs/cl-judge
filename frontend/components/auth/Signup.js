@@ -251,7 +251,7 @@ function Signup () {
           </Form.Group>
           {signupError && <Alert variant="danger">{signupError}</Alert>}
           <div className="text-center">
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={signUpProgress}>
               Sign Up &nbsp;
               {signUpProgress && <MiniLoader />}
             </Button>

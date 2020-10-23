@@ -183,7 +183,7 @@ function createNotificationForm (props) {
             )}
             {error && <Alert variant="danger">{error}</Alert>}
             <div className="text-center">
-              <Button type="submit">
+              <Button type="submit" disabled={isLoading}>
                 &nbsp;Create Notification&nbsp;
                 {isLoading && <MiniLoader />}
               </Button>
