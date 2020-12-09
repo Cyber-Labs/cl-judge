@@ -29,6 +29,22 @@ function createGroup({ username, body }) {
             if (error) {
               return reject(error)
             }
+            if (members.length === 0) {
+              pool.query(
+                `UPDATE \`groups\` SET member_count=? WHERE id=?`,
+                [1, currentId],
+                (error) => {
+                  if (error) {
+                    return reject(error)
+                  }
+                  return resolve({
+                    message: 'Group created successfully!!',
+                    groupId: currentId,
+                    invalidMembers: invalidUsernames,
+                  })
+                }
+              )
+            }
             let invalidUsernames = []
             let processedUsernames = 0
             members.forEach((member) => {

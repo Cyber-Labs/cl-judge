@@ -20,6 +20,8 @@ function removeMembers({ params, body, username }) {
       (error, results) => {
         if (error) {
           return reject(error)
+        } else if (!results || !results.length) {
+          return reject('Invalid Group ID')
         }
         const { is_group_moderator } = results[0]
         if (is_group_moderator === 0) {

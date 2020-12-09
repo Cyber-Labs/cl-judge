@@ -203,7 +203,7 @@ function Signup () {
           <Form.Group controlId="admissionYear">
             <Form.Label>Year of admission (in YYYY format)</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               placeholder="eg. 2018"
               name="admissionYear"
               value={values.admissionYear}

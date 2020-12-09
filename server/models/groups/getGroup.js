@@ -20,6 +20,8 @@ function getGroup({ username, params }) {
       (error, results) => {
         if (error) {
           return reject(error)
+        } else if (!results || !results.length) {
+          return reject('Invalid Group ID')
         }
         const { is_group_moderator, confidential } = results[0]
         if (is_group_moderator === 0 && confidential === 1) {
@@ -33,11 +35,20 @@ function getGroup({ username, params }) {
           INNER JOIN users ON user_groups.username = users.username
           WHERE user_groups.group_id=? ORDER BY users.admission_number`,
           [groupId],
-          (error, groupResults) => {
+          (error, members) => {
             if (error) {
               return reject(error)
             }
-            return resolve(groupResults)
+            pool.query(
+              `SELECT creator, group_name, confidential FROM \`groups\` WHERE id=?`,
+              [groupId],
+              (error, results) => {
+                if (error) {
+                  return reject(error)
+                }
+                return resolve({ ...results[0], members })
+              }
+            )
           }
         )
       }

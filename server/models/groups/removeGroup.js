@@ -19,6 +19,8 @@ function removeGroup({ username, params }) {
       (error, results) => {
         if (error) {
           return reject(error)
+        } else if (!results || !results.length) {
+          return reject('Invalid Group ID')
         }
         const { creator } = results[0]
         if (creator !== username) {
