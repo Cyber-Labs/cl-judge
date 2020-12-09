@@ -69,7 +69,7 @@ function createNotificationForm (props) {
           const { message, invalidUsernames } = results
           if (invalidUsernames && invalidUsernames.length) {
             setError(
-              `Invitation couldn't be sent to the following usernames : ${invalidUsernames.join(
+              `Notification couldn't be sent to the following usernames : ${invalidUsernames.join(
                 ', '
               )}`
             )
@@ -176,6 +176,7 @@ function createNotificationForm (props) {
                       setSelectedUsers={setTargetUsernames}
                       user={user}
                       limit={5}
+                      alreadySelected={[]}
                     />
                   </Col>
                 </Form.Row>

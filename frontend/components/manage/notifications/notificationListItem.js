@@ -11,8 +11,7 @@ function NotificationListItem (props) {
       style={{
         backgroundColor: 'whitesmoke',
         marginTop: '8px',
-        borderRadius: '8px',
-        boxShadow: '1px 2px #888888'
+        borderRadius: '8px'
       }}
     >
       <Row>

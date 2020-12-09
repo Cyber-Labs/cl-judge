@@ -24,7 +24,7 @@ function AdminNavbarDesktop (props) {
               <Nav.Link>&nbsp;Articles&nbsp;</Nav.Link>
             </Link>
             <Link href="/manage/groups" passHref>
-              <Nav.Link>&nbsp;Groups&nbsp;</Nav.Link>
+              <Nav.Link active={activeNav === 'groups'}>&nbsp;Groups&nbsp;</Nav.Link>
             </Link>
             <Link href="/manage/notifications" passHref>
               <Nav.Link active={activeNav === 'notifications'}>&nbsp;Notifications&nbsp;</Nav.Link>

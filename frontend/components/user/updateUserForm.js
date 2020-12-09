@@ -207,7 +207,7 @@ function UpdateUserForm (props) {
               <Form.Group as={Col} controlId="admissionYear" md={6}>
                 <Form.Label>Year of admission</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder="Enter your year of admission"
                   name="admissionYear"
                   value={values.admissionYear}

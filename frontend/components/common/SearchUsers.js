@@ -14,7 +14,7 @@ import Link from 'next/link'
 import baseUrl from '../../shared/baseUrl'
 
 function SearchUsers (props) {
-  const { selectedUsers, setSelectedUsers, user, limit } = props
+  const { selectedUsers, setSelectedUsers, user, limit, alreadySelected } = props
   const { access_token: accessToken, username } = user
   const [keyword, setKeyword] = useState('')
   const [searchResults, setSearchResults] = useState([])
@@ -42,6 +42,9 @@ function SearchUsers (props) {
                 userResult.username !== username &&
                 Array.prototype.indexOf.call(
                   selectedUsers,
+                  userResult.username
+                ) === -1 && Array.prototype.indexOf.call(
+                  alreadySelected,
                   userResult.username
                 ) === -1
             )
@@ -156,7 +159,8 @@ SearchUsers.propTypes = {
     access_token: PropTypes.string,
     isAdmin: PropTypes.number
   }),
-  limit: PropTypes.number.isRequired
+  limit: PropTypes.number.isRequired,
+  alreadySelected: PropTypes.arrayOf(PropTypes.string)
 }
 
 export default SearchUsers
