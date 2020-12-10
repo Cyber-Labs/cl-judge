@@ -1,5 +1,5 @@
 const { pool } = require('../database')
-
+const notifications = require('../notifications')
 /**
  *
  * @param {*} param0
@@ -28,13 +28,13 @@ function addModerator({ params, body, username }) {
           return reject('You do not have moderator access for the group')
         }
         pool.query(
-          `SELECT creator FROM \`groups\` WHERE id=?`,
+          `SELECT creator, group_name FROM \`groups\` WHERE id=?`,
           [groupId],
           (error, results) => {
             if (error) {
               return reject(error)
             }
-            const { creator } = results[0]
+            const { creator, group_name: groupName } = results[0]
             if (creator === moderatorUsername) {
               return reject(
                 'Moderator access of the creator can not be changed'
@@ -52,7 +52,21 @@ function addModerator({ params, body, username }) {
                     'Either the person is already a moderator or no such username found in the group!'
                   )
                 }
-                return resolve('Successfully made moderator!!')
+                const port = process.env.FRONTEND_PORT || 3000
+                const host = process.env.FRONTEND_HOST || 'localhost'
+                const body = {
+                  heading: `Promoted to moderator of ${groupName}`,
+                  description: `You have been promoted to moderator of the group [${groupName}](http://${host}:${port}/groups/${groupId})`,
+                  public: false,
+                  target_usernames: [moderatorUsername],
+                }
+                const notification = {
+                  username: process.env.MANAGER_USERNAME,
+                  body,
+                }
+                notifications.createNotification(notification).then(() => {
+                  return resolve('Successfully made moderator!!')
+                })
               }
             )
           }
