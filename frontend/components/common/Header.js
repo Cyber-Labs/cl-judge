@@ -169,17 +169,24 @@ function Header (props) {
                       <a className="dropdown-link">Profile</a>
                     </Link>
                   </NavDropdown.Item>
-                  {user && user.isAdmin && (
-                    <NavDropdown.Item
-                      onClick={() => {
-                        router.push('/manage/notifications')
-                      }}
-                    >
-                      <Link href="/manage/notifications" passHref>
-                        <a className="dropdown-link">Manage</a>
-                      </Link>
-                    </NavDropdown.Item>
-                  )}
+                  <NavDropdown.Item
+                    onClick={() => {
+                      router.push('/manage/groups')
+                    }}
+                  >
+                    <Link href="/manage/groups" passHref>
+                      <a className="dropdown-link">Manage</a>
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() => {
+                      router.push('/groups')
+                    }}
+                  >
+                    <Link href="/groups" passHref>
+                      <a className="dropdown-link">My Groups</a>
+                    </Link>
+                  </NavDropdown.Item>
                   <NavDropdown.Item
                     onClick={() => {
                       router.push('/user/edit-profile')

@@ -7,7 +7,7 @@ import Toast from '../../common/Toast'
 import CONSTANTS from '../../../shared/CONSTANTS'
 import MemberConfirmModal from './memberConfirmModal'
 
-function ModeratorDetail (props) {
+function ManageModeratorDetail (props) {
   const {
     username,
     fullName,
@@ -227,7 +227,7 @@ function ModeratorDetail (props) {
   </React.Fragment>
 }
 
-ModeratorDetail.propTypes = {
+ManageModeratorDetail.propTypes = {
   username: PropTypes.string,
   fullName: PropTypes.string,
   admissionNumber: PropTypes.string,
@@ -264,4 +264,4 @@ ModeratorDetail.propTypes = {
   }))
 }
 
-export default ModeratorDetail
+export default ManageModeratorDetail

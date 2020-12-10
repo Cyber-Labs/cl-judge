@@ -3,7 +3,8 @@ import { Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import baseUrl from '../../../shared/baseUrl'
 import MiniLoader from '../../../components/common/MiniLoader'
-import ModeratorDetail from './moderatorDetail'
+import ManageModeratorDetail from './manageModeratorDetail'
+import ManageMemberDetail from './manageMemberDetail'
 import MemberDetail from './memberDetail'
 import InviteMemberModal from './inviteMembersModal'
 import AddBranchModal from './addBranchModal'
@@ -25,7 +26,8 @@ function GroupDetail (props) {
       setGroupName,
       user,
       setMembers,
-      setModerators
+      setModerators,
+      isModerator
     } = props
   const { access_token: accessToken, username } = user
   const [showInviteMembersModal, setShowInviteMemberModal] = useState(false)
@@ -65,6 +67,68 @@ function GroupDetail (props) {
         setGroupNameLoading(false)
         setIsEditOpen(false)
       })
+  }
+
+  if (!isModerator) {
+    return <div className='container mt-2'>
+      <h2 style={{ display: 'inline' }}>
+        {groupName}
+        {confidential ? <sup style={{ fontSize: '18px' }}>&nbsp;<i title="Confidential" className="fa fa-lock"/></sup> : ''}
+        &nbsp;
+      </h2>
+      <hr />
+      <br />
+      <h5 style={{ color: 'black' }}> Moderators : {moderators.length}</h5>
+      <Row>
+        {moderators.map(({
+          username,
+          full_name: fullName,
+          profile_img: profileImage,
+          email,
+          course,
+          department
+        }) => {
+          return (
+            <MemberDetail
+              key={username}
+              username={username}
+              fullName={fullName}
+              profileImage={profileImage}
+              course={course}
+              department={department}
+            />
+          )
+        })}
+      </Row>
+      <br />
+      <h5 style={{ color: 'black' }} id='members'>
+        {' '}
+      Other Members :&nbsp;
+        {members.length}
+      </h5>
+      <br />
+      <Row>
+        {members.map(({
+          username,
+          full_name: fullName,
+          profile_img: profileImage,
+          email,
+          course,
+          department
+        }) => {
+          return (
+            <MemberDetail
+              key={username}
+              username={username}
+              fullName={fullName}
+              profileImage={profileImage}
+              course={course}
+              department={department}
+            />
+          )
+        })}
+      </Row>
+    </div>
   }
 
   return <div className='container mt-2'>
@@ -147,7 +211,7 @@ function GroupDetail (props) {
         department
       }) => {
         return (
-          <ModeratorDetail
+          <ManageModeratorDetail
             key={username}
             username={username}
             fullName={fullName}
@@ -211,7 +275,7 @@ function GroupDetail (props) {
         department
       }) => {
         return (
-          <MemberDetail
+          <ManageMemberDetail
             key={username}
             username={username}
             fullName={fullName}
@@ -302,7 +366,8 @@ GroupDetail.propTypes = {
     isAdmin: PropTypes.number
   }),
   setModerators: PropTypes.func.isRequired,
-  setMembers: PropTypes.func.isRequired
+  setMembers: PropTypes.func.isRequired,
+  isModerator: PropTypes.bool
 }
 
 export default GroupDetail

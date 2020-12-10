@@ -4,7 +4,7 @@ import Link from 'next/link'
 import PropTypes from 'prop-types'
 
 function GroupListItem (props) {
-  const { id, groupName, memberCount, confidential, creator } = props
+  const { id, groupName, memberCount, confidential, creator, isModerator } = props
   return (
     <ListGroupItem
       style={{
@@ -32,7 +32,7 @@ function GroupListItem (props) {
           </Link>
         </Col>
         <Col lg={2} className='text-center'>
-          <Link href={`/manage/groups/${id}`} passHref>
+          <Link href={isModerator ? `/manage/groups/${id}` : `/groups/${id}`} passHref>
             <Button color='info'>
               <i className='fa fa-eye' />
                   &nbsp; View
@@ -49,7 +49,8 @@ GroupListItem.propTypes = {
   memberCount: PropTypes.number,
   id: PropTypes.number,
   confidential: PropTypes.number,
-  creator: PropTypes.string
+  creator: PropTypes.string,
+  isModerator: PropTypes.bool
 }
 
 export default GroupListItem

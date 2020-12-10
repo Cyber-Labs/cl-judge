@@ -5,12 +5,12 @@ import AdminNavbarMobile from './MobileView'
 
 function AdminNavbar (props) {
   const { isLoggedIn, user, activeNav } = props
-  if (!isLoggedIn || !user || !user.isAdmin) { return '' }
+  if (!isLoggedIn || !user) { return '' }
   if (window.innerWidth >= 992) {
     return (
-      <AdminNavbarDesktop activeNav={activeNav}/>
+      <AdminNavbarDesktop activeNav={activeNav} isAdmin={user.isAdmin}/>
     )
-  } else { return <AdminNavbarMobile/> }
+  } else { return <AdminNavbarMobile isAdmin={user.isAdmin}/> }
 }
 
 AdminNavbar.propTypes = {

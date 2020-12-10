@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import {
   Button
 } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 import Link from 'next/link'
 
 function AdminNavbarMobile (props) {
+  const { isAdmin } = props
   const [showMenu, setShowMenu] = useState(false)
   const toggleMenu = () => setShowMenu(!showMenu)
   return (
@@ -25,9 +27,11 @@ function AdminNavbarMobile (props) {
           <Link href="/manage/groups" passHref>
             <a className="mobile-nav-link">&nbsp;Groups&nbsp;</a>
           </Link>
-          <Link href="/manage/notifications" passHref>
-            <a className="mobile-nav-link">&nbsp;Notifications&nbsp;</a>
-          </Link>
+          {
+            isAdmin && <Link href="/manage/notifications" passHref>
+              <a className="mobile-nav-link">&nbsp;Notifications&nbsp;</a>
+            </Link>
+          }
         </div>
       </div>
       <style jsx> {`
@@ -76,6 +80,10 @@ function AdminNavbarMobile (props) {
       </Button>
     </>
   )
+}
+
+AdminNavbarMobile.propTypes = {
+  isAdmin: PropTypes.number
 }
 
 export default AdminNavbarMobile
