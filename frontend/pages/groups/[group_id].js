@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import AdminNavbar from '../../../components/common/AdminNavbar/index'
-import withPrivateRoute from '../../../components/utils/withPrivateRoute'
-import baseUrl from '../../../shared/baseUrl'
-import Loading from '../../../components/common/Loading'
-import Error from '../../../components/common/Error'
-import GroupDetail from '../../../components/manage/groups/groupDetail'
+import withPrivateRoute from '../../components/utils/withPrivateRoute'
+import baseUrl from '../../shared/baseUrl'
+import Loading from '../../components/common/Loading'
+import Error from '../../components/common/Error'
+import GroupDetail from '../../components/manage/groups/groupDetail'
 import { useRouter } from 'next/router'
 
 const ViewGroup = (props) => {
   const router = useRouter()
   const { group_id: groupIdFromURL } = router.query
-  const { isLoggedIn, user } = props
+  const { user } = props
   const { access_token: accessToken, username } = user
   const [members, setMembers] = useState([])
   const [moderators, setModerators] = useState([])
@@ -62,17 +61,12 @@ const ViewGroup = (props) => {
   }, [])
 
   useEffect(() => {
-    if (moderators.length && !moderators.some((moderator) => moderator.username === username)) {
-      router.replace(`/groups/${groupIdFromURL}`)
+    if (moderators.length && moderators.some((moderator) => moderator.username === username)) {
+      router.replace(`/manage/groups/${groupIdFromURL}`)
     }
   }, [moderators])
 
   return <div>
-    <AdminNavbar
-      user={user}
-      isLoggedIn={isLoggedIn}
-      activeNav="groups"
-    />
     {isLoading && <Loading />}
     {!isLoading && error && <Error message={error}></Error>}
     {!isLoading && !error && <GroupDetail
@@ -86,7 +80,6 @@ const ViewGroup = (props) => {
       user={user}
       setModerators={setModerators}
       setMembers={setMembers}
-      isModerator
     />}
   </div>
 }

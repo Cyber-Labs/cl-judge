@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 import Link from 'next/link'
 import AdminNavbar from '../../../components/common/AdminNavbar/index'
-import withAdminRoute from '../../../components/utils/withAdminRoute'
+import withPrivateRoute from '../../../components/utils/withPrivateRoute'
 import baseUrl from '../../../shared/baseUrl'
 import Loading from '../../../components/common/Loading'
 import Error from '../../../components/common/Error'
@@ -11,7 +11,7 @@ import GroupListItem from '../../../components/manage/groups/groupListItem'
 
 function ManageGroups (props) {
   const { isLoggedIn, user } = props
-  const { access_token: accessToken } = user
+  const { access_token: accessToken, isAdmin } = user
   const [groups, setGroups] = useState([])
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -52,14 +52,16 @@ function ManageGroups (props) {
         activeNav="groups"
       />
       <div className="container mt-3">
-        <div className="text-center">
-          <Link href="/manage/groups/create">
-            <Button variant="success">
-              <i className="fa fa-plus-circle" />
+        {
+          isAdmin && <div className="text-center">
+            <Link href="/manage/groups/create">
+              <Button variant="success">
+                <i className="fa fa-plus-circle" />
               &nbsp; Create a new group
-            </Button>
-          </Link>
-        </div>
+              </Button>
+            </Link>
+          </div>
+        }
         <br />
         {isLoading && <Loading />}
         {!isLoading && error && <Error message={error}></Error>}
@@ -73,6 +75,7 @@ function ManageGroups (props) {
                 memberCount={memberCount}
                 confidential={confidential}
                 creator={creator}
+                isModerator
               />
             )
           }
@@ -80,7 +83,7 @@ function ManageGroups (props) {
         {
           !isLoading && !error && !groups.length &&
           <div className="text-center">
-            <p>You are not a part of any group</p>
+            <p>You are not a moderator of any group</p>
           </div>
         }
       </div>
@@ -97,4 +100,4 @@ ManageGroups.propTypes = {
   })
 }
 
-export default withAdminRoute(ManageGroups)
+export default withPrivateRoute(ManageGroups)
