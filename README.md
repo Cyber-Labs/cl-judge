@@ -300,7 +300,7 @@ After changing the auth-socket, close workbench and open it again. The `root@loc
 - **Database - `MySQL`**
 - **API Documentation - `Postman`**
 - **Frontend hosting and deployment - `Netlify`**
-- **Server hosting and deployment - `AWS`**
+- **Server hosting and deployment - `Azure`**
 
 ## Setup and Installation
 
