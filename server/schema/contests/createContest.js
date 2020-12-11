@@ -22,7 +22,7 @@ const schema = {
       type: 'boolean',
     },
     start_time: {
-      type: 'string',
+      type: 'object',
       format: 'date-time',
     },
     end_time: {
