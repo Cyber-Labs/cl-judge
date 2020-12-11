@@ -56,7 +56,6 @@ const schema = {
       confidential: 'Invalid confidentiality',
       start_time: 'Invalid start time',
       end_time: 'Invalid end time',
-      participants_count: 'Invalid participants count',
       about: 'Invalid about',
       rules: 'Invalid rules',
       prizes: 'Invalid prizes',
