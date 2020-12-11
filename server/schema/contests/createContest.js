@@ -42,7 +42,6 @@ const schema = {
   errorMessage: {
     required: {
       contest_name: 'Contest name required',
-      creator: 'Creator required',
       show_leaderboard: 'Leaderboard privacy required',
       public: 'Privacy required',
       confidential: 'Confidentiality required',
