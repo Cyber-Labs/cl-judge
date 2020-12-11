@@ -12,10 +12,6 @@ const schema = {
       type: 'string',
       minLength: 4,
     },
-    creator: {
-      type: 'string',
-      minLength: 4,
-    },
     show_leaderboard: {
       type: 'boolean',
     },
