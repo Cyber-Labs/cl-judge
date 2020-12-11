@@ -197,7 +197,7 @@ DROP TABLE IF EXISTS `questions`;
 CREATE TABLE `questions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `creator` varchar(45) NOT NULL,
-  `type` enum('mcq','subjective') NOT NULL,
+  `type` enum('mcq','subjective') DEFAULT NULL,
   `name` varchar(100) NOT NULL,
   `problem_statement` text NOT NULL,
   `input_format` text,
@@ -376,4 +376,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-10 17:33:32
+-- Dump completed on 2020-12-11 14:45:52
