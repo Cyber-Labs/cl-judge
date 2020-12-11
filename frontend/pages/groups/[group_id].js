@@ -24,7 +24,7 @@ const ViewGroup = (props) => {
   useEffect(() => {
     setIsLoading(true)
     setGroupId(Number(groupIdFromURL))
-    var reqHeaders = new Headers()
+    const reqHeaders = new Headers()
     reqHeaders.append('access_token', accessToken)
     const requestOptions = {
       method: 'GET',

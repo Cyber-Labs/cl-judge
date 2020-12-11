@@ -127,7 +127,7 @@ function ManageMemberDetail (props) {
       }}
       onConfirm={() => {
         const requestedUsername = username
-        var reqHeaders = new Headers()
+        const reqHeaders = new Headers()
         reqHeaders.append('access_token', accessToken)
         reqHeaders.append('Content-Type', 'application/json')
         const requestOptions = {
@@ -179,7 +179,7 @@ function ManageMemberDetail (props) {
       }}
       onConfirm={() => {
         const requestedUsername = username
-        var reqHeaders = new Headers()
+        const reqHeaders = new Headers()
         reqHeaders.append('access_token', accessToken)
         reqHeaders.append('Content-Type', 'application/json')
         const requestOptions = {

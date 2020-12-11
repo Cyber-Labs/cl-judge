@@ -14,10 +14,10 @@ function DeleteGroupModal (props) {
   } = props
   const router = useRouter()
   const deleteGroup = () => {
-    var reqHeaders = new Headers()
+    const reqHeaders = new Headers()
     reqHeaders.append('access_token', accessToken)
     reqHeaders.append('Content-Type', 'application/json')
-    var requestOptions = {
+    const requestOptions = {
       method: 'DELETE',
       headers: reqHeaders
     }

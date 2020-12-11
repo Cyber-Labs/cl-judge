@@ -17,7 +17,7 @@ function EditProfile (props) {
   const [selectedDepartment, setSelectedDepartment] = useState(0)
   const { username, access_token: accessToken } = user
 
-  var reqHeaders = new Headers()
+  const reqHeaders = new Headers()
   reqHeaders.append('access_token', accessToken)
 
   useEffect(() => {

@@ -20,7 +20,7 @@ function ChangePassword (props) {
   const [resultMessage, setResultMessage] = useState(false)
   const { user } = props
   const { username, access_token: accessToken } = user
-  var reqHeaders = new Headers()
+  const reqHeaders = new Headers()
   reqHeaders.append('access_token', accessToken)
 
   return (
@@ -39,11 +39,11 @@ function ChangePassword (props) {
             setErrorMessage("New password and re-entered password don't match")
             return
           }
-          var urlencoded = new URLSearchParams()
+          const urlencoded = new URLSearchParams()
           urlencoded.append('username', username)
           urlencoded.append('password', oldPassword)
           urlencoded.append('new_password', password)
-          var requestOptions = {
+          const requestOptions = {
             method: 'POST',
             body: urlencoded,
             headers: reqHeaders

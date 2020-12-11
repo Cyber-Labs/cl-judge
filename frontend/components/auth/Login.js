@@ -24,11 +24,11 @@ function Login (props) {
       onSubmit={(data) => {
         setLoginProgress(true)
         const { username, password } = data
-        var urlencoded = new URLSearchParams()
+        const urlencoded = new URLSearchParams()
         urlencoded.append('username', username)
         urlencoded.append('password', password)
 
-        var requestOptions = {
+        const requestOptions = {
           method: 'POST',
           body: urlencoded
         }
