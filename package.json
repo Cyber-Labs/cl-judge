@@ -8,7 +8,11 @@
     "lint": "cd server && npm run lint && cd ../frontend && npm run lint",
     "lint:fix": "cd server && npm run lint:fix && cd ../frontend && npm run lint:fix",
     "server": "cd server && node index.js",
-    "dev": "cd frontend && npm run dev"
+    "dev": "cd frontend && npm run dev",
+    "dep:install:root": "rm -rf node_modules && npm install",
+    "dep:install:frontend": "cd frontend && rm -rf node_modules && npm install && cd ..",
+    "dep:install:server": "cd server && rm -rf node_modules && npm install && cd ..",
+    "dep:install": "npm run dep:install:root && npm run dep:install:frontend && npm run dep:install:server"
   },
   "author": "Cyberlabs",
   "license": "ISC",
