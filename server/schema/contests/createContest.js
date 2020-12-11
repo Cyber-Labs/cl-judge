@@ -26,7 +26,7 @@ const schema = {
       format: 'date-time',
     },
     end_time: {
-      type: 'string',
+      type: 'object',
       format: 'date-time',
     },
     about: {
