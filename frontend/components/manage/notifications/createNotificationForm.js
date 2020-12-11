@@ -43,7 +43,7 @@ function createNotificationForm (props) {
     }
   }, [isPublic])
 
-  var reqHeaders = new Headers()
+  const reqHeaders = new Headers()
   reqHeaders.append('access_token', accessToken)
   reqHeaders.append('Content-Type', 'application/json')
 
@@ -56,7 +56,7 @@ function createNotificationForm (props) {
       public: isPublic,
       target_usernames: targetUsernames
     }
-    var requestOptions = {
+    const requestOptions = {
       method: 'POST',
       headers: reqHeaders,
       body: JSON.stringify(notification)

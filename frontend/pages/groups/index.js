@@ -17,7 +17,7 @@ function ViewMyGroups (props) {
 
   useEffect(() => {
     setIsLoading(true)
-    var reqHeaders = new Headers()
+    const reqHeaders = new Headers()
     reqHeaders.append('access_token', accessToken)
     const requestOptions = {
       method: 'GET',

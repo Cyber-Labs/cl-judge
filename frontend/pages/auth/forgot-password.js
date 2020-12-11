@@ -16,10 +16,10 @@ function ForgotPassword () {
       <Form
         onSubmit={(e) => {
           e.preventDefault()
-          var urlencoded = new URLSearchParams()
+          const urlencoded = new URLSearchParams()
           urlencoded.append('email', email)
 
-          var requestOptions = {
+          const requestOptions = {
             method: 'POST',
             body: urlencoded
           }

@@ -27,13 +27,13 @@ function InviteMemberModal (props) {
     }
     setIsLoading(true)
     setError('')
-    var reqHeaders = new Headers()
+    const reqHeaders = new Headers()
     reqHeaders.append('access_token', accessToken)
     reqHeaders.append('Content-Type', 'application/json')
     const body = {
       members: invitedMembers
     }
-    var requestOptions = {
+    const requestOptions = {
       method: 'POST',
       headers: reqHeaders,
       body: JSON.stringify(body)

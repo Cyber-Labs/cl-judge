@@ -22,7 +22,7 @@ function AddBranchModal (props) {
   const addBranch = () => {
     setIsLoading(true)
     setError('')
-    var reqHeaders = new Headers()
+    const reqHeaders = new Headers()
     reqHeaders.append('access_token', accessToken)
     reqHeaders.append('Content-Type', 'application/json')
     const body = {
@@ -30,7 +30,7 @@ function AddBranchModal (props) {
       course: selectedCourse,
       admission_year: admissionYear
     }
-    var requestOptions = {
+    const requestOptions = {
       method: 'POST',
       headers: reqHeaders,
       body: JSON.stringify(body)

@@ -29,12 +29,12 @@ function ResetPassword () {
         validationSchema={resetPasswordSchema}
         onSubmit={(data) => {
           const { username, password, confirmPassword, otp } = data
-          var urlencoded = new URLSearchParams()
+          const urlencoded = new URLSearchParams()
           urlencoded.append('username', username)
           urlencoded.append('password', password)
           urlencoded.append('password_confirm', confirmPassword)
           urlencoded.append('otp', otp)
-          var requestOptions = {
+          const requestOptions = {
             method: 'POST',
             body: urlencoded
           }

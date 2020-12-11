@@ -10,7 +10,7 @@ function UploadProfileImage (props) {
   const [uploadError, setUploadError] = useState('')
 
   const { userInfo, accessToken, setUserInfo } = props
-  var reqHeaders = new Headers()
+  const reqHeaders = new Headers()
   reqHeaders.append('access_token', accessToken)
 
   const [showModal, setShowModal] = useState(false)
@@ -27,9 +27,9 @@ function UploadProfileImage (props) {
 
   const submitImage = () => {
     setUploadProgress(true)
-    var formdata = new FormData()
+    const formdata = new FormData()
     formdata.append('profileImage', image[0].file)
-    var requestOptions = {
+    const requestOptions = {
       method: 'POST',
       headers: reqHeaders,
       body: formdata
@@ -121,8 +121,8 @@ function UploadProfileImage (props) {
                   onClick={
                     imageList.length
                       ? () => {
-                        onImageUpdate(0)
-                      }
+                          onImageUpdate(0)
+                        }
                       : onImageUpload
                   }
                 >

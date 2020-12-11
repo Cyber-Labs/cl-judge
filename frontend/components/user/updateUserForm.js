@@ -60,7 +60,7 @@ function UpdateUserForm (props) {
     bio: defaultBio
   } = userInfo
 
-  var reqHeaders = new Headers()
+  const reqHeaders = new Headers()
   reqHeaders.append('access_token', accessToken)
 
   return (
@@ -70,7 +70,7 @@ function UpdateUserForm (props) {
         onSubmit={(data) => {
           setUpdateUserProgress(true)
           const { fullName, email, admNo, mobile, admissionYear, bio } = data
-          var urlencoded = new URLSearchParams()
+          const urlencoded = new URLSearchParams()
           const newUserInfo = userInfo
           if (fullName !== defaultFullName) {
             urlencoded.append('full_name', fullName)
@@ -100,7 +100,7 @@ function UpdateUserForm (props) {
             newUserInfo.mobile = mobile
           }
           console.log(newUserInfo, urlencoded)
-          var requestOptions = {
+          const requestOptions = {
             method: 'POST',
             headers: reqHeaders,
             body: urlencoded

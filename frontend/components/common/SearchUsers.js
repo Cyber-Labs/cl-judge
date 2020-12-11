@@ -20,7 +20,7 @@ function SearchUsers (props) {
   const [searchResults, setSearchResults] = useState([])
   const [error, setError] = useState('')
 
-  var reqHeaders = new Headers()
+  const reqHeaders = new Headers()
   reqHeaders.append('access_token', accessToken)
 
   useEffect(() => {

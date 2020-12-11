@@ -27,7 +27,7 @@ export default function App ({ Component, pageProps }) {
       return
     }
     const { access_token: accessToken } = user
-    var reqHeaders = new Headers()
+    const reqHeaders = new Headers()
     reqHeaders.append('access_token', accessToken)
     const requestOptions = {
       method: 'GET',

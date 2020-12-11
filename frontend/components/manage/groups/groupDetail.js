@@ -40,7 +40,7 @@ function GroupDetail (props) {
       return alert('Enter a valid group name, with at least 4 characters')
     }
     setGroupNameLoading(true)
-    var reqHeaders = new Headers()
+    const reqHeaders = new Headers()
     reqHeaders.append('access_token', accessToken)
     reqHeaders.append('Content-Type', 'application/json')
     const requestOptions = {
@@ -132,7 +132,8 @@ function GroupDetail (props) {
   }
 
   return <div className='container mt-2'>
-    {isEditOpen ? (
+    {isEditOpen
+      ? (
       <Row>
         <Col md={5}>
           <InputGroup>
@@ -164,7 +165,8 @@ function GroupDetail (props) {
           </InputGroup>
         </Col>
       </Row>
-    ) : (
+        )
+      : (
       <>
         <h2 style={{ display: 'inline' }}>
           {groupName}
@@ -196,7 +198,7 @@ function GroupDetail (props) {
           </h4>
         }
       </>
-    )}
+        )}
     <hr />
     <br />
     <h5 style={{ color: 'black' }}> Moderators : {moderators.length}</h5>

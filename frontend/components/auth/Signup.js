@@ -56,7 +56,7 @@ function Signup () {
           password,
           admissionYear
         } = data
-        var urlencoded = new URLSearchParams()
+        const urlencoded = new URLSearchParams()
         urlencoded.append('username', username)
         urlencoded.append('password', password)
         urlencoded.append('full_name', fullName)
@@ -66,7 +66,7 @@ function Signup () {
         urlencoded.append('department', selectedDepartment)
         urlencoded.append('admission_year', admissionYear)
 
-        var requestOptions = {
+        const requestOptions = {
           method: 'POST',
           body: urlencoded
         }

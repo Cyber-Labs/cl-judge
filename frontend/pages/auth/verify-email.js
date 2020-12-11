@@ -21,11 +21,11 @@ function VerifyEmail () {
       <Form
         onSubmit={(e) => {
           e.preventDefault()
-          var urlencoded = new URLSearchParams()
+          const urlencoded = new URLSearchParams()
           urlencoded.append('otp', otp)
           urlencoded.append('username', username)
 
-          var requestOptions = {
+          const requestOptions = {
             method: 'POST',
             body: urlencoded
           }
