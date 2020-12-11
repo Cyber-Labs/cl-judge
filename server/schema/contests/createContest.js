@@ -51,7 +51,6 @@ const schema = {
     },
     properties: {
       contest_name: 'Invalid contest name',
-      creator: 'Invalid creator',
       show_leaderboard: 'Invalid leaderboard privacy',
       public: 'Invalid privacy',
       confidential: 'Invalid confidentiality',
