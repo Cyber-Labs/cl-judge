@@ -29,9 +29,6 @@ const schema = {
       type: 'string',
       format: 'date-time',
     },
-    participants_count: {
-      type: 'number',
-    },
     about: {
       type: 'string',
     },
