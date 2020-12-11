@@ -1,7 +1,6 @@
 const schema = {
   required: [
     'contest_name',
-    'creator',
     'show_leaderboard',
     'public',
     'confidential',
