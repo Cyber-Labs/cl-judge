@@ -265,7 +265,8 @@ CREATE TABLE `submissions` (
   `question_id` int NOT NULL,
   `contest_id` int NOT NULL,
   `username` varchar(45) NOT NULL,
-  `submission` text,
+  `mcq_submission` int DEFAULT NULL,
+  `subjective_submission` text,
   `output` text,
   `submission_time` timestamp NOT NULL,
   `score` int DEFAULT '0',
@@ -293,7 +294,8 @@ CREATE TABLE `tags` (
   `name` varchar(45) NOT NULL,
   `description` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -376,4 +378,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-11 14:45:52
+-- Dump completed on 2020-12-12 14:56:20

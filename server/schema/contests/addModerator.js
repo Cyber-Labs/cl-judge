@@ -1,17 +1,16 @@
 const schema = {
-  required: ['moderator_username'],
+  required: ['moderator'],
   properties: {
-    moderator_username: {
+    moderator: {
       type: 'string',
-      minLength: 4,
     },
   },
   errorMessage: {
     required: {
-      moderator_username: 'Moderator username required',
+      moderator: 'Moderator username required',
     },
     properties: {
-      moderator_username: 'Invalid moderator username',
+      moderator: 'Invalid moderator username',
     },
     _: 'Invalid data',
   },
