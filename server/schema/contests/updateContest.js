@@ -1,5 +1,36 @@
-const schema = {
-  required: ['name', 'show_leaderboard', 'public', 'start_time', 'end_time'],
+module.exports = {
+  anyOf: [
+    {
+      required: ['name'],
+    },
+    {
+      required: ['show_leaderboard'],
+    },
+    {
+      required: ['public'],
+    },
+    {
+      required: ['start_time'],
+    },
+    {
+      required: ['end_time'],
+    },
+    {
+      required: ['about'],
+    },
+    {
+      required: ['rules'],
+    },
+    {
+      required: ['prizes'],
+    },
+    {
+      required: ['confidential_questions'],
+    },
+  ],
+  not: {
+    required: ['creator', 'id'],
+  },
   properties: {
     name: {
       type: 'string',
@@ -34,11 +65,10 @@ const schema = {
   },
   errorMessage: {
     required: {
-      name: 'Contest name required',
-      show_leaderboard: 'show_leaderboard field required',
-      public: 'public field required',
-      start_time: 'Start time required',
-      end_time: 'End time required',
+      creator: 'Contest creator cannot be updated',
+      id: 'Contest id cannot be updated',
+      confidential_questions:
+        'Atleast one of the fields is required to update contest',
     },
     properties: {
       name: 'Invalid contest name',
@@ -54,5 +84,3 @@ const schema = {
     _: 'Invalid data',
   },
 }
-
-module.exports = schema

@@ -1,5 +1,4 @@
 const schema = {
-  required: ['output'],
   oneOf: [
     { required: ['subjective_submission'] },
     { required: ['mcq_submission'] },
@@ -11,19 +10,14 @@ const schema = {
     mcq_submission: {
       type: 'integer',
     },
-    output: {
-      type: 'string',
-    },
   },
   errorMessage: {
     required: {
-      output: 'Output required',
       mcq_submission: 'One of the mcq or subjective submissions is required',
     },
     properties: {
       subjective_submission: 'Invalid subjective submission',
       mcq_submission: 'Invalid MCQ submission',
-      output: 'Invalid output',
     },
     _: 'Invalid data',
   },
