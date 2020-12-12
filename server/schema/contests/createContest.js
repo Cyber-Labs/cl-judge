@@ -15,12 +15,12 @@ const schema = {
       type: 'boolean',
     },
     start_time: {
-      type: 'object',
-      format: 'date-time',
+      type: 'string',
+      format: 'dateTimeFormat',
     },
     end_time: {
-      type: 'object',
-      format: 'date-time',
+      type: 'string',
+      format: 'dateTimeFormat',
     },
     about: {
       type: 'string',
