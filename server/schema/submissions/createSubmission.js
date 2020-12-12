@@ -1,27 +1,29 @@
 const schema = {
-  required: ['user_submission', 'output', 'submission_time'],
+  required: ['output'],
+  oneOf: [
+    { required: ['subjective_submission'] },
+    { required: ['mcq_submission'] },
+  ],
   properties: {
-    user_submission: {
+    subjective_submission: {
       type: 'string',
+    },
+    mcq_submission: {
+      type: 'integer',
     },
     output: {
       type: 'string',
     },
-    submission_time: {
-      type: 'object',
-      format: 'date-time',
-    },
   },
   errorMessage: {
     required: {
-      user_submission: 'User submission required',
       output: 'Output required',
-      submission_time: 'Submission time required',
+      mcq_submission: 'One of the mcq or subjective submissions is required',
     },
     properties: {
-      user_submission: 'Invalid user submission',
+      subjective_submission: 'Invalid subjective submission',
+      mcq_submission: 'Invalid MCQ submission',
       output: 'Invalid output',
-      submission_time: 'Invalid submission time',
     },
     _: 'Invalid data',
   },
