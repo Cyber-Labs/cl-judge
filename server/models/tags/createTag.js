@@ -15,7 +15,9 @@ function createTag({ body }) {
       `INSERT INTO tags (name, description) VALUES (?, ?)`,
       [name, description],
       (error, results) => {
-        if (error || results === undefined) {
+        if (error && error.code === 'ER_DUP_ENTRY') {
+          reject('Tag with this name already exists')
+        } else if (error || results === undefined) {
           return reject(error)
         }
         return resolve('Tag successfully added')

@@ -10,9 +10,10 @@ const { pool } = require('../database')
 function getTag({ query }) {
   return new Promise((resolve, reject) => {
     const keyword = query.keyword || ''
+    const searchId = query.id || ''
     pool.query(
-      `SELECT * FROM tags WHERE name LIKE ?`,
-      [`%${keyword}%`],
+      `SELECT * FROM tags WHERE id LIKE ? AND name LIKE ?`,
+      [`%${searchId}%`, `%${keyword}%`],
       (error, results) => {
         if (error || results === undefined) {
           return reject(error)
