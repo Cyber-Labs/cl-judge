@@ -18,7 +18,7 @@ function createTag({ body }) {
         if (error || results === undefined) {
           return reject(error)
         }
-        return resolve('Tag uccessfully added')
+        return resolve('Tag successfully added')
       }
     )
   })
