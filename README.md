@@ -1,7 +1,7 @@
 # CL-judge
 
 **Online judge version 2.0**  
-**API Documentation - [Postman](https://documenter.getpostman.com/view/7963087/TVKJwEH1)**  
+**API Documentation - [Postman](https://documenter.getpostman.com/view/7963087/TVsoGVSZ)**  
 [![Build Status](https://travis-ci.com/Cyber-Labs/cl-judge.svg?branch=master)](https://travis-ci.com/Cyber-Labs/cl-judge)
 
 ## Status
