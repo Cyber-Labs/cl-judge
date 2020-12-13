@@ -8,10 +8,10 @@ const { pool } = require('../database')
  * @return {Promise}
  */
 
-function addModerator({ params, body, username }) {
+function removeGroup({ params, body, username }) {
   return new Promise((resolve, reject) => {
     const { contest_id: contestId } = params
-    const { moderator: moderatorUsername } = body
+    const { group_id: groupId } = body
     pool.query(
       `SELECT * FROM contests_moderators WHERE contest_id=? AND moderator=?`,
       [contestId, username],
@@ -24,17 +24,17 @@ function addModerator({ params, body, username }) {
           )
         }
         pool.query(
-          `INSERT INTO contests_moderators (contest_id, moderator) VALUES (?,?)`,
-          [contestId, moderatorUsername],
+          `DELETE FROM contests_groups WHERE contest_id=? AND group_id=?`,
+          [contestId, groupId],
           (error, res) => {
             if (error || res === undefined) {
-              const { code } = error
-              if (code === 'ER_DUP_ENTRY') {
-                return reject('The user is already a moderator')
-              }
               return reject(error)
             }
-            return resolve('Successfully made moderator!!')
+            const { affectedRows } = res
+            if (affectedRows === 0) {
+              return reject('The group is not a part of the contest')
+            }
+            return resolve('Successfully removed group')
           }
         )
       }
@@ -42,4 +42,4 @@ function addModerator({ params, body, username }) {
   })
 }
 
-module.exports = addModerator
+module.exports = removeGroup

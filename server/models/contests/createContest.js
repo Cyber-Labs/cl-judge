@@ -57,7 +57,7 @@ function createContest({ username, body }) {
               query += `prizes=?,`
               arr.push(prizes)
             }
-            if (confidentialQuestions) {
+            if (confidentialQuestions !== undefined) {
               query += `confidential_questions=?,`
               arr.push(confidentialQuestions)
             }

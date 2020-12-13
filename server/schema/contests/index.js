@@ -1,8 +1,10 @@
 const ajv = require('../index')
 const createContestSchema = require('./createContest')
+const updateContestSchema = require('./updateContest')
 const addModeratorSchema = require('./addModerator')
 const removeModeratorSchema = require('./removeModerator')
-const updateContestSchema = require('./updateContest')
+const addGroupSchema = require('./addGroup')
+const removeGroupSchema = require('./removeGroup')
 
 ajv.addFormat('dateTimeFormat', (dateTimeString) => {
   const timestamp = new Date(dateTimeString)
@@ -11,7 +13,9 @@ ajv.addFormat('dateTimeFormat', (dateTimeString) => {
 
 module.exports = {
   createContestSchema,
+  updateContestSchema,
   addModeratorSchema,
   removeModeratorSchema,
-  updateContestSchema,
+  addGroupSchema,
+  removeGroupSchema,
 }
