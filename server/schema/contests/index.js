@@ -7,8 +7,7 @@ const addGroupSchema = require('./addGroup')
 const removeGroupSchema = require('./removeGroup')
 
 ajv.addFormat('dateTimeFormat', (dateTimeString) => {
-  const timestamp = new Date(dateTimeString)
-  return timestamp instanceof Object && typeof timestamp === 'object'
+  return !isNaN(Date.parse(dateTimeString))
 })
 
 module.exports = {
