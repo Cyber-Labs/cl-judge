@@ -18,6 +18,7 @@ function sumErrors(errArray) {
 router.post(
   '/:contest_id/moderator',
   middleware.verifyUserAccessToken,
+  middleware.verifyContestModerator,
   async (request, response) => {
     const validate = ajv.compile(addModeratorSchema)
     const isValid = validate(request.body)

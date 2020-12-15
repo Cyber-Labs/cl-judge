@@ -18,6 +18,7 @@ function sumErrors(errArray) {
 router.delete(
   '/:contest_id/moderator',
   middleware.verifyUserAccessToken,
+  middleware.verifyContestModerator,
   async (request, response) => {
     const validate = ajv.compile(removeModeratorSchema)
     const isValid = validate(request.body)

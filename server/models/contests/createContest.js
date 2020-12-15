@@ -20,10 +20,25 @@ function createContest({ username, body }) {
     } = body
     const startTime = new Date(start_time)
     const endTime = new Date(end_time)
+    let about = body.about || null
+    let rules = body.rules || null
+    let prizes = body.prizes || null
+    let confidentialQuestions = body.confidential_questions || null
     let currentId
     pool.query(
-      `INSERT INTO contests (creator, name, show_leaderboard, public, start_time, end_time, participants_count) VALUES (?,?,?,?,?,?,?)`,
-      [username, name, showLeaderboard, public, startTime, endTime, 0],
+      `INSERT INTO contests (creator, name, show_leaderboard, public, start_time, end_time, about, rules, prizes, confidential_questions) VALUES (?,?,?,?,?,?,?,?,?,?)`,
+      [
+        username,
+        name,
+        showLeaderboard,
+        public,
+        startTime,
+        endTime,
+        about,
+        rules,
+        prizes,
+        confidentialQuestions,
+      ],
       (error, results) => {
         if (error || results === undefined) {
           return reject(error)
@@ -37,49 +52,9 @@ function createContest({ username, body }) {
             if (error || res === undefined) {
               return reject(error)
             }
-            const {
-              about,
-              rules,
-              prizes,
-              confidential_questions: confidentialQuestions,
-            } = body
-            let query = `UPDATE contests SET `
-            let arr = []
-            if (about) {
-              query += `about=?,`
-              arr.push(about)
-            }
-            if (rules) {
-              query += `rules=?,`
-              arr.push(rules)
-            }
-            if (prizes) {
-              query += `prizes=?,`
-              arr.push(prizes)
-            }
-            if (confidentialQuestions !== undefined) {
-              query += `confidential_questions=?,`
-              arr.push(confidentialQuestions)
-            }
-
-            if (query[query.length - 1] === ',') {
-              query = query.substr(0, query.length - 1)
-            } else {
-              return resolve({
-                message: 'Contest created successfully',
-                contestId: currentId,
-              })
-            }
-            query += ` WHERE id=?`
-            arr.push(currentId)
-            pool.query(query, arr, (error, res) => {
-              if (error || res === undefined) {
-                return reject(error)
-              }
-              return resolve({
-                message: 'Contest created successfully',
-                contestId: currentId,
-              })
+            return resolve({
+              message: 'Contest created successfully',
+              contestId: currentId,
             })
           }
         )
