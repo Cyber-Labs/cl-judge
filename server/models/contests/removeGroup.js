@@ -13,30 +13,19 @@ function removeGroup({ params, body, username }) {
     const { contest_id: contestId } = params
     const { group_id: groupId } = body
     pool.query(
-      `SELECT * FROM contests_moderators WHERE contest_id=? AND moderator=?`,
-      [contestId, username],
-      (error, results) => {
-        if (error) {
+      `DELETE FROM contests_groups WHERE (SELECT COUNT(id) FROM contests_moderators WHERE contest_id=? AND moderator=?) AND contest_id=? AND group_id=?`,
+      [contestId, username, contestId, groupId],
+      (error, res) => {
+        if (error || res === undefined) {
           return reject(error)
-        } else if (!results || !results.length) {
+        }
+        const { affectedRows } = res
+        if (affectedRows === 0) {
           return reject(
-            'Invalid contest ID or you do not have moderator access to the contest'
+            'Either the group is not a part of the contest or you do not have the required permissions'
           )
         }
-        pool.query(
-          `DELETE FROM contests_groups WHERE contest_id=? AND group_id=?`,
-          [contestId, groupId],
-          (error, res) => {
-            if (error || res === undefined) {
-              return reject(error)
-            }
-            const { affectedRows } = res
-            if (affectedRows === 0) {
-              return reject('The group is not a part of the contest')
-            }
-            return resolve('Successfully removed group')
-          }
-        )
+        return resolve('Successfully removed group')
       }
     )
   })

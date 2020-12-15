@@ -13,30 +13,24 @@ function addGroup({ params, body, username }) {
     const { contest_id: contestId } = params
     const { group_id: groupId } = body
     pool.query(
-      `SELECT * FROM contests_moderators WHERE contest_id=? AND moderator=?`,
-      [contestId, username],
-      (error, results) => {
-        if (error) {
-          return reject(error)
-        } else if (!results || !results.length) {
-          return reject(
-            'Invalid contest ID or you do not have moderator access to the contest'
-          )
-        }
-        pool.query(
-          `INSERT INTO contests_groups (contest_id, group_id) VALUES (?,?)`,
-          [contestId, groupId],
-          (error, res) => {
-            if (error || res === undefined) {
-              const { code } = error
-              if (code === 'ER_DUP_ENTRY') {
-                return reject('The group is already added')
-              }
-              return reject(error)
-            }
-            return resolve('Successfully added group')
+      `INSERT INTO contests_groups (contest_id, group_id) SELECT contest_id, ? FROM contests_moderators WHERE contest_id=? AND moderator=?`,
+      [groupId, contestId, username],
+      (error, res) => {
+        if (error || res === undefined) {
+          const { code } = error
+          if (code === 'ER_DUP_ENTRY') {
+            return reject('The group is already added')
           }
-        )
+          return reject(error)
+        } else {
+          const { affectedRows } = res
+          if (!affectedRows) {
+            return reject(
+              'The user do not have moderator access of the contest'
+            )
+          }
+          return resolve('Successfully added group')
+        }
       }
     )
   })
