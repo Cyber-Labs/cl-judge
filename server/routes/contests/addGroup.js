@@ -18,7 +18,6 @@ function sumErrors(errArray) {
 router.post(
   '/:contest_id/groups',
   middleware.verifyUserAccessToken,
-  middleware.verifyContestModerator,
   async (request, response) => {
     const validate = ajv.compile(addGroupSchema)
     const isValid = validate(request.body)
