@@ -74,6 +74,7 @@ function createContest({ username, body }) {
                       return reject(error)
                     })
                   }
+                  connection.release()
                   return resolve({
                     message: 'Contest created successfully',
                     contestId: currentId,
