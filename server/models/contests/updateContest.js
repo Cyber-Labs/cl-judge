@@ -69,7 +69,7 @@ function updateContest({ body, params }) {
     } else {
       return reject('Contest is already upto date')
     }
-    query += ` WHERE id=?`
+    query += ` WHERE (SELECT COUNT(id) FROM contests_moderators WHERE contest_id=? AND moderator=? )AND id=?`
     arr.push(contestId)
     pool.query(query, arr, (error, res) => {
       if (error || res === undefined) {
