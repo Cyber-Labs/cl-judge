@@ -14,7 +14,7 @@ function addModerator({ params, body, username }) {
     const { moderator: moderatorUsername } = body
     pool.query(
       `INSERT INTO contests_moderators (contest_id, moderator) SELECT contest_id, ? FROM contests_moderators WHERE contest_id=? AND moderator=?`,
-      [contestId, moderatorUsername],
+      [moderatorUsername, contestId, username],
       (error, res) => {
         if (error || res === undefined) {
           const { code } = error
