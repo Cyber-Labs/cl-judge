@@ -73,8 +73,13 @@ function updateContest({ body, params, username }) {
     pool.query(query, arr, (error, res) => {
       if (error || res === undefined) {
         return reject(error)
+      } else {
+        const { affectedRows } = res
+        if (!affectedRows) {
+          return reject('The user do not have moderator access of the contest')
+        }
+        return resolve('Contest updated successfully')
       }
-      return resolve('Contest updated successfully')
     })
   })
 }

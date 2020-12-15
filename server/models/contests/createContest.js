@@ -65,6 +65,7 @@ function createContest({ username, body }) {
               (error, insertionResults) => {
                 if (error || insertionResults === undefined) {
                   return connection.rollback(() => {
+                    connection.release()
                     return reject(error)
                   })
                 }

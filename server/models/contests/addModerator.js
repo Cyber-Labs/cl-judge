@@ -22,8 +22,15 @@ function addModerator({ params, body, username }) {
             return reject('The user is already a moderator')
           }
           return reject(error)
+        } else {
+          const { affectedRows } = res
+          if (!affectedRows) {
+            return reject(
+              'The user do not have moderator access of the contest'
+            )
+          }
+          return resolve('Successfully made moderator!!')
         }
-        return resolve('Successfully made moderator!!')
       }
     )
   })

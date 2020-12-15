@@ -20,8 +20,10 @@ function removeModerator({ params, body }) {
           return reject(error)
         }
         const { affectedRows } = res
-        if (affectedRows === 0) {
-          return reject('Either user was a creator or not a moderator')
+        if (!affectedRows) {
+          return reject(
+            'Either the person is already not a moderator or you do not have the required permissions'
+          )
         }
         return resolve('Successfully removed as moderator')
       }

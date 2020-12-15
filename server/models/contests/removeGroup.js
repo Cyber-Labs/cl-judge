@@ -21,7 +21,9 @@ function removeGroup({ params, body, username }) {
         }
         const { affectedRows } = res
         if (affectedRows === 0) {
-          return reject('The group is not a part of the contest')
+          return reject(
+            'Either the group is not a part of the contest or you do not have the required permissions'
+          )
         }
         return resolve('Successfully removed group')
       }

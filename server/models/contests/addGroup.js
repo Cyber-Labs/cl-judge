@@ -22,8 +22,15 @@ function addGroup({ params, body, username }) {
             return reject('The group is already added')
           }
           return reject(error)
+        } else {
+          const { affectedRows } = res
+          if (!affectedRows) {
+            return reject(
+              'The user do not have moderator access of the contest'
+            )
+          }
+          return resolve('Successfully added group')
         }
-        return resolve('Successfully added group')
       }
     )
   })
