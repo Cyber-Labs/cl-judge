@@ -32,6 +32,7 @@ function createContest({ username, body }) {
       connection.beginTransaction((error) => {
         if (error) {
           return connection.rollback(() => {
+            connection.release()
             return reject(error)
           })
         }
