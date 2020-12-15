@@ -20,71 +20,74 @@ function createContest({ username, body }) {
     } = body
     const startTime = new Date(start_time)
     const endTime = new Date(end_time)
+    let about = body.about || null
+    let rules = body.rules || null
+    let prizes = body.prizes || null
+    let confidentialQuestions = body.confidential_questions || null
     let currentId
-    pool.query(
-      `INSERT INTO contests (creator, name, show_leaderboard, public, start_time, end_time, participants_count) VALUES (?,?,?,?,?,?,?)`,
-      [username, name, showLeaderboard, public, startTime, endTime, 0],
-      (error, results) => {
-        if (error || results === undefined) {
-          return reject(error)
+    pool.getConnection((error, connection) => {
+      if (error) {
+        return reject(error)
+      }
+      connection.beginTransaction((error) => {
+        if (error) {
+          return connection.rollback(() => {
+            connection.release()
+            return reject(error)
+          })
         }
-        const { insertId } = results
-        currentId = insertId
-        pool.query(
-          `INSERT INTO contests_moderators (contest_id, moderator) VALUES (?,?)`,
-          [currentId, username],
-          (error, res) => {
-            if (error || res === undefined) {
-              return reject(error)
-            }
-            const {
-              about,
-              rules,
-              prizes,
-              confidential_questions: confidentialQuestions,
-            } = body
-            let query = `UPDATE contests SET `
-            let arr = []
-            if (about) {
-              query += `about=?,`
-              arr.push(about)
-            }
-            if (rules) {
-              query += `rules=?,`
-              arr.push(rules)
-            }
-            if (prizes) {
-              query += `prizes=?,`
-              arr.push(prizes)
-            }
-            if (confidentialQuestions !== undefined) {
-              query += `confidential_questions=?,`
-              arr.push(confidentialQuestions)
-            }
-
-            if (query[query.length - 1] === ',') {
-              query = query.substr(0, query.length - 1)
-            } else {
-              return resolve({
-                message: 'Contest created successfully',
-                contestId: currentId,
-              })
-            }
-            query += ` WHERE id=?`
-            arr.push(currentId)
-            pool.query(query, arr, (error, res) => {
-              if (error || res === undefined) {
+        connection.query(
+          `INSERT INTO contests (creator, name, show_leaderboard, public, start_time, end_time, about, rules, prizes, confidential_questions) VALUES (?,?,?,?,?,?,?,?,?,?)`,
+          [
+            username,
+            name,
+            showLeaderboard,
+            public,
+            startTime,
+            endTime,
+            about,
+            rules,
+            prizes,
+            confidentialQuestions,
+          ],
+          (error, results) => {
+            if (error || results === undefined) {
+              return connection.rollback(() => {
+                connection.release()
                 return reject(error)
-              }
-              return resolve({
-                message: 'Contest created successfully',
-                contestId: currentId,
               })
-            })
+            }
+            const { insertId } = results
+            currentId = insertId
+            connection.query(
+              `INSERT INTO contests_moderators (contest_id, moderator) VALUES (?,?)`,
+              [currentId, username],
+              (error, insertionResults) => {
+                if (error || insertionResults === undefined) {
+                  return connection.rollback(() => {
+                    connection.release()
+                    return reject(error)
+                  })
+                }
+                connection.commit((error) => {
+                  if (error) {
+                    return connection.rollback(() => {
+                      connection.release()
+                      return reject(error)
+                    })
+                  }
+                  connection.release()
+                  return resolve({
+                    message: 'Contest created successfully',
+                    contestId: currentId,
+                  })
+                })
+              }
+            )
           }
         )
-      }
-    )
+      })
+    })
   })
 }
 

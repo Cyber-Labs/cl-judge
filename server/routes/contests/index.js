@@ -4,9 +4,9 @@ const addModeratorRouter = require('./addModerator')
 const removeModeratorRouter = require('./removeModerator')
 const addGroupRouter = require('./addGroup')
 const removeGroupRouter = require('./removeGroup')
-const getContestRouter = require('./getContest')
 const getContestsRouter = require('./getContests')
 const getModeratorContestsRouter = require('./getModeratorContests')
+const getContestRouter = require('./getContest')
 const getContestModeratorsRouter = require('./getContestModerators')
 const participateRouter = require('./participate')
 const getAllParticipantsRouter = require('./getAllParticipants')
@@ -19,9 +19,9 @@ module.exports = {
   removeModeratorRouter,
   addGroupRouter,
   removeGroupRouter,
-  getContestRouter,
   getContestsRouter,
   getModeratorContestsRouter,
+  getContestRouter,
   getContestModeratorsRouter,
   participateRouter,
   getAllParticipantsRouter,
