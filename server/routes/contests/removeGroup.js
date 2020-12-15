@@ -18,7 +18,6 @@ function sumErrors(errArray) {
 router.delete(
   '/:contest_id/groups',
   middleware.verifyUserAccessToken,
-  middleware.verifyContestModerator,
   async (request, response) => {
     const validate = ajv.compile(removeGroupSchema)
     const isValid = validate(request.body)
