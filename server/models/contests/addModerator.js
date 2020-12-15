@@ -8,7 +8,7 @@ const { pool } = require('../database')
  * @return {Promise}
  */
 
-function addModerator({ params, body }) {
+function addModerator({ params, body, username }) {
   return new Promise((resolve, reject) => {
     const { contest_id: contestId } = params
     const { moderator: moderatorUsername } = body
