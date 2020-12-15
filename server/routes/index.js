@@ -16,7 +16,7 @@ const groupsRouter = require('./groups')
 const notificationsRouter = require('./notifications')
 const searchRouter = require('./search')
 const contestsRouter = require('./contests')
-// const questionsRouter = require('./questions')
+const questionsRouter = require('./questions')
 // const submissionsRouter = require('./submissions')
 const tagsRouter = require('./tags')
 
@@ -68,6 +68,8 @@ router.use('/contests', contestsRouter.removeGroupRouter)
 // router.use('/contests', contestsRouter.paticipateRouter)
 // router.use('/contests', contestsRouter.getLeaderboardRouter)
 // router.use('/contests', contestsRouter.getQuestionLeaderboardRouter)
+
+router.use('/questions', questionsRouter.createQuestion)
 
 router.use('/tag', tagsRouter.createTagRouter)
 router.use('/tag', tagsRouter.getTagRouter)
