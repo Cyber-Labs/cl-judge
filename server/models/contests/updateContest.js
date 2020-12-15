@@ -5,25 +5,24 @@ const { pool } = require('../database')
  * @param {*} param0
  * @param {Object} param0.body
  * @param {Object} param0.params
+ * @param {String} param0.username
  * @return {Promise}
  *
  */
 
-function updateContest({ body, params }) {
+function updateContest({ body, params, username }) {
   return new Promise((resolve, reject) => {
     const {
       name,
       show_leaderboard: showLeaderboard,
       public,
-      start_time,
-      end_time,
+      start_time: startTime,
+      end_time: endTime,
       about,
       rules,
       prizes,
       confidential_questions: confidentialQuestions,
     } = body
-    const startTime = new Date(start_time)
-    const endTime = new Date(end_time)
     const { contest_id: contestId } = params
     let query = `UPDATE contests SET `
     let arr = []
@@ -39,13 +38,13 @@ function updateContest({ body, params }) {
       query += `public=?,`
       arr.push(public)
     }
-    if (startTime) {
+    if (startTime && !isNaN(Date.parse(startTime))) {
       query += `start_time=?,`
-      arr.push(startTime)
+      arr.push(new Date(startTime))
     }
-    if (endTime) {
+    if (endTime && !isNaN(Date.parse(endTime))) {
       query += `end_time=?,`
-      arr.push(endTime)
+      arr.push(new Date(endTime))
     }
     if (about) {
       query += `about=?,`
@@ -70,7 +69,7 @@ function updateContest({ body, params }) {
       return reject('Contest is already upto date')
     }
     query += ` WHERE (SELECT COUNT(id) FROM contests_moderators WHERE contest_id=? AND moderator=? )AND id=?`
-    arr.push(contestId)
+    arr.push(contestId, username, contestId)
     pool.query(query, arr, (error, res) => {
       if (error || res === undefined) {
         return reject(error)

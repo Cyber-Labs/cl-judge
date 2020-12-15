@@ -25,41 +25,64 @@ function createContest({ username, body }) {
     let prizes = body.prizes || null
     let confidentialQuestions = body.confidential_questions || null
     let currentId
-    pool.query(
-      `INSERT INTO contests (creator, name, show_leaderboard, public, start_time, end_time, about, rules, prizes, confidential_questions) VALUES (?,?,?,?,?,?,?,?,?,?)`,
-      [
-        username,
-        name,
-        showLeaderboard,
-        public,
-        startTime,
-        endTime,
-        about,
-        rules,
-        prizes,
-        confidentialQuestions,
-      ],
-      (error, results) => {
-        if (error || results === undefined) {
-          return reject(error)
+    pool.getConnection((error, connection) => {
+      if (error) {
+        return reject(error)
+      }
+      connection.beginTransaction((error) => {
+        if (error) {
+          return connection.rollback(() => {
+            return reject(error)
+          })
         }
-        const { insertId } = results
-        currentId = insertId
-        pool.query(
-          `INSERT INTO contests_moderators (contest_id, moderator) VALUES (?,?)`,
-          [currentId, username],
-          (error, res) => {
-            if (error || res === undefined) {
-              return reject(error)
+        connection.query(
+          `INSERT INTO contests (creator, name, show_leaderboard, public, start_time, end_time, about, rules, prizes, confidential_questions) VALUES (?,?,?,?,?,?,?,?,?,?)`,
+          [
+            username,
+            name,
+            showLeaderboard,
+            public,
+            startTime,
+            endTime,
+            about,
+            rules,
+            prizes,
+            confidentialQuestions,
+          ],
+          (error, results) => {
+            if (error || results === undefined) {
+              return connection.rollback(() => {
+                return reject(error)
+              })
             }
-            return resolve({
-              message: 'Contest created successfully',
-              contestId: currentId,
-            })
+            const { insertId } = results
+            currentId = insertId
+            connection.query(
+              `INSERT INTO contests_moderators (contest_id, moderator) VALUES (?,?)`,
+              [currentId, username],
+              (error, insertionResults) => {
+                if (error || insertionResults === undefined) {
+                  return connection.rollback(() => {
+                    return reject(error)
+                  })
+                }
+                connection.commit((error) => {
+                  if (error) {
+                    return connection.rollback(() => {
+                      return reject(error)
+                    })
+                  }
+                  return resolve({
+                    message: 'Contest created successfully',
+                    contestId: currentId,
+                  })
+                })
+              }
+            )
           }
         )
-      }
-    )
+      })
+    })
   })
 }
 

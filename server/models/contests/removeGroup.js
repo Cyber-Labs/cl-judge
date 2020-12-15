@@ -4,10 +4,11 @@ const { pool } = require('../database')
  * @param {*} param0
  * @param {Object} param0.body
  * @param {Object} param0.params
+ * @param {String} param0.username
  * @return {Promise}
  */
 
-function removeGroup({ params, body }) {
+function removeGroup({ params, body, username }) {
   return new Promise((resolve, reject) => {
     const { contest_id: contestId } = params
     const { group_id: groupId } = body
