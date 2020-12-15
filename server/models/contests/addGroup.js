@@ -12,7 +12,7 @@ function addGroup({ params, body }) {
     const { contest_id: contestId } = params
     const { group_id: groupId } = body
     pool.query(
-      `INSERT INTO contests_groups (contest_id, group_id) VALUES (?,?)`,
+      `INSERT INTO contests_groups (contest_id, group_id) SELECT contest_id, ? FROM contest_moderators WHERE contest_id=? AND moderator=?`,
       [contestId, groupId],
       (error, res) => {
         if (error || res === undefined) {
