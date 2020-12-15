@@ -71,6 +71,7 @@ function createContest({ username, body }) {
                 connection.commit((error) => {
                   if (error) {
                     return connection.rollback(() => {
+                      connection.release()
                       return reject(error)
                     })
                   }
