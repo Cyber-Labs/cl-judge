@@ -72,6 +72,7 @@ router.use('/contests', contestsRouter.removeGroupRouter)
 router.use('/questions', questionsRouter.getEditorQuestions)
 router.use('/questions', questionsRouter.createQuestion)
 router.use('/questions', questionsRouter.getQuestion)
+router.use('/questions', questionsRouter.getPublicContestQuestions)
 
 router.use('/tag', tagsRouter.createTagRouter)
 router.use('/tag', tagsRouter.getTagRouter)
