@@ -14,9 +14,9 @@ function getAllParticipantsDetails({ username, params }) {
     const { contest_id: contestId } = params
     pool.query(
       `SELECT username, full_name, admission_number, email, mobile, department, course, admission_year, profile_img FROM users 
-        WHERE username = ANY (SELECT participant FROM contests_participants WHERE contest_id=?) 
-        AND (SELECT COUNT(id) FROM contests_moderators WHERE contest_id=? AND moderator=?)`,
-      [contestId, contestId, username],
+      INNER JOIN  contests_participants ON users.username=contests_participants.participant 
+      WHERE EXISTS(SELECT 1 FROM contests_moderators WHERE contest_id=? AND moderator=?) AND contest_id=?`,
+      [contestId, username, contestId],
       (error, results) => {
         if (error || results === undefined) {
           return reject(error)

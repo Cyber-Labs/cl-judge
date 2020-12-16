@@ -12,9 +12,8 @@ function getContest({ username, params }) {
     const { contest_id: contestId } = params
     pool.query(
       `SELECT * FROM contests WHERE id=? 
-            AND (public=1 OR (SELECT COUNT(id) FROM user_groups WHERE username=? 
-            AND group_id = ANY (SELECT group_id FROM contests_groups WHERE contest_id=?)))
-            `,
+      AND (public=1 OR EXISTS(SELECT 1 FROM user_groups WHERE username=? 
+      AND group_id = ANY (SELECT group_id FROM contests_groups WHERE contest_id=?)))`,
       [contestId, username, contestId],
       (error, results) => {
         if (error || results === undefined) {

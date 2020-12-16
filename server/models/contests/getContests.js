@@ -12,7 +12,10 @@ const { sortContests } = require('../utils')
 function getContest({ username, query }) {
   return new Promise((resolve, reject) => {
     pool.query(
-      `SELECT * FROM contests WHERE (public=1 OR id IN (SELECT contest_id FROM contests_participants WHERE participant=?)) ORDER BY end_time`,
+      `SELECT * FROM contests 
+      WHERE  (public=1 OR EXISTS(SELECT 1 FROM user_groups WHERE username=? 
+      AND group_id = ANY (SELECT group_id FROM contests_groups WHERE contest_id=id)))
+      ORDER BY end_time`,
       [username],
       (error, results) => {
         if (error || results === undefined) {

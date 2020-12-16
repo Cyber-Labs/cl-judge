@@ -23,7 +23,7 @@ function participate({ params, username }) {
         }
         connection.query(
           `INSERT INTO contests_participants (contest_id, participant) SELECT ?, ? 
-            WHERE (SELECT COUNT(id) FROM user_groups WHERE username=? AND group_id = ANY (SELECT group_id FROM contests_groups WHERE contest_id=?))`,
+          WHERE EXISTS(SELECT 1 FROM user_groups WHERE username=? AND group_id = ANY (SELECT group_id FROM contests_groups WHERE contest_id=?))`,
           [contestId, username, username, contestId],
           (error, res) => {
             if (error || res === undefined) {

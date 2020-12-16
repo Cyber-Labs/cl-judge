@@ -11,8 +11,8 @@ function getContestModerators({ username, params }) {
   return new Promise((resolve, reject) => {
     const { contest_id: contestId } = params
     pool.query(
-      `SELECT moderator FROM contests_moderators WHERE contest_id = (SELECT contest_id FROM contests_moderators WHERE contest_id=? AND moderator=?)`,
-      [contestId, username],
+      `SELECT moderator FROM contests_moderators WHERE EXISTS(SELECT 1 FROM contests_moderators WHERE contest_id=? AND moderator=?) AND contest_id = ?`,
+      [contestId, username, contestId],
       (error, results) => {
         if (error || results === undefined) {
           return reject(error)
