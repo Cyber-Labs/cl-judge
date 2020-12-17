@@ -31,4 +31,4 @@ function getContest({ username, query }) {
   })
 }
 
-module.exports = getContest
+module.exports = getContests
