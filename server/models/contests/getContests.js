@@ -9,7 +9,7 @@ const { sortContests } = require('../utils')
  * @return {Promise}
  */
 
-function getContest({ username, query }) {
+function getContests({ username, query }) {
   return new Promise((resolve, reject) => {
     pool.query(
       `SELECT * FROM contests 
