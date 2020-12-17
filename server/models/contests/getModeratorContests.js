@@ -10,7 +10,7 @@ const { pool } = require('../../models/database')
 function getModeratorContests({ username, query }) {
   return new Promise((resolve, reject) => {
     const limit = Number(query.limit)
-    let sqlQuery = `SELECT * FROM contests WHERE id IN (SELECT contest_id FROM contests_moderators WHERE moderator=?)`
+    let sqlQuery = `SELECT * FROM contests c JOIN contests_moderators cm ON c.id=cm.contest_id WHERE cm.moderator=? `
     let arr = [username]
     if (limit && limit > 0) {
       sqlQuery += ` LIMIT ?`
