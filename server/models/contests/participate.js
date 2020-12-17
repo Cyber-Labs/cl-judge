@@ -16,14 +16,12 @@ function participate({ params, username }) {
       }
       connection.beginTransaction((error) => {
         if (error) {
-          return connection.rollback(() => {
-            connection.release()
-            return reject(error)
-          })
+          connection.release()
+          return reject(error)
         }
         connection.query(
           `INSERT INTO contests_participants (contest_id, participant) SELECT ?, ? 
-          WHERE EXISTS(SELECT 1 FROM user_groups WHERE username=? AND group_id = ANY (SELECT group_id FROM contests_groups WHERE contest_id=?))`,
+          WHERE EXISTS(SELECT 1 FROM user_groups ug INNER JOIN contests_groups cg ON ug.group_id = cg.group_id WHERE ug.username=? AND cg.contest_id=?)`,
           [contestId, username, username, contestId],
           (error, res) => {
             if (error || res === undefined) {

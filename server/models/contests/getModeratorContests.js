@@ -13,6 +13,10 @@ function getModeratorContests({ username, query }) {
     const cursor = Number(query.cursor)
     let sqlQuery = `SELECT * FROM contests c JOIN contests_moderators cm ON c.id=cm.contest_id WHERE cm.moderator=? `
     let arr = [username]
+    if (cursor) {
+      sqlQuery += `AND c.id>? `
+      arr.push(cursor)
+    }
     if (limit && limit > 0) {
       sqlQuery += ` LIMIT ?`
       arr.push(limit)
