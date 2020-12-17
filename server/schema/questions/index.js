@@ -11,4 +11,5 @@ module.exports = {
   createQuestionSchema,
   updateQuestionSchema,
   addEditorSchema,
+  removeEditorSchema: addEditorSchema,
 }

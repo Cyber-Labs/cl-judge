@@ -4,6 +4,7 @@ const getEditorQuestions = require('./getEditorQuestions')
 const getPublicContestQuestions = require('./getPublicContestQuestions')
 const updateQuestion = require('./updateQuestion')
 const addEditor = require('./addEditor')
+const removeEditor = require('./removeEditor')
 
 module.exports = {
   createQuestion,
@@ -12,4 +13,5 @@ module.exports = {
   getPublicContestQuestions,
   updateQuestion,
   addEditor,
+  removeEditor,
 }
