@@ -22,7 +22,7 @@ module.exports = {
     },
     options: {
       type: 'array',
-      pattern: 'optionsPattern',
+      pattern: 'arrPattern',
     },
     correct: {
       type: 'number',
@@ -30,6 +30,10 @@ module.exports = {
     difficulty: {
       type: 'string',
       enum: ['easy', 'medium', 'hard'],
+    },
+    tags: {
+      type: 'array',
+      pattern: 'arrPattern',
     },
   },
   errorMessage: {
@@ -47,6 +51,7 @@ module.exports = {
       options: 'Invalid question options',
       correct: 'Invalid question correct field',
       difficulty: 'Invalid question difficulty',
+      tags: 'Invalid question tags',
     },
     _: 'Invalid data',
   },
