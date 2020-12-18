@@ -1,5 +1,4 @@
 module.exports = {
-  required: ['questionId'],
   anyOf: [
     {
       required: ['type'],
@@ -26,12 +25,12 @@ module.exports = {
       required: ['correct'],
     },
     {
+      required: ['tags'],
+    },
+    {
       required: ['difficulty'],
     },
   ],
-  not: {
-    required: ['creator'],
-  },
   properties: {
     type: {
       type: 'string',
@@ -54,7 +53,7 @@ module.exports = {
     },
     options: {
       type: 'array',
-      pattern: 'optionsPattern',
+      pattern: 'arrPattern',
     },
     correct: {
       type: 'number',
@@ -63,12 +62,12 @@ module.exports = {
       type: 'string',
       enum: ['easy', 'medium', 'hard', null],
     },
+    tags: {
+      type: 'array',
+      pattern: 'arrPattern',
+    },
   },
   errorMessage: {
-    required: {
-      difficulty: 'Atleast one field is required to update',
-      creator: 'Question creator cannot be changed',
-    },
     properties: {
       type: 'Invalid question type',
       name: 'Invalid question name',
@@ -79,6 +78,7 @@ module.exports = {
       options: 'Invalid question options',
       correct: 'Invalid question correct field',
       difficulty: 'Invalid question difficulty',
+      tags: 'Invalid field types',
     },
     _: 'Invalid data',
   },
