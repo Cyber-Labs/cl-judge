@@ -39,7 +39,7 @@ function participate({ params, username }) {
               return connection.rollback(() => {
                 connection.release()
                 return reject(
-                  'None of the groups user is in are eligible for the contest'
+                  'You are not eligible to register for the contest'
                 )
               })
             }
