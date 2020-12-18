@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import { Form, Row, Col, Alert, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import { Formik } from 'formik'
@@ -18,6 +19,7 @@ const createGroupSchema = yup.object({
 function createGroupForm (props) {
   const { user } = props
   const { access_token: accessToken } = user
+  const router = useRouter()
   const [isConfidential, setIsConfidential] = useState(false)
   const [members, setMembers] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -47,7 +49,7 @@ function createGroupForm (props) {
         const { success, error, results } = res
         console.log(success, error, results)
         if (success) {
-          const { message, invalidUsernames } = results
+          const { message, invalidUsernames, groupId } = results
           if (invalidUsernames && invalidUsernames.length) {
             setError(
               `Following usernames couldn't be added : ${invalidUsernames.join(
@@ -56,6 +58,7 @@ function createGroupForm (props) {
             )
           }
           setResult(message)
+          router.push(`/manage/groups/${groupId}`)
         } else {
           setResult('')
           setError(error.sqlMessage || error)

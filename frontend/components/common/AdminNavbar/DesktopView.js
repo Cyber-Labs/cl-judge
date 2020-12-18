@@ -15,7 +15,7 @@ function AdminNavbarDesktop (props) {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <Link href="/manage/contests" passHref>
-              <Nav.Link>&nbsp;Contests&nbsp;</Nav.Link>
+              <Nav.Link active={activeNav === 'contests'}>&nbsp;Contests&nbsp;</Nav.Link>
             </Link>
             <Link href="/manage/questions" passHref>
               <Nav.Link>&nbsp;Questions&nbsp;</Nav.Link>
