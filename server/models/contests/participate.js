@@ -21,8 +21,9 @@ function participate({ params, username }) {
         }
         connection.query(
           `INSERT INTO contests_participants (contest_id, participant) SELECT ?, ? 
-          WHERE EXISTS(SELECT 1 FROM user_groups ug INNER JOIN contests_groups cg ON ug.group_id = cg.group_id WHERE ug.username=? AND cg.contest_id=?)`,
-          [contestId, username, username, contestId],
+          WHERE EXISTS(SELECT 1 FROM user_groups ug INNER JOIN contests_groups cg ON ug.group_id = cg.group_id WHERE ug.username=? AND cg.contest_id=?) 
+          OR EXISTS(SELECT 1 FROM contests WHERE id=? AND public=1)`,
+          [contestId, username, username, contestId, contestId],
           (error, res) => {
             if (error || res === undefined) {
               return connection.rollback(() => {

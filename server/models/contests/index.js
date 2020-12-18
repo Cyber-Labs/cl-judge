@@ -7,6 +7,7 @@ const removeGroup = require('./removeGroup')
 const getContests = require('./getContests')
 const getModeratorContests = require('./getModeratorContests')
 const getContest = require('./getContest')
+const getContestDetails = require('./getContestDetails')
 const getContestModerators = require('./getContestModerators')
 const participate = require('./participate')
 const getAllParticipants = require('./getAllParticipants')
@@ -22,6 +23,7 @@ module.exports = {
   getContests,
   getModeratorContests,
   getContest,
+  getContestDetails,
   getContestModerators,
   participate,
   getAllParticipants,
