@@ -34,9 +34,6 @@ function getContests({ username, query }) {
       if (error || results === undefined) {
         return reject(error)
       }
-      if (!results.length) {
-        return reject(`No ${status} contests for which the user is eligible`)
-      }
       return resolve(results)
     })
   })
