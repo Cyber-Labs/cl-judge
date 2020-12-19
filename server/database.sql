@@ -153,7 +153,6 @@ DROP TABLE IF EXISTS `leaderboard`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `leaderboard` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `rank` int NOT NULL,
   `username` varchar(45) NOT NULL,
   `contest_id` int NOT NULL,
   `score` int NOT NULL,
@@ -254,31 +253,53 @@ CREATE TABLE `questions_tags` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `submissions`
+-- Table structure for table 'mcq_submissions'
 --
 
-DROP TABLE IF EXISTS `submissions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `submissions` (
+CREATE TABLE `mcq_submissions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `question_id` int NOT NULL,
   `contest_id` int NOT NULL,
   `username` varchar(45) NOT NULL,
-  `mcq_submission` int DEFAULT NULL,
-  `subjective_submission` text,
-  `output` text,
+  `response` int NOT NULL,
   `submission_time` timestamp NOT NULL,
   `score` int DEFAULT '0',
   `judged` tinyint DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_submissions_questions_idx` (`question_id`),
-  KEY `fk_submissions_contests_idx` (`contest_id`),
-  KEY `fk_submissions_users_idx` (`username`),
-  CONSTRAINT `fk_submissions_contests` FOREIGN KEY (`contest_id`) REFERENCES `contests` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_submissions_questions` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_submissions_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `unique_user_mcq_submission` (`username`,`contest_id`,`question_id`),  
+  KEY `fk_mcq_submissions_questions_idx` (`question_id`),
+  KEY `fk_mcq_submissions_contests_idx` (`contest_id`),
+  KEY `fk_mcq_submissions_users_idx` (`username`),
+  CONSTRAINT `fk_mcq_submissions_contests` FOREIGN KEY (`contest_id`) REFERENCES `contests` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_mcq_submissions_questions` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_mcq_submissions_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table 'subjective_submissions'
+--
+
+CREATE TABLE `subjective_submissions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `question_id` int NOT NULL,
+  `contest_id` int NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `response` int NOT NULL,
+  `submission_time` timestamp NOT NULL,
+  `score` int DEFAULT '0',
+  `judged` tinyint DEFAULT '0',
+  `feedback` varchar(110) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `unique_user_subjective_submission` (`username`,`contest_id`,`question_id`),  
+  KEY `fk_subjective_submissions_questions_idx` (`question_id`),
+  KEY `fk_subjective_submissions_contests_idx` (`contest_id`),
+  KEY `fk_subjective_submissions_users_idx` (`username`),
+  CONSTRAINT `fk_subjective_submissions_contests` FOREIGN KEY (`contest_id`) REFERENCES `contests` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_subjective_submissions_questions` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_subjective_submissions_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
