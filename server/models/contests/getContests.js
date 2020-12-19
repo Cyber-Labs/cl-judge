@@ -23,7 +23,7 @@ function getContests({ username, query }) {
     if (status === 'past') {
       sqlQuery += ` AND NOW() > end_time ORDER BY end_time DESC`
     } else if (status === 'active') {
-      sqlQuery += ` AND NOW() > start_time AND NOW() < end_time ORDER BY start_time`
+      sqlQuery += ` AND NOW() >= start_time AND NOW() <= end_time ORDER BY start_time`
     } else if (status === 'upcoming') {
       sqlQuery += ` AND NOW() < start_time ORDER BY start_time`
     } else {
