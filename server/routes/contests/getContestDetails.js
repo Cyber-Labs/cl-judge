@@ -4,11 +4,11 @@ const contests = require('../../models/contests')
 const middleware = require('../middlewares')
 
 router.get(
-  '/:contest_id/leaderboard',
+  '/:contest_id/details',
   middleware.verifyUserAccessToken,
   async (request, response) => {
     contests
-      .getLeaderboard(request)
+      .getContestDetails(request)
       .then((results) => {
         return response.status(200).json({
           success: true,
