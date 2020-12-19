@@ -25,9 +25,6 @@ function getModeratorContests({ username, query }) {
       if (error || results === undefined) {
         return reject(error)
       }
-      if (!results || !results.length) {
-        return reject('There are no contests for which the user is moderator')
-      }
       return resolve(results)
     })
   })
