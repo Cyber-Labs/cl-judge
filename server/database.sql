@@ -155,8 +155,8 @@ CREATE TABLE `leaderboard` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `contest_id` int NOT NULL,
-  `score` int NOT NULL,
-  `total_time` timestamp NOT NULL,
+  `total_score` int NOT NULL,
+  `total_time` time NOT NULL,
   `attempted_count` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_contests_users` (`username`,`contest_id`),
@@ -256,6 +256,9 @@ CREATE TABLE `questions_tags` (
 -- Table structure for table 'mcq_submissions'
 --
 
+DROP TABLE IF EXISTS `mcq_submissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mcq_submissions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `question_id` int NOT NULL,
@@ -281,12 +284,15 @@ CREATE TABLE `mcq_submissions` (
 -- Table structure for table 'subjective_submissions'
 --
 
+DROP TABLE IF EXISTS `subjective_submissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `subjective_submissions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `question_id` int NOT NULL,
   `contest_id` int NOT NULL,
   `username` varchar(45) NOT NULL,
-  `response` int NOT NULL,
+  `response` text NOT NULL,
   `submission_time` timestamp NOT NULL,
   `score` int DEFAULT '0',
   `judged` tinyint DEFAULT '0',

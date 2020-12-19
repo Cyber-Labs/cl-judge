@@ -11,9 +11,6 @@ const { pool } = require('../database')
  * @return {Promise}
  */
 
-// For practise, keep only coding questions
-// User should have already registered for the contest for active contest
-
 function createSubmission({
   username,
   contestId,
@@ -33,12 +30,12 @@ function createSubmission({
         }
         let insertionQuery
         let queryArr = [questionId, contestId, username]
-        if (mcqSubmission) {
+        if (typeof mcqSubmission !== 'undefined') {
           insertionQuery = `INSERT INTO mcq_submissions(question_id,contest_id,username,submission_time,response,judged,score)
           SELECT ?,?,?,NOW(),?,1,(?=q.correct)*cq.max_score FROM questions q INNER JOIN contests_questions cq ON q.id=cq.question_id
           WHERE q.id=? AND cq.contest_id=? AND q.type=?
           AND EXISTS(SELECT 1 FROM contests WHERE id=? AND NOW()>=start_time AND NOW()<=end_time)
-          AND EXISTS(SELECT 1 FROM contests_participants WHERE contests_id=? AND participant=?)`
+          AND EXISTS(SELECT 1 FROM contests_participants WHERE contest_id=? AND participant=?)`
           queryArr.push(
             mcqSubmission,
             mcqSubmission,
@@ -49,11 +46,11 @@ function createSubmission({
             contestId,
             username
           )
-        } else if (subjectiveSubmission) {
+        } else if (typeof subjectiveSubmission !== 'undefined') {
           insertionQuery = `INSERT INTO subjective_submissions(question_id,contest_id,username,submission_time,response)
-          VALUES(?,?,?,NOW(),?) WHERE EXISTS(SELECT 1 FROM questions WHERE id=? AND type=?) 
+          SELECT ?,?,?,NOW(),? WHERE EXISTS(SELECT 1 FROM questions WHERE id=? AND type=?) 
           AND EXISTS(SELECT 1 FROM contests WHERE id=? AND NOW()>=start_time AND NOW()<=end_time)
-          AND EXISTS(SELECT 1 FROM contests_participants WHERE contests_id=? AND participant=?)
+          AND EXISTS(SELECT 1 FROM contests_participants WHERE contest_id=? AND participant=?)
           ON DUPLICATE KEY UPDATE response=?`
           queryArr.push(
             subjectiveSubmission,
@@ -69,21 +66,23 @@ function createSubmission({
 
         connection.query(insertionQuery, queryArr, (error, results) => {
           if (error) {
-            connection.release()
-            if (mcqSubmission && error.code === 'ER_DUP_ENTRY')
-              return reject(
-                'You had already submitted response for the question'
-              )
-            else {
-              return reject(
-                'Either you have not registered for the contest or the contest has ended'
-              )
-            }
+            return connection.rollback(() => {
+              connection.release()
+              if (mcqSubmission && error.code === 'ER_DUP_ENTRY')
+                return reject(
+                  'You have already submitted response for the question'
+                )
+              else {
+                return reject(
+                  'Either you have not registered for the contest or the contest has ended'
+                )
+              }
+            })
           }
 
           const submissionId = results.insertId
 
-          if (subjectiveSubmission) {
+          if (typeof subjectiveSubmission !== 'undefined') {
             return connection.commit((error) => {
               if (error) {
                 return connection.rollback(() => {
@@ -97,18 +96,18 @@ function createSubmission({
                 submissionId,
               })
             })
-          } else if (mcqSubmission) {
+          } else if (typeof mcqSubmission !== 'undefined') {
             connection.query(
-              `INSERT INTO leaderboard(username,contest_id,score,total_time,attempted_count)
-              SELECT ?,?,sub.score,sub.submission_time,1 FROM mcq_submissions sub
+              `INSERT INTO leaderboard(username,contest_id,total_score,total_time,attempted_count) 
+              SELECT ?,?,sub.score,TIMEDIFF(sub.submission_time,c.start_time),1 FROM mcq_submissions sub
               INNER JOIN contests c ON c.id=sub.contest_id
               WHERE sub.id=?
               ON DUPLICATE KEY UPDATE 
-              score=score+sub.score,
-              total_time=(sub.score>0)*(sub.submission_time-c.start_time)+(sub.score=0)*(total_time),
+              total_score=total_score+sub.score,
+              total_time=TIME((sub.score>0)*TIMEDIFF(sub.submission_time,c.start_time)+(sub.score=0)*(total_time)),
               attempted_count=attempted_count+1`,
               [username, contestId, submissionId],
-              (error, results) => {
+              (error) => {
                 if (error) {
                   return connection.rollback(() => {
                     connection.release()

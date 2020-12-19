@@ -16,7 +16,7 @@ function sumErrors(errArray) {
 }
 
 router.post(
-  '/contests/:contestId/questions/:questionId/submit',
+  '/:contestId/questions/:questionId/submit',
   verifyUserAccessToken,
   (req, res) => {
     const validate = ajv.compile(createSubmissionSchema)
