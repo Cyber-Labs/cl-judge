@@ -12,7 +12,7 @@ function getContests({ username, query }) {
   return new Promise((resolve, reject) => {
     const { status } = query
     let limit = Number(query.limit)
-    if (!limit || isNaN(limit) || limit === null || limit === undefined) {
+    if (!limit) {
       limit = 5
     }
 
