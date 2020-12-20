@@ -15,9 +15,8 @@ function ContestListItem (props) {
         <Col lg={2} className='text-center'>
           {contestName}
         </Col>
-        <Col lg={3} className="text-center">
+        <Col lg={4} className="text-center">
               {`${new Intl.DateTimeFormat('en-US', {
-                    year: 'numeric',
                     month: 'short',
                     day: '2-digit',
                     hour: 'numeric',
@@ -26,7 +25,6 @@ function ContestListItem (props) {
                   }).format(
                     new Date(Date.parse(startTime))
                   )} - ${new Intl.DateTimeFormat('en-US', {
-                    year: 'numeric',
                     month: 'short',
                     day: '2-digit',
                     hour: 'numeric',
@@ -34,12 +32,12 @@ function ContestListItem (props) {
                     hour12: true
                   }).format(new Date(Date.parse(endTime)))}`}
             </Col>
-        <Col lg={3} className='text-center'>
-              No. of Participants : &nbsp;
+        <Col lg={2} className='text-center'>
+              Total Participants : &nbsp;
           {participantCount}
         </Col>
         <Col lg={2} className='text-center'>
-          <b>Created By :</b>
+          <b>Creator:</b>
               &nbsp;
           <Link
             href={`/profile/${creator}`}

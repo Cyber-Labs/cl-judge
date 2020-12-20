@@ -13,41 +13,41 @@ const ViewContest = (props) => {
   const { contest_id: contestIdFromURL } = router.query
   const { isLoggedIn, user } = props
   const { access_token: accessToken } = user
-  const [creator, setCreator] = useState('')
+  const [contestDetails, setContestDetails] = useState()
   const [contestName, setContestName] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [contestId, setContestId] = useState(0)
 
   useEffect(() => {
-    // setIsLoading(true)
-    // setContestId(Number(contestIdFromURL))
-    // const reqHeaders = new Headers()
-    // reqHeaders.append('access_token', accessToken)
-    // const requestOptions = {
-    //   method: 'GET',
-    //   headers: reqHeaders
-    // }
-    // fetch(`${baseUrl}/contests/${contestIdFromURL}`, requestOptions)
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     const { success, error, results } = res
-    //     if (success) {
-    //       const { creator, contest_name: contestName } = results
-    //       setError('')
-    //       setCreator(creator)
-    //       setContestName(contestName)
-    //     } else {
-    //       setError(error.sqlMessage || error)
-    //     }
-    //     setIsLoading(false)
-    //   })
-    //   .catch((error) => {
-    //     setError(error.message)
-    //     setIsLoading(false)
-    //     setCreator('')
-    //     setContestName('')
-    //   })
+    setIsLoading(true)
+    setContestId(Number(contestIdFromURL))
+    const reqHeaders = new Headers()
+    reqHeaders.append('access_token', accessToken)
+    const requestOptions = {
+      method: 'GET',
+      headers: reqHeaders
+    }
+    fetch(`${baseUrl}/contests/${contestIdFromURL}/details`, requestOptions)
+      .then((res) => res.json())
+      .then((res) => {
+        const { success, error, results } = res
+        if (success) {
+          const { name } = results
+          setError('')
+          setContestDetails(results)
+          setContestName(name)
+        } else {
+          setError(error.sqlMessage || error)
+        }
+        setIsLoading(false)
+      })
+      .catch((error) => {
+        setError(error.message)
+        setIsLoading(false)
+        setContestDetails({})
+        setContestName('')
+      })
   }, [])
 
   return <div>
@@ -61,7 +61,7 @@ const ViewContest = (props) => {
     {!isLoading && !error && <ContestDetail
       contestId={contestId}
       contestName={contestName}
-      creator={creator}
+      contestDetails={contestDetails}
       setContestName={setContestName}
       user={user}
       isModerator

@@ -13,8 +13,9 @@ function addGroup({ params, body, username }) {
     const { contest_id: contestId } = params
     const { group_id: groupId } = body
     pool.query(
-      `INSERT INTO contests_groups (contest_id, group_id) SELECT contest_id, ? FROM contests_moderators WHERE contest_id=? AND moderator=?`,
-      [groupId, contestId, username],
+      `INSERT INTO contests_groups (contest_id, group_id) SELECT contest_id, ? FROM contests_moderators WHERE contest_id=? AND moderator=?
+      AND EXISTS(SELECT 1 FROM user_groups WHERE group_id=? AND username=? AND is_group_moderator=1)`,
+      [groupId, contestId, username, groupId, username],
       (error, res) => {
         if (error || res === undefined) {
           const { code } = error
@@ -26,7 +27,7 @@ function addGroup({ params, body, username }) {
           const { affectedRows } = res
           if (!affectedRows) {
             return reject(
-              'The user do not have moderator access of the contest'
+              'The user do not have moderator access of the contest or the group'
             )
           }
           return resolve('Successfully added group')
