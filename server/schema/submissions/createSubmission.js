@@ -12,9 +12,6 @@ const schema = {
     },
   },
   errorMessage: {
-    required: {
-      mcq_submission: 'One of the mcq or subjective submissions is required',
-    },
     properties: {
       subjective_submission: 'Invalid subjective submission',
       mcq_submission: 'Invalid MCQ submission',
