@@ -64,7 +64,6 @@ const ViewContest = (props) => {
       contestDetails={contestDetails}
       setContestName={setContestName}
       user={user}
-      isModerator
     />}
   </div>
 }
