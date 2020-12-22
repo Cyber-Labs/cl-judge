@@ -9,7 +9,7 @@ import Loading from '../../../components/common/Loading'
 import Error from '../../../components/common/Error'
 import ContestListItem from '../../../components/manage/contests/contestListItem'
 
-const LIMIT = 6
+const LIMIT = 7
 function ManageContests (props) {
   const { isLoggedIn, user } = props
   const { access_token: accessToken, isAdmin } = user

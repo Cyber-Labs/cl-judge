@@ -20,6 +20,7 @@ function ColumnFilter (props) {
         type='checkbox'
         id={`checkbox-${value}`}
         label={label}
+        checked={filterValue && filterValue.some((val) => val === value.toString())}
         onChange={(e) => {
           const selectedValue = e.target.value
           let newFilterValue

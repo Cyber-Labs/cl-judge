@@ -17,7 +17,7 @@ const notificationsRouter = require('./notifications')
 const searchRouter = require('./search')
 const contestsRouter = require('./contests')
 const questionsRouter = require('./questions')
-// const submissionsRouter = require('./submissions')
+const submissionsRouter = require('./submissions')
 const tagsRouter = require('./tags')
 
 router.use('/auth', authRouter.signupRouter)
@@ -50,6 +50,8 @@ router.use('/notifications', notificationsRouter.getNotificationsRouter)
 router.use('/notifications', notificationsRouter.getCreatorNotificationsRouter)
 
 router.use('/search', searchRouter.searchUsersRouter)
+
+router.use('/contests', submissionsRouter.createSubmission)
 
 router.use('/contests', contestsRouter.createContestRouter)
 router.use('/contests', contestsRouter.updateContestRouter)
