@@ -20,10 +20,8 @@ function addBranch({ params, body, username }) {
       }
       connection.beginTransaction((error) => {
         if (error) {
-          return connection.rollback(() => {
-            connection.release()
-            return reject(error)
-          })
+          connection.release()
+          return reject(error)
         }
         connection.query(
           `INSERT INTO user_groups (username, group_id, is_group_moderator)
