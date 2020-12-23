@@ -11,7 +11,7 @@ function EditProfile (props) {
   const { user } = props
 
   if (!user) {
-    return <div/>
+    return null
   }
 
   const [loading, setLoading] = useState(true)
