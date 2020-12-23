@@ -22,7 +22,7 @@ function removeQuestion({ params, body, username }) {
           const { affectedRows } = res
           if (!affectedRows) {
             return reject(
-              'Invalid question Id or the user do not have required permissions'
+              'Invalid question Id or you do not have moderator access to the contest'
             )
           }
           return resolve('Question removed successfully!!')
