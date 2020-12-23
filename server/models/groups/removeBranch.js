@@ -20,10 +20,8 @@ function removeBranch({ params, body, username }) {
       }
       connection.beginTransaction((error) => {
         if (error) {
-          return connection.rollback(() => {
-            connection.release()
-            return reject(error)
-          })
+          connection.release()
+          return reject(error)
         }
         connection.query(
           `DELETE FROM user_groups WHERE group_id=? 
