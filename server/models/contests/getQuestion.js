@@ -22,7 +22,7 @@ function getQuestion({ username, params }) {
         }
         if (!results || !results.length) {
           return reject(
-            'The contest is private and user do not belongs to any eligible groups'
+            'You do not have moderator access of the contest. If the contest is active, make sure that you are registered as a participant.'
           )
         }
         return resolve(results)
