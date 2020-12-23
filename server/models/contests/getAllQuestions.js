@@ -17,7 +17,15 @@ function getAllQuestions({ username, params }) {
       WHERE c.id=? AND (EXISTS(SELECT 1 from contests_moderators WHERE contest_id=? AND moderator=?) OR (NOW()>c.end_time AND c.confidential_questions=0 AND (c.public = 1
       OR EXISTS(SELECT 1 FROM contests_groups cg INNER JOIN user_groups ug ON cg.group_id = ug.group_id 
         WHERE ug.username = ? AND cg.contest_id = ?))) OR (NOW()>=c.start_time AND NOW()<=c.end_time AND EXISTS(SELECT 1 FROM contests_participants WHERE contest_id=? AND participant=?)))`,
-      [contestId, contestId, username, username, contestId, contestId, username],
+      [
+        contestId,
+        contestId,
+        username,
+        username,
+        contestId,
+        contestId,
+        username,
+      ],
       (error, results) => {
         if (error || results === undefined) {
           return reject(error)
