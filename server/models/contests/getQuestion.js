@@ -15,7 +15,7 @@ function getQuestion({ username, params }) {
       INNER JOIN contests c ON c.id = cq.contest_id WHERE (cq.question_id = ?) 
       AND ((c.public = 1) OR (EXISTS(SELECT 1 FROM contests_groups cg INNER JOIN user_groups ug ON cg.group_id = ug.group_id 
         WHERE ug.username = ? AND cg.contest_id = ?)))`,
-      [questionId, username, contestId],
+      [contestId, questionId, contestId, username, username, contestId, contestId, username],
       (error, results) => {
         if (error || results === undefined) {
           return reject(error)
