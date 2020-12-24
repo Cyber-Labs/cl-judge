@@ -62,7 +62,7 @@ function getAllSubmissions({ username, params, query }) {
     } = query
 
     let countQuery = `SELECT COUNT(*) AS total FROM 
-    (SELECT id, 'subjective' AS type FROM subjective_submissions WHERE contest_id=? AND EXISTS (SELECT 1 FROM contests_moderators WHERE contest_id=? AND moderator=?) `
+    (SELECT id, 'subjective' AS type FROM subjective_submissions WHERE contest_id=? `
     let mainQuery = `SELECT s.id, s.question_id, q.name, s.type, s.username, s.submission_time, s.score, s.judged FROM 
     (SELECT id, question_id, 'subjective' AS type, username, submission_time, score, judged FROM subjective_submissions
      WHERE contest_id=? `
@@ -77,15 +77,7 @@ function getAllSubmissions({ username, params, query }) {
       mainQuery += filterQuery(JSON.parse(filters))
     }
 
-    countQuery += ` UNION ALL SELECT id, 'mcq' AS type FROM mcq_submissions WHERE contest_id=? AND EXISTS (SELECT 1 FROM contests_moderators WHERE contest_id=? AND moderator=?) `
-    const countQueryArr = [
-      contestId,
-      contestId,
-      username,
-      contestId,
-      contestId,
-      username,
-    ]
+    countQuery += ` UNION ALL SELECT id, 'mcq' AS type FROM mcq_submissions WHERE contest_id=? `
 
     mainQuery += ` UNION ALL SELECT id, question_id, 'mcq' AS type, username, submission_time, score, judged FROM mcq_submissions
     WHERE contest_id=? `
@@ -101,8 +93,10 @@ function getAllSubmissions({ username, params, query }) {
       mainQuery += filterQuery(JSON.parse(filters))
     }
 
-    countQuery += `) s `
+    countQuery += `) s WHERE EXISTS (SELECT 1 FROM contests_moderators WHERE contest_id=? AND moderator=?) `
     mainQuery += `) s INNER JOIN questions q ON q.id=s.question_id `
+
+    const countQueryArr = [contestId, contestId, contestId, username]
 
     if (sort) {
       mainQuery += sortQuery(JSON.parse(sort))
