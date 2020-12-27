@@ -12,6 +12,10 @@ const getContestModerators = require('./getContestModerators')
 const participate = require('./participate')
 const getAllParticipants = require('./getAllParticipants')
 const getAllParticipantsDetails = require('./getAllParticipantsDetails')
+const addQuestion = require('./addQuestion')
+const removeQuestion = require('./removeQuestion')
+const getAllQuestions = require('./getAllQuestions')
+const getQuestion = require('./getQuestion')
 
 module.exports = {
   createContest,
@@ -28,4 +32,8 @@ module.exports = {
   participate,
   getAllParticipants,
   getAllParticipantsDetails,
+  addQuestion,
+  removeQuestion,
+  getQuestion,
+  getAllQuestions,
 }
