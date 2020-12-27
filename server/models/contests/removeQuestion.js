@@ -13,7 +13,7 @@ function removeQuestion({ params, body, username }) {
     const { contest_id: contestId } = params
     const { question_id: questionId } = body
     pool.query(
-      `DELETE FROM contests_questions WHERE (SELECT 1 FROM contests_moderators WHERE contest_id=? AND moderator=?) AND question_id = ? AND contest_id = ?`,
+      `DELETE FROM contests_questions WHERE EXISTS(SELECT 1 FROM contests_moderators WHERE contest_id=? AND moderator=?) AND question_id = ? AND contest_id = ?`,
       [contestId, username, questionId, contestId],
       (error, res) => {
         if (error || res === undefined) {
