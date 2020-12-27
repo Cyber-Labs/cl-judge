@@ -12,6 +12,10 @@ const getContestModeratorsRouter = require('./getContestModerators')
 const participateRouter = require('./participate')
 const getAllParticipantsRouter = require('./getAllParticipants')
 const getAllParticipantsDetailsRouter = require('./getAllParticipantsDetails')
+const addQuestionRouter = require('./addQuestion')
+const removeQuestionRouter = require('./removeQuestion')
+const getAllQuestionsRouter = require('./getAllQuestions')
+const getQuestionRouter = require('./getQuestion')
 
 module.exports = {
   createContestRouter,
@@ -28,4 +32,8 @@ module.exports = {
   participateRouter,
   getAllParticipantsRouter,
   getAllParticipantsDetailsRouter,
+  addQuestionRouter,
+  removeQuestionRouter,
+  getQuestionRouter,
+  getAllQuestionsRouter,
 }
