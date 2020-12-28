@@ -10,6 +10,10 @@ import withPrivateRoute from '../../components/utils/withPrivateRoute'
 function EditProfile (props) {
   const { user } = props
 
+  if (!user) {
+    return null
+  }
+
   const [loading, setLoading] = useState(true)
   const [getUserError, setGetUserError] = useState('')
   const [userInfo, setUserInfo] = useState(null)

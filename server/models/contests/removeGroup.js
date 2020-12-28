@@ -13,7 +13,7 @@ function removeGroup({ params, body, username }) {
     const { contest_id: contestId } = params
     const { group_id: groupId } = body
     pool.query(
-      `DELETE FROM contests_groups WHERE (SELECT COUNT(id) FROM contests_moderators WHERE contest_id=? AND moderator=?) AND contest_id=? AND group_id=?`,
+      `DELETE FROM contests_groups WHERE EXISTS(SELECT 1 FROM contests_moderators WHERE contest_id=? AND moderator=?) AND contest_id=? AND group_id=?`,
       [contestId, username, contestId, groupId],
       (error, res) => {
         if (error || res === undefined) {

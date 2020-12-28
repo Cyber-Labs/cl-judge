@@ -11,6 +11,7 @@ export default function privateRoute (WrappedComponent) {
       this.state = {
         user: this.props.user
       }
+      this._isMounted = false
     }
 
     static async getInitialProps ({ user }) {
@@ -27,11 +28,16 @@ export default function privateRoute (WrappedComponent) {
     }
 
     componentDidMount () {
+      this._isMounted = true
       const user = JSON.parse(
         localStorage.getItem(CONSTANTS.KEYS.CL_JUDGE_AUTH)
       )
+      if (!this._isMounted) {
+        return
+      }
       this.setState({ user: user }, () => {
-        if (!user || !user.username || !user.access_token) {
+        const { setIsLoggedIn } = this.props
+        if ((!user || !user.username || !user.access_token) && this._isMounted) {
           Router.replace('/')
         } else {
           const { loginTime } = user
@@ -40,20 +46,27 @@ export default function privateRoute (WrappedComponent) {
             currentTime >= loginTime + CONSTANTS.OTHERS.JWT_EXPIRY_TIME
           if (tokenExpired) {
             localStorage.removeItem(CONSTANTS.KEYS.CL_JUDGE_AUTH)
-            Router.replace('/')
+            setIsLoggedIn(false)
             alert(
               `It has been more than ${
                 CONSTANTS.OTHERS.JWT_EXPIRY_TIME / 3600
               } hours, since you have logged in. You need to login again to continue, for security reasons`
             )
+            if (this._isMounted) {
+              Router.replace('/')
+            }
           }
         }
       })
     }
 
+    componentWillUnmount () {
+      this._isMounted = false
+    }
+
     render () {
       const { user, ...propsWithoutAuth } = this.props
-      if (!user) {
+      if (!user || !this._isMounted) {
         return <Loading />
       }
       return <WrappedComponent user={this.state.user} {...propsWithoutAuth} />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,9 +9,13 @@ import PropTypes from 'prop-types'
 function Home (props) {
   const { isLoggedIn, setIsLoggedIn, setUser } = props
   const router = useRouter()
-  if (isLoggedIn) {
-    router.push('/user/edit-profile')
-  }
+  useEffect(() => {
+    let isMounted = true
+    if (isLoggedIn && isMounted) {
+      router.push('/user/edit-profile')
+    }
+    return () => { isMounted = false }
+  }, [])
   return (
     <div>
       <main>
