@@ -33,6 +33,7 @@ function Header (props) {
   }, [topNotifications])
 
   const router = useRouter()
+  const { pathname } = router
   const logout = () => {
     if (!isLoggedIn) {
       return
@@ -60,16 +61,16 @@ function Header (props) {
             <>
               <Nav className="mr-auto">
                 <Link href="/contests" passHref>
-                  <Nav.Link>&nbsp;Contests&nbsp;</Nav.Link>
+                  <Nav.Link active={pathname === '/contests'} >&nbsp;Contests&nbsp;</Nav.Link>
                 </Link>
                 <Link href="/practice" passHref>
-                  <Nav.Link>&nbsp;Practice&nbsp;</Nav.Link>
+                  <Nav.Link active={pathname === '/practice'} >&nbsp;Practice&nbsp;</Nav.Link>
                 </Link>
                 <Link href="/leaderboard" passHref>
-                  <Nav.Link>&nbsp;Leaderboard&nbsp;</Nav.Link>
+                  <Nav.Link active={pathname === '/leaderboard'} >&nbsp;Leaderboard&nbsp;</Nav.Link>
                 </Link>
                 <Link href="/community" passHref>
-                  <Nav.Link>&nbsp;Community&nbsp;</Nav.Link>
+                  <Nav.Link active={pathname === '/community'} >&nbsp;Community&nbsp;</Nav.Link>
                 </Link>
                 <Link href="https://cp.cyberlabs.club/docs/roadmap/" passHref>
                   <Nav.Link target="_blank">&nbsp;Roadmap&nbsp;</Nav.Link>

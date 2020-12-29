@@ -17,13 +17,13 @@ function createContest({ username, body }) {
       public,
       start_time,
       end_time,
+      confidential_questions: confidentialQuestions,
     } = body
     const startTime = new Date(start_time)
     const endTime = new Date(end_time)
     let about = body.about || null
     let rules = body.rules || null
     let prizes = body.prizes || null
-    let confidentialQuestions = body.confidential_questions || null
     let currentId
     pool.getConnection((error, connection) => {
       if (error) {
