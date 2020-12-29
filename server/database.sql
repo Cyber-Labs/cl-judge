@@ -35,7 +35,7 @@ CREATE TABLE `contests` (
   `about` text,
   `rules` text,
   `prizes` text,
-  `confidential_questions` tinyint DEFAULT '0',
+  `confidential_questions` tinyint NOT NULL DEFAULT '0',
   `participants_count` int DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),

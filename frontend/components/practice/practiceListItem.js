@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import CustomBadge from './customBadge'
 import styles from './practiceListItem.module.css'
 
-const PracticeListItem = ({ id, name, difficulty, backgroundColor }) => {
+const PracticeListItem = ({ id, name, difficulty, backgroundColor, isMobile }) => {
   let message = 'Easy'; let variant = 'success'
   if (difficulty === 'medium') {
     message = 'Medium'
@@ -18,12 +18,14 @@ const PracticeListItem = ({ id, name, difficulty, backgroundColor }) => {
   return (
     <ListGroupItem className={styles.hoverBackground} style={{ backgroundColor }}>
       <Row>
-        <Col lg={2}>
+        <Col lg={2} className={isMobile ? 'text-center' : ''}>
           {id}
         </Col>
-        <Col lg={7}>
+        <Col lg={7} className={isMobile ? 'text-center' : ''}>
           <Link href={`/practice/${id}`} passHref>
+            <a className={ styles.questionTitle }>
             {name}
+            </a>
           </Link>
         </Col>
         <Col lg={3} className='text-center'>
@@ -38,7 +40,8 @@ PracticeListItem.propTypes = {
   name: PropTypes.string,
   difficulty: PropTypes.string,
   id: PropTypes.number,
-  backgroundColor: PropTypes.string
+  backgroundColor: PropTypes.string,
+  isMobile: PropTypes.bool
 }
 
 export default PracticeListItem

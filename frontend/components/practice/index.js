@@ -5,15 +5,17 @@ import {
   ListGroupItem, Row, Col
 } from 'react-bootstrap'
 
-const Practice = ({ questions, sortBy, handleSort }) => (
-    <>
+const Practice = ({ questions, sortBy, handleSort }) => {
+  const isMobile = window.innerWidth < 992
+  return <>
         <ListGroupItem
           style={{
             backgroundColor: '#f2f2f2'
           }}
+          className='mt-3'
         >
           <Row>
-            <Col lg={2}>
+            <Col lg={2} className={isMobile ? 'text-center' : ''}>
               <b className="hover-cursor-pointer" onClick={() => handleSort('id')}>
                 #
                 &nbsp;
@@ -24,9 +26,9 @@ const Practice = ({ questions, sortBy, handleSort }) => (
                   : <span className="fa fa-sort" />}
               </b>
             </Col>
-            <Col lg={7}>
+            <Col lg={7} className={isMobile ? 'text-center' : ''}>
               <b className="hover-cursor-pointer" onClick={() => handleSort('name')}>
-                Name
+                Title
                 &nbsp;
                 {sortBy.name
                   ? sortBy.name === 'ASC'
@@ -47,6 +49,7 @@ const Practice = ({ questions, sortBy, handleSort }) => (
             difficulty={difficulty}
             name={name}
             backgroundColor={idx % 2 === 0 ? 'white' : '#f2f2f2'}
+            isMobile={isMobile}
           />
         ))}
         {!questions.length &&
@@ -55,11 +58,14 @@ const Practice = ({ questions, sortBy, handleSort }) => (
           </div>
         }
     </>
-)
+}
 
 Practice.propTypes = {
   questions: PropTypes.array,
-  sortBy: PropTypes.array,
+  sortBy: PropTypes.shape({
+    id: PropTypes.any,
+    name: PropTypes.any
+  }),
   handleSort: PropTypes.func
 }
 
