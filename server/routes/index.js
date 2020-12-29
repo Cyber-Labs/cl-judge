@@ -89,8 +89,8 @@ router.use('/questions', questionsRouter.createQuestion)
 router.use('/questions', questionsRouter.getQuestion)
 router.use('/questions', questionsRouter.getPublicContestQuestions)
 
-router.use('/tag', tagsRouter.createTagRouter)
-router.use('/tag', tagsRouter.getTagRouter)
+router.use('/tags', tagsRouter.createTagRouter)
+router.use('/tags', tagsRouter.getTagRouter)
 
 app.use(router)
 
