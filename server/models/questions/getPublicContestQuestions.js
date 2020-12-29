@@ -90,8 +90,8 @@ function getPublicContestQuestions({
       cQArr.push(difficulty)
     }
 
-    query += `c.end_time <= NOW() `
-    countQuery += `c.end_time <= NOW() `
+    query += `c.end_time <= NOW() AND c.public  = 1 AND c.confidential_questions = 0 `
+    countQuery += `c.end_time <= NOW() AND c.public  = 1 AND c.confidential_questions = 0 `
 
     if (search) {
       query += `AND q.name LIKE ? `
