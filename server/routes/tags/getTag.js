@@ -1,9 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const middleware = require('../middlewares')
 const tags = require('../../models/tags')
 
-router.get('/', middleware.verifyUserAccessToken, async (request, response) => {
+router.get('/', async (request, response) => {
   tags
     .getTag(request)
     .then((results) => {
