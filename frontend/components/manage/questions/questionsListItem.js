@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import CustomBadge from '../../common/customBadge'
 import styles from './questionsListItem.module.css'
 
-const ManageQuestionsListItem = ({ id, name, difficulty, backgroundColor, creator }) => {
+const ManageQuestionsListItem = ({ id, name, difficulty, backgroundColor, creator, isMobile }) => {
   let message = 'Easy'; let variant = 'success'
   if (difficulty === 'medium') {
     message = 'Medium'
@@ -18,17 +18,17 @@ const ManageQuestionsListItem = ({ id, name, difficulty, backgroundColor, creato
   return (
     <ListGroupItem className={styles.hoverBackground} style={{ backgroundColor }}>
       <Row>
-        <Col lg={1}>
+        <Col lg={1} className={isMobile ? 'text-center' : ''}>
           {id}
         </Col>
-        <Col lg={6}>
+        <Col lg={6} className={isMobile ? 'text-center' : ''}>
             <OverlayTrigger
                 placement="right"
                 overlay={<Tooltip>View and update question</Tooltip>}
             >
                 {({ ref, ...triggerHandler }) => (
                     <Link href={`/manage/questions/${id}`} passHref>
-                        <a ref={ref} {...triggerHandler}>{name}</a>
+                        <a ref={ref} {...triggerHandler} className={ styles.questionTitle }>{name}</a>
                     </Link>
                 )}
             </OverlayTrigger>
@@ -49,7 +49,8 @@ ManageQuestionsListItem.propTypes = {
   difficulty: PropTypes.string,
   id: PropTypes.number,
   backgroundColor: PropTypes.string,
-  creator: PropTypes.string
+  creator: PropTypes.string,
+  isMobile: PropTypes.bool
 }
 
 export default ManageQuestionsListItem
