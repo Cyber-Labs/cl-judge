@@ -10,7 +10,7 @@ import {
   Pagination
 } from 'react-bootstrap'
 import Error from '../../components/common/Error'
-import CustomBadge from '../../components/practice/customBadge'
+import CustomBadge from '../../components/common/customBadge'
 import DropdownPersist from '../../components/common/DropdownPersist'
 
 const maxPaginationOneSide = 3

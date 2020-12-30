@@ -4,10 +4,9 @@ import baseUrl from '../../../shared/baseUrl'
 import ManageQuestions from '../../../components/manage/questions/index'
 import AdminNavbar from '../../../components/common/AdminNavbar/index'
 import {
-  ListGroupItem, Row, Col, Form,
+  Row, Col, Form,
   FormControl,
   InputGroup,
-  DropdownButton,
   Dropdown,
   Pagination
 } from 'react-bootstrap'
@@ -15,6 +14,9 @@ import Error from '../../../components/common/Error'
 import CustomBadge from '../../../components/common/customBadge'
 import withPrivateRoute from '../../../components/utils/withPrivateRoute'
 import PropTypes from 'prop-types'
+import DropdownPersist from '../../../components/common/DropdownPersist'
+
+const maxPaginationOneSide = 3
 
 const ManageQuestionsPage = (props) => {
   const [loading, setLoading] = useState(true)
@@ -33,12 +35,28 @@ const ManageQuestionsPage = (props) => {
   const [pageCount, setPageCount] = useState(0)
   const [perPageSize, setPerPageSize] = useState(10)
   const [availableTags, setAvailableTags] = useState([])
+  const [pageOptions, setPageOptions] = useState([])
 
   const { isLoggedIn, user } = props
   const { access_token: accessToken } = user
 
   const { search, difficulty, tags } = constraints
   const isConstraints = Boolean(search || (difficulty >= 0 && difficulty < 3) || tags.length)
+
+  useEffect(() => {
+    const newPageOptions = []
+    if (pageCount > 2 * maxPaginationOneSide + 1) {
+      let i = Math.max(page - maxPaginationOneSide, 1)
+      for (; i <= Math.min(page + maxPaginationOneSide, pageCount); i++) {
+        newPageOptions.push(i)
+      }
+    } else {
+      for (let i = 1; i <= pageCount; i++) {
+        newPageOptions.push(i)
+      }
+    }
+    setPageOptions(newPageOptions)
+  }, [pageCount, page])
 
   useEffect(() => {
     setLoading(true)
@@ -134,11 +152,14 @@ const ManageQuestionsPage = (props) => {
       })
   }, [constraints, page, perPageSize, sortBy])
 
-  const handleSort = useCallback((field) => setSortBy(prev => {
-    const newVal = { ...prev }
-    newVal[field] = prev[field] ? prev[field] === 'ASC' ? 'DESC' : 'ASC' : 'ASC'
-    return newVal
-  }), [])
+  const handleSort = useCallback((field) => {
+    setPage(1)
+    setSortBy(prev => {
+      const newVal = { ...prev }
+      newVal[field] = prev[field] ? prev[field] === 'ASC' ? 'DESC' : false : 'ASC'
+      return newVal
+    })
+  }, [])
 
   const difficultyTypeMap = {
     easy: 'success',
@@ -148,7 +169,10 @@ const ManageQuestionsPage = (props) => {
 
   const difficulties = ['Easy', 'Medium', 'Hard']
 
-  const badgeVariants = ['primary', 'success', 'danger', 'info', 'warning', 'light']
+  const badgeVariants = ['primary', 'success', 'danger', 'info', 'warning', 'dark']
+
+  const canPreviousPage = page - 1 > 0
+  const canNextPage = page + 1 <= pageCount
 
   return (
       <>
@@ -158,9 +182,8 @@ const ManageQuestionsPage = (props) => {
             activeNav="questions"
         />
         <div className="container mt-3">
-            <ListGroupItem>
-                <Row>
-                <Col md={3}>
+              <Row>
+                <Col md={3} className="mt-1">
                     <Form inline>
                         <InputGroup>
                             <InputGroup.Prepend>
@@ -171,63 +194,116 @@ const ManageQuestionsPage = (props) => {
                             <FormControl
                                 style={{ height: '50%' }}
                                 type="text"
-                                placeholder="Search by Name"
+                                placeholder="Search by title"
                                 className="mr-sm-2"
                                 value={search}
-                                onChange={(e) => setConstraints(prev => ({ ...prev, search: e.target.value }))}
+                                onChange={(e) => {
+                                  setPage(1)
+                                  setConstraints(prev => ({ ...prev, search: e.target.value }))
+                                }}
                             />
                         </InputGroup>
                     </Form>
                 </Col>
-                <Col md={3} className="mt-1 text-center">
-                    <DropdownButton
-                        title="Difficulty"
-                        variant="warning"
-                        onSelect={(key) => setConstraints(prev => ({ ...prev, difficulty: +key }))}
-                    >
-                    <Dropdown.Item eventKey="0" active={difficulty === 0}>Easy</Dropdown.Item>
-                    <Dropdown.Item eventKey="1" active={difficulty === 1}>Medium</Dropdown.Item>
-                    <Dropdown.Item eventKey="2" active={difficulty === 2}>Hard</Dropdown.Item>
-                    <Dropdown.Item eventKey="3" active={difficulty === 3}>All</Dropdown.Item>
-                    </DropdownButton>
-                </Col>
-                <Col md={3} className="mt-1 text-center">
-                    <DropdownButton
-                        title="Tags"
-                        variant="info"
-                        onSelect={(key) => setConstraints(prev => ({
+                <Col>
+                  <div className="mt-1 rowselect" style={{ float: 'right', marginRight: '10px' }}>
+                    <InputGroup>
+                      <FormControl
+                        as="select"
+                        className="ml-sm-2"
+                        value={perPageSize}
+                        onChange={(e) => {
+                          setPage(1)
+                          setPerPageSize(e.target.value)
+                        }}
+                      >
+                        <option value={5}>5</option>
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                      </FormControl>
+                      <InputGroup.Append>
+                        <InputGroup.Text id="pagination-addon" style={{ paddingBottom: '4px', paddingTop: '3px' }}>
+                        Rows per page
+                        </InputGroup.Text>
+                      </InputGroup.Append>
+                    </InputGroup>
+                  </div>
+                  <DropdownPersist
+                    className="mt-1"
+                    style={{
+                      float: 'right',
+                      marginLeft: '10px',
+                      marginRight: '10px'
+                    }}
+                    title={
+                      <span>Tags <i className="fa fa-caret-down"></i> </span>
+                    }
+                    variant="info"
+                    onSelect={(key) => {
+                      const selected = tags.some(t => t.id === availableTags[key].id)
+                      setPage(1)
+                      if (selected) {
+                        setConstraints(prev => ({
+                          ...prev,
+                          tags: prev.tags.filter((tag) => tag.id !== availableTags[key].id)
+                        }))
+                      } else {
+                        setConstraints(prev => ({
                           ...prev,
                           tags: [...prev.tags, availableTags[key]]
-                        }))}
-                    >
-                    {availableTags.map((tag, idx) => (
-                        <Dropdown.Item
-                            key={idx}
-                            eventKey={idx}
-                            disabled={tags.find(tag1 => tag1.id === tag.id)}
+                        }))
+                      }
+                    }}
+                  >
+                    <div className='taglist'>
+                      {availableTags.map((tag, idx) => {
+                        const selected = tags.some(t => t.id === tag.id)
+                        return <Dropdown.Item
+                          key={idx}
+                          eventKey={idx}
+                          title={tag.description}
                         >
+                          <div style={{ color: 'black' }}>
                             {tag.name}
+                            {selected ? <>&nbsp; <i className='text-success fa fa-check'/> </> : '' }
+                          </div>
                         </Dropdown.Item>
-                    ))}
-                    </DropdownButton>
+                      }
+                      )}
+                    </div>
+                  </DropdownPersist>
+                  <DropdownPersist
+                    className="mt-1"
+                    style={{ display: 'inline-block', float: 'right' }}
+                    title={
+                      <span>Difficulty <i className="fa fa-caret-down"></i> </span>
+                    }
+                    variant="warning"
+                    onSelect={(key) => {
+                      setPage(1)
+                      setConstraints(prev => ({ ...prev, difficulty: +key }))
+                    }}
+                  >
+                    <Dropdown.Item eventKey="0">
+                      Easy {difficulty === 0 && <>&nbsp; <i className='text-success fa fa-check'/> </>}
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="1">
+                      Medium {difficulty === 1 && <>&nbsp; <i className='text-success fa fa-check'/> </>}
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="2">
+                      Hard {difficulty === 2 && <>&nbsp; <i className='text-success fa fa-check'/> </>}
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="3">
+                      All {difficulty === 3 && <>&nbsp; <i className='text-success fa fa-check'/> </>}
+                    </Dropdown.Item>
+                  </DropdownPersist>
                 </Col>
-                <Col md={3} className="mt-1 text-center">
-                    <DropdownButton
-                        title="Rows per page"
-                        variant="success"
-                        onSelect={(key) => setPerPageSize(+key)}
-                    >
-                        <Dropdown.Item eventKey={5} active={perPageSize === 5}>5</Dropdown.Item>
-                        <Dropdown.Item eventKey={10} active={perPageSize === 10}>10</Dropdown.Item>
-                        <Dropdown.Item eventKey={15} active={perPageSize === 15}>15</Dropdown.Item>
-                        <Dropdown.Item eventKey={20} active={perPageSize === 20}>20</Dropdown.Item>
-                    </DropdownButton>
-                </Col>
-                </Row>
-            </ListGroupItem>
-            {isConstraints &&
-                <ListGroupItem>
-                <Row>
+              </Row>
+              {isConstraints &&
+                  <Row className='mt-3'>
+                  <Col xs={12}>
                     {Object.entries(constraints).map(([type, constraint], idx) => {
                       if (constraint !== '') {
                         if (type !== 'tags') {
@@ -240,51 +316,50 @@ const ManageQuestionsPage = (props) => {
                             variant = difficultyTypeMap[constraint.toLowerCase()]
                           }
                           return (
-                            <Col
-                                key={idx}
-                                xs={12}
-                            >
-                            <CustomBadge
+                              <CustomBadge
+                                key={`difficulty-${idx}`}
                                 message={constraint}
                                 variant={variant}
                                 crossBtn
-                                onClose={() => setConstraints(prev => {
-                                  const newVal = { ...prev }
-                                  newVal[`${type}`] = type === 'difficulty' ? 3 : ''
-                                  return newVal
-                                })}
-                            />
-                            </Col>
+                                onClose={() => {
+                                  setPage(1)
+                                  setConstraints(prev => {
+                                    const newVal = { ...prev }
+                                    newVal[`${type}`] = type === 'difficulty' ? 3 : ''
+                                    return newVal
+                                  })
+                                }}
+                              />
                           )
                         } else {
                           return (
-                            <>
-                            {constraint.map((tag, idx) => (
-                                <Col
-                                key={idx}
-                                xs={12}
-                                >
-                                <CustomBadge
+                            <span key={'tag'}>
+                              {constraint.map((tag, idx) => (
+                                  <CustomBadge
+                                    key={`tag-${tag.id}`}
                                     message={tag.name}
-                                    variant={badgeVariants[Math.floor(Math.random() * badgeVariants.length)]}
+                                    variant={badgeVariants[tag.name.length % badgeVariants.length]}
                                     crossBtn
-                                    onClose={() => setConstraints(prev => ({
-                                      ...prev,
-                                      tags: [...prev.tags.slice(0, idx), ...prev.tags.slice(idx + 1)]
-                                    }))}
-                                />
-                                </Col>
-                            ))}
-                            </>
+                                    onClose={() => {
+                                      setPage(1)
+                                      setConstraints(prev => ({
+                                        ...prev,
+                                        tags: [...prev.tags.slice(0, idx), ...prev.tags.slice(idx + 1)]
+                                      }))
+                                    }}
+                                    description={tag.description}
+                                  />
+                              ))}
+                            </span>
                           )
                         }
                       } else {
                         return null
                       }
                     })}
-                </Row>
-                </ListGroupItem>
-            }
+                    </Col>
+                  </Row>
+              }
             {loading && <Loading />}
             {!loading && error && <Error message={error}></Error>}
             {!loading && !error &&
@@ -296,18 +371,31 @@ const ManageQuestionsPage = (props) => {
             }
             <br />
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Pagination>
-                    {new Array(pageCount).fill(0).map((_, idx) => (
-                        <Pagination.Item
-                            key={idx}
-                            active={page === idx + 1}
-                            onClick={() => setPage(idx + 1)}
-                        >
-                            {idx + 1}
-                        </Pagination.Item>
-                    ))}
-                </Pagination>
+              <Pagination className={'justify-content-center'}>
+                <Pagination.First onClick={() => setPage(1)} disabled={!canPreviousPage}/>
+                  <Pagination.Prev onClick={() => setPage(page - 1)} disabled={!canPreviousPage}/>
+                  {pageOptions.map((num) => <Pagination.Item key={num} active={num === page} onClick={() => setPage(num)}>
+                    {num}
+                  </Pagination.Item>)}
+                  <Pagination.Next onClick={() => setPage(page + 1)} disabled={!canNextPage}/>
+                <Pagination.Last onClick={() => setPage(pageCount)} disabled={!canNextPage}/>
+              </Pagination>
             </div>
+            <style jsx>{`
+              .taglist {
+                height: 250px !important;
+                overflow-y: scroll !important;
+              }      
+              .rowselect {
+                width: 90% !important;
+              }
+              @media only screen and (min-width: 438px)
+              {
+                .rowselect {
+                  width: auto !important;
+                }          
+              }
+            `}</style>
         </div>
     </>
   )
