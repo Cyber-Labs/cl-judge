@@ -169,7 +169,7 @@ const ManageQuestionsPage = (props) => {
 
   const difficulties = ['Easy', 'Medium', 'Hard']
 
-  const badgeVariants = ['primary', 'success', 'danger', 'info', 'warning', 'light']
+  const badgeVariants = ['primary', 'success', 'danger', 'info', 'warning', 'dark']
 
   const canPreviousPage = page - 1 > 0
   const canNextPage = page + 1 <= pageCount
