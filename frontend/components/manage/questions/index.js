@@ -29,7 +29,7 @@ const ManageQuestions = ({ questions, sortBy, handleSort }) => {
           </Col>
           <Col lg={6} className={isMobile ? 'text-center' : ''}>
             <b className="hover-cursor-pointer" onClick={() => handleSort('name')}>
-              Name
+              Title
               &nbsp;
               {sortBy.name
                 ? sortBy.name === 'ASC'
