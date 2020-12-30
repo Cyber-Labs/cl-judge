@@ -2,7 +2,7 @@ import React from 'react'
 import { ListGroupItem, Row, Col } from 'react-bootstrap'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
-import CustomBadge from './customBadge'
+import CustomBadge from '../common/customBadge'
 import styles from './practiceListItem.module.css'
 
 const PracticeListItem = ({ id, name, difficulty, backgroundColor, isMobile }) => {
