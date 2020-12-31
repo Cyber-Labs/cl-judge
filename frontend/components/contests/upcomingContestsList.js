@@ -5,10 +5,10 @@ import Loading from '../common/Loading'
 import Error from '../common/Error'
 import AccordionToggleIcon from './AccordionToggleIcon'
 import CustomPagination from '../common/CustomPagination'
+import Link from 'next/link'
 
 function UpcomingContestsList (props) {
   const {
-    // accessToken,
     error,
     loading,
     contests,
@@ -53,15 +53,19 @@ function UpcomingContestsList (props) {
             }).format(new Date(Date.parse(endTime)))}
           </h6>
           <p className="lead small">
-                By : &nbsp;
+                By &nbsp;
+                <Link href={`/profile/${creator}`}>
                 {creator}
+                </Link>
           </p>
         </Col>
         <Col md={4} className="text-center">
-          <Button variant="primary">
-            <i className="fa fa-sign-in" />
-            &nbsp; Participate
-          </Button>
+          <Link href={`/contests/${id}`}>
+            <Button variant="primary" className="btn-sm">
+              <i className="fa fa-sign-in" />
+              &nbsp; Participate
+            </Button>
+          </Link>
         </Col>
         <Col>
           <AccordionToggleIcon eventKey={id.toString()} />

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Accordion, Card, Col, Row, Button } from 'react-bootstrap'
+import Link from 'next/link'
 import Loading from '../common/Loading'
 import Error from '../common/Error'
 import AccordionToggleIcon from './AccordionToggleIcon'
@@ -55,21 +56,27 @@ function PastContestsList (props) {
             }).format(new Date(Date.parse(endTime)))}
           </h6>
           <p className="lead small">
-                By : &nbsp;
+                By &nbsp;
+                <Link href={`/profile/${creator}`}>
                 {creator}
+                </Link>
           </p>
         </Col>
         <Col md={4} className="text-center">
-          { !confidentialQuestions && <Button variant="primary">
+          { !confidentialQuestions && <Link href={`/contests/${id}`}>
+            <Button variant="primary" className="btn-sm">
             <i className="fa fa-info-circle" />
             &nbsp; Questions
-          </Button>
+            </Button>
+          </Link>
           }
           <br/>
-          { showLeaderboard && <Button variant="success" className="mt-1">
+          { showLeaderboard && <Link href={`/contests/${id}/leaderboard`}>
+            <Button variant="success" className="btn-sm mt-1">
             <i className="fa fa-list" />
             &nbsp; Leaderboard
-          </Button>
+            </Button>
+          </Link>
           }
         </Col>
         <Col>

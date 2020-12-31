@@ -31,7 +31,7 @@ function participate({ params, username }) {
                 connection.release()
                 const { code } = error
                 if (code === 'ER_DUP_ENTRY') {
-                  return reject('The user is already a participant')
+                  return reject('You have already registered for this contest')
                 }
                 return reject(error)
               })

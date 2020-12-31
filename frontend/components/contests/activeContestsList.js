@@ -5,10 +5,10 @@ import Loading from '../common/Loading'
 import Error from '../common/Error'
 import AccordionToggleIcon from './AccordionToggleIcon'
 import CustomPagination from '../common/CustomPagination'
+import Link from 'next/link'
 
 function ActiveContestsList (props) {
   const {
-    // accessToken,
     error,
     loading,
     contests,
@@ -59,20 +59,26 @@ function ActiveContestsList (props) {
             }).format(new Date(Date.parse(endTime)))}
           </h6>
           <p className="lead small">
-                By : &nbsp;
+                By &nbsp;
+                <Link href={`/profile/${creator}`}>
                 {creator}
+                </Link>
           </p>
         </Col>
         <Col md={4} className="text-center">
-          <Button variant="primary">
-            <i className="fa fa-sign-in" />
-            &nbsp; Participate
-          </Button>
+          <Link href={`/contests/${id}`}>
+            <Button variant="primary" className="btn-sm">
+              <i className="fa fa-sign-in" />
+              &nbsp; Participate
+            </Button>
+          </Link>
           <br/>
-          { showLeaderboard && <Button variant="success" className="mt-1">
+          { showLeaderboard && <Link href={`/contests/${id}/leaderboard`}>
+            <Button variant="success" className="btn-sm mt-1">
             <i className="fa fa-list" />
             &nbsp; Leaderboard
-          </Button>
+            </Button>
+          </Link>
           }
         </Col>
         <Col>
