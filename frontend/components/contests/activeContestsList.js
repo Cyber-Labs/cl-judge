@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Accordion, Card, Col, Row, Button } from 'react-bootstrap'
+import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 import Loading from '../common/Loading'
 import Error from '../common/Error'
 import AccordionToggleIcon from './AccordionToggleIcon'
 import CustomPagination from '../common/CustomPagination'
-import Link from 'next/link'
-
 function ActiveContestsList (props) {
   const {
     error,
@@ -73,7 +74,7 @@ function ActiveContestsList (props) {
             </Button>
           </Link>
           <br/>
-          { showLeaderboard && <Link href={`/contests/${id}/leaderboard`}>
+          { !!showLeaderboard && <Link href={`/contests/${id}/leaderboard`}>
             <Button variant="success" className="btn-sm mt-1">
             <i className="fa fa-list" />
             &nbsp; Leaderboard
@@ -89,14 +90,14 @@ function ActiveContestsList (props) {
       <Accordion.Collapse eventKey={id.toString()}>
         <Card.Body>
           <h6 style={{ fontWeight: 'bold' }}>About</h6>
-          <p>{about}</p>
+          <ReactMarkdown plugins={[gfm]} source={about} />
           { rules && <>
           <h6 style={{ fontWeight: 'bold' }}>Rules</h6>
-          <p>{rules}</p>
+          <ReactMarkdown plugins={[gfm]} source={rules} />
           </> }
           { prizes && <>
           <h6 style={{ fontWeight: 'bold' }}>Prizes</h6>
-          <p>{prizes}</p>
+          <ReactMarkdown plugins={[gfm]} source={prizes} />
           </> }
         </Card.Body>
       </Accordion.Collapse>

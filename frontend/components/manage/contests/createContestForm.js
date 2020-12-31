@@ -6,21 +6,23 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import DateFnsUtils from '@date-io/date-fns'
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import ReactMarkdown from 'react-markdown'
+import dynamic from 'next/dynamic'
+import 'react-markdown-editor-lite/lib/index.css'
+import gfm from 'remark-gfm'
 import MiniLoader from '../../common/MiniLoader'
 import baseUrl from '../../../shared/baseUrl'
 import Link from 'next/link'
+
+const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
+  ssr: false
+})
 
 const createContestSchema = yup.object({
   contestName: yup
     .string()
     .required('Contest Title is required')
-    .min(4, 'Contest Title should have minimum 4 characters'),
-  about: yup
-    .string(),
-  prizes: yup
-    .string(),
-  rules: yup
-    .string()
+    .min(4, 'Contest Title should have minimum 4 characters')
 })
 
 function createContestForm (props) {
@@ -37,15 +39,28 @@ function createContestForm (props) {
   const [endTime, setEndTime] = useState(new Date().setMinutes(new Date().getMinutes() + 10))
   const [isStartTimeValid, setIsStartTimeValid] = useState(true)
   const [isEndTimeValid, setIsEndTimeValid] = useState(true)
+  const [about, setAbout] = useState('')
+  const [prizes, setPrizes] = useState('')
+  const [rules, setRules] = useState('')
 
   const reqHeaders = new Headers()
   reqHeaders.append('access_token', accessToken)
   reqHeaders.append('Content-Type', 'application/json')
 
+  const handleAboutChange = ({ html, text }) => {
+    setAbout(text)
+  }
+  const handlePrizesChange = ({ html, text }) => {
+    setPrizes(text)
+  }
+  const handleRulesChange = ({ html, text }) => {
+    setRules(text)
+  }
+
   const createContest = (data) => {
     if (!isStartTimeValid || !isEndTimeValid) { return }
     setIsLoading(true)
-    const { contestName, about, prizes, rules } = data
+    const { contestName } = data
     const contest = {
       name: contestName,
       confidential_questions: confidentialQuestions,
@@ -170,19 +185,30 @@ function createContestForm (props) {
                   About Contest
                 </Form.Label>
                 <Col>
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    placeholder="About the contest"
+                <MdEditor
                     name="about"
-                    value={values.about}
-                    onChange={handleChange}
-                    isValid={touched.about && !errors.about}
-                    isInvalid={!!errors.about}
+                    style={{ height: '200px' }}
+                    renderHTML={(text) => (
+                      <ReactMarkdown plugins={[gfm]} source={text} />
+                    )}
+                    onChange={handleAboutChange}
+                    placeholder="About the contest. Preview will be visible on right side"
+                    value={about || ''}
+                    config={{
+                      linkUrl: 'https://www.google.co.in/',
+                      shortcuts: true
+                    }}
+                    plugins={[
+                      'font-bold',
+                      'font-italic',
+                      'link',
+                      'list-unordered',
+                      'list-ordered',
+                      'block-wrap',
+                      'logger',
+                      'mode-toggle'
+                    ]}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.about}
-                  </Form.Control.Feedback>
                 </Col>
               </Form.Row>
             </Form.Group>
@@ -192,19 +218,30 @@ function createContestForm (props) {
                   Rules
                 </Form.Label>
                 <Col>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    placeholder="Rules of contest"
+                <MdEditor
                     name="rules"
-                    value={values.rules}
-                    onChange={handleChange}
-                    isValid={touched.rules && !errors.rules}
-                    isInvalid={!!errors.rules}
+                    style={{ height: '200px' }}
+                    renderHTML={(text) => (
+                      <ReactMarkdown plugins={[gfm]} source={text} />
+                    )}
+                    onChange={handleRulesChange}
+                    placeholder="Rules of the contest. Preview will be visible on right side"
+                    value={rules || ''}
+                    config={{
+                      linkUrl: 'https://www.google.co.in/',
+                      shortcuts: true
+                    }}
+                    plugins={[
+                      'font-bold',
+                      'font-italic',
+                      'link',
+                      'list-unordered',
+                      'list-ordered',
+                      'block-wrap',
+                      'logger',
+                      'mode-toggle'
+                    ]}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.rules}
-                  </Form.Control.Feedback>
                 </Col>
               </Form.Row>
             </Form.Group>
@@ -214,19 +251,32 @@ function createContestForm (props) {
                   Prizes
                 </Form.Label>
                 <Col>
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    placeholder="Prizes (only, if applicable)"
+                <Col>
+                <MdEditor
                     name="prizes"
-                    value={values.prizes}
-                    onChange={handleChange}
-                    isValid={touched.prizes && !errors.prizes}
-                    isInvalid={!!errors.prizes}
+                    style={{ height: '200px' }}
+                    renderHTML={(text) => (
+                      <ReactMarkdown plugins={[gfm]} source={text} />
+                    )}
+                    onChange={handlePrizesChange}
+                    placeholder="Prizes (only, if applicable). Preview will be visible on right side"
+                    value={prizes || ''}
+                    config={{
+                      linkUrl: 'https://www.google.co.in/',
+                      shortcuts: true
+                    }}
+                    plugins={[
+                      'font-bold',
+                      'font-italic',
+                      'link',
+                      'list-unordered',
+                      'list-ordered',
+                      'block-wrap',
+                      'logger',
+                      'mode-toggle'
+                    ]}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.prizes}
-                  </Form.Control.Feedback>
+                </Col>
                 </Col>
               </Form.Row>
             </Form.Group>

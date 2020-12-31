@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Accordion, Card, Col, Row, Button } from 'react-bootstrap'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 import Loading from '../common/Loading'
 import Error from '../common/Error'
 import AccordionToggleIcon from './AccordionToggleIcon'
@@ -74,15 +76,15 @@ function UpcomingContestsList (props) {
       </Card.Header>
       <Accordion.Collapse eventKey={id.toString()}>
         <Card.Body>
-          <h6 style={{ fontWeight: 'bold' }}>About</h6>
-          <p>{about}</p>
+        <h6 style={{ fontWeight: 'bold' }}>About</h6>
+          <ReactMarkdown plugins={[gfm]} source={about} />
           { rules && <>
           <h6 style={{ fontWeight: 'bold' }}>Rules</h6>
-          <p>{rules}</p>
+          <ReactMarkdown plugins={[gfm]} source={rules} />
           </> }
           { prizes && <>
           <h6 style={{ fontWeight: 'bold' }}>Prizes</h6>
-          <p>{prizes}</p>
+          <ReactMarkdown plugins={[gfm]} source={prizes} />
           </> }
         </Card.Body>
       </Accordion.Collapse>

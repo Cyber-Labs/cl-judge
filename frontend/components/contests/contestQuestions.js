@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Row, Col, ListGroup, ListGroupItem, Table } from 'react-bootstrap'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 import remainingTime from '../../utils/remainingTime'
 import CustomHeader from '../common/CustomHeader'
 import Link from 'next/link'
@@ -132,17 +134,17 @@ function ContestQuestions (props) {
                 }).format(new Date(Date.parse(endTime)))}
                 <hr/>
                 <h5 style={{ fontWeight: 'bold' }}>About</h5>
-                <p>{about}</p>
+                <ReactMarkdown plugins={[gfm]} source={about} />
                 <hr/>
                 {rules && <><h5 style={{ fontWeight: 'bold' }}>Rules</h5>
-                <p>{rules}</p>
+                <ReactMarkdown plugins={[gfm]} source={rules} />
                 <hr/>
                 </>}
                 {prizes && <><h5 style={{ fontWeight: 'bold' }}>Prizes</h5>
-                <p>{prizes}</p>
+                <ReactMarkdown plugins={[gfm]} source={prizes} />
                 <hr/>
                 </>}
-                {showLeaderboard && <>
+                {!!showLeaderboard && <>
                 <Link href={`/contests/${contestId}/leaderboard`} passHref>
                 <h5 style={{ fontWeight: 'bold', cursor: 'pointer', color: 'blue' }}>Leaderboard</h5>
                 </Link>

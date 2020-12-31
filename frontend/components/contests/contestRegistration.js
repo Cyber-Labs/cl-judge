@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Row, Col } from 'react-bootstrap'
 import { useRouter } from 'next/router'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 import CustomHeader from '../common/CustomHeader'
 import remainingTime from '../../utils/remainingTime'
 import baseUrl from '../../shared/baseUrl'
@@ -28,7 +30,7 @@ function ContestRegistration (props) {
   const [showToast, setShowToast] = useState(false)
   const [toastLevel, setToastLevel] = useState('')
   const [toastMessage, setToastMessage] = useState('')
-  if (status === 'active' || !timeLeft) {
+  if (status === 'active' && !timeLeft) {
     router.reload()
   }
 
@@ -108,19 +110,19 @@ function ContestRegistration (props) {
         <Row>
           <Col>
             <h5 style={{ fontWeight: 'bold' }}>About</h5>
-            <p>{about}</p>
+            <ReactMarkdown plugins={[gfm]} source={about} />
           </Col>
         </Row>
         {rules && <Row>
           <Col>
             <h5 style={{ fontWeight: 'bold' }}>Rules</h5>
-            <p>{rules}</p>
+            <ReactMarkdown plugins={[gfm]} source={rules} />
           </Col>
         </Row>}
         {prizes && <Row>
           <Col>
             <h5 style={{ fontWeight: 'bold' }}>Prizes</h5>
-            <p>{prizes}</p>
+            <ReactMarkdown plugins={[gfm]} source={prizes} />
           </Col>
         </Row>}
     </div>
