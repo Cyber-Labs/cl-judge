@@ -7,9 +7,7 @@ function GroupListItem (props) {
   const { id, groupName, memberCount, confidential, creator, isModerator } = props
   return (
     <ListGroupItem
-      style={{
-        backgroundColor: 'whitesmoke'
-      }}
+      style={{ borderRadius: '5px' }}
     >
       <Row>
         <Col lg={2} className='text-center'>
@@ -33,8 +31,8 @@ function GroupListItem (props) {
         </Col>
         <Col lg={2} className='text-center'>
           <Link href={isModerator ? `/manage/groups/${id}` : `/groups/${id}`} passHref>
-            <Button color='info'>
-              <i className='fa fa-eye' />
+            <Button variant='info'>
+              <i className='fa fa-info-circle' />
                   &nbsp; View
             </Button>
           </Link>

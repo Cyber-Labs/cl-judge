@@ -45,7 +45,7 @@ function ManageGroups (props) {
   }, [])
 
   return (
-    <div>
+    <div style={{ backgroundColor: '#f5f5f5', minHeight: '90vh' }}>
       <AdminNavbar
         user={user}
         isLoggedIn={isLoggedIn}
@@ -86,6 +86,7 @@ function ManageGroups (props) {
             <p>You are not a moderator of any group</p>
           </div>
         }
+        <br/>
       </div>
     </div>
   )

@@ -30,11 +30,6 @@ function getAllQuestions({ username, params }) {
         if (error || results === undefined) {
           return reject(error)
         }
-        if (!results || !results.length) {
-          return reject(
-            'You do not have moderator access of the contest. If the contest is active, make sure that you are registered as a participant.'
-          )
-        }
         return resolve(results)
       }
     )

@@ -7,16 +7,14 @@ import {
   Row, Col, Form,
   FormControl,
   InputGroup,
-  Dropdown,
-  Pagination
+  Dropdown
 } from 'react-bootstrap'
 import Error from '../../../components/common/Error'
 import CustomBadge from '../../../components/common/customBadge'
 import withPrivateRoute from '../../../components/utils/withPrivateRoute'
 import PropTypes from 'prop-types'
 import DropdownPersist from '../../../components/common/DropdownPersist'
-
-const maxPaginationOneSide = 3
+import CustomPagination from '../../../components/common/CustomPagination'
 
 const ManageQuestionsPage = (props) => {
   const [loading, setLoading] = useState(true)
@@ -35,28 +33,12 @@ const ManageQuestionsPage = (props) => {
   const [pageCount, setPageCount] = useState(0)
   const [perPageSize, setPerPageSize] = useState(10)
   const [availableTags, setAvailableTags] = useState([])
-  const [pageOptions, setPageOptions] = useState([])
 
   const { isLoggedIn, user } = props
   const { access_token: accessToken } = user
 
   const { search, difficulty, tags } = constraints
   const isConstraints = Boolean(search || (difficulty >= 0 && difficulty < 3) || tags.length)
-
-  useEffect(() => {
-    const newPageOptions = []
-    if (pageCount > 2 * maxPaginationOneSide + 1) {
-      let i = Math.max(page - maxPaginationOneSide, 1)
-      for (; i <= Math.min(page + maxPaginationOneSide, pageCount); i++) {
-        newPageOptions.push(i)
-      }
-    } else {
-      for (let i = 1; i <= pageCount; i++) {
-        newPageOptions.push(i)
-      }
-    }
-    setPageOptions(newPageOptions)
-  }, [pageCount, page])
 
   useEffect(() => {
     setLoading(true)
@@ -170,9 +152,6 @@ const ManageQuestionsPage = (props) => {
   const difficulties = ['Easy', 'Medium', 'Hard']
 
   const badgeVariants = ['primary', 'success', 'danger', 'info', 'warning', 'dark']
-
-  const canPreviousPage = page - 1 > 0
-  const canNextPage = page + 1 <= pageCount
 
   return (
       <>
@@ -370,17 +349,12 @@ const ManageQuestionsPage = (props) => {
                 />
             }
             <br />
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Pagination className={'justify-content-center'}>
-                <Pagination.First onClick={() => setPage(1)} disabled={!canPreviousPage}/>
-                  <Pagination.Prev onClick={() => setPage(page - 1)} disabled={!canPreviousPage}/>
-                  {pageOptions.map((num) => <Pagination.Item key={num} active={num === page} onClick={() => setPage(num)}>
-                    {num}
-                  </Pagination.Item>)}
-                  <Pagination.Next onClick={() => setPage(page + 1)} disabled={!canNextPage}/>
-                <Pagination.Last onClick={() => setPage(pageCount)} disabled={!canNextPage}/>
-              </Pagination>
-            </div>
+            <CustomPagination
+              maxPaginationOneSide={3}
+              page={page}
+              pageCount={pageCount}
+              setPage={setPage}
+            />
             <style jsx>{`
               .taglist {
                 height: 250px !important;

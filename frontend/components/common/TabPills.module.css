@@ -1,0 +1,9 @@
+.selectedOption {
+  cursor: pointer;
+}
+.option:hover {
+  opacity: 0.65;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}

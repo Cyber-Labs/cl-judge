@@ -9,7 +9,7 @@ function ColumnFilter (props) {
     return [...optionList]
   }, [])
   return (
-    <OverlayTrigger trigger="click" placement="right" overlay={ <Popover id="popover-courses">
+    <OverlayTrigger trigger="click" placement="right" rootClose overlay={ <Popover id="popover-courses">
     <Popover.Title as="h4">{title}</Popover.Title>
     <Popover.Content>
     <Form>
