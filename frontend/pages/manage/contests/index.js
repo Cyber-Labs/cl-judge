@@ -87,7 +87,7 @@ function ManageContests (props) {
   }
 
   return (
-    <div>
+    <div style={{ backgroundColor: '#f5f5f5', minHeight: '90vh' }}>
       <AdminNavbar
         user={user}
         isLoggedIn={isLoggedIn}
@@ -129,6 +129,7 @@ function ManageContests (props) {
             <p>You are not a moderator of any contest</p>
           </div>
         }
+        <br/>
       </div>
     </div>
   )

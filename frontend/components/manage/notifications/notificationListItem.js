@@ -9,7 +9,6 @@ function NotificationListItem (props) {
   return (
     <ListGroupItem
       style={{
-        backgroundColor: 'whitesmoke',
         marginTop: '8px',
         borderRadius: '8px'
       }}

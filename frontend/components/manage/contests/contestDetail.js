@@ -4,6 +4,10 @@ import PropTypes from 'prop-types'
 import DateFnsUtils from '@date-io/date-fns'
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
+import dynamic from 'next/dynamic'
+import 'react-markdown-editor-lite/lib/index.css'
+import gfm from 'remark-gfm'
 import ContestNameEdit from './contestNameEdit'
 import ContestNavPills from './contestNavPills'
 import baseUrl from '../../../shared/baseUrl'
@@ -11,6 +15,10 @@ import MiniLoader from '../../common/MiniLoader'
 import Loading from '../../common/Loading'
 import AddGroupModal from './addGroupModal'
 import RemoveGroupModal from './removeGroupModal'
+
+const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
+  ssr: false
+})
 function ContestDetail (props) {
   const
     {
@@ -53,6 +61,16 @@ function ContestDetail (props) {
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0)
 
   const { access_token: accessToken } = user
+
+  const handleAboutChange = ({ html, text }) => {
+    setAbout(text)
+  }
+  const handlePrizesChange = ({ html, text }) => {
+    setPrizes(text)
+  }
+  const handleRulesChange = ({ html, text }) => {
+    setRules(text)
+  }
 
   const updateContest = () => {
     if (!isStartTimeValid || !isEndTimeValid) { return }
@@ -212,13 +230,29 @@ function ContestDetail (props) {
             About Contest
           </Form.Label>
           <Col>
-            <Form.Control
-              as="textarea"
-              rows={2}
-              placeholder="About the contest"
+            <MdEditor
               name="about"
+              style={{ height: '200px' }}
+              renderHTML={(text) => (
+                <ReactMarkdown plugins={[gfm]} source={text} />
+              )}
+              onChange={handleAboutChange}
+              placeholder="About the contest. Preview will be visible on right side"
               value={about || ''}
-              onChange={(e) => setAbout(e.target.value)}
+              config={{
+                linkUrl: 'https://www.google.co.in/',
+                shortcuts: true
+              }}
+              plugins={[
+                'font-bold',
+                'font-italic',
+                'link',
+                'list-unordered',
+                'list-ordered',
+                'block-wrap',
+                'logger',
+                'mode-toggle'
+              ]}
             />
           </Col>
         </Form.Row>
@@ -229,13 +263,29 @@ function ContestDetail (props) {
             Rules
           </Form.Label>
           <Col>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="Rules of contest"
-              name="rules"
+          <MdEditor
+              name="about"
+              style={{ height: '200px' }}
+              renderHTML={(text) => (
+                <ReactMarkdown plugins={[gfm]} source={text} />
+              )}
+              onChange={handleRulesChange}
+              placeholder="Rules of the contest. Preview will be visible on right side"
               value={rules || ''}
-              onChange={(e) => setRules(e.target.value)}
+              config={{
+                linkUrl: 'https://www.google.co.in/',
+                shortcuts: true
+              }}
+              plugins={[
+                'font-bold',
+                'font-italic',
+                'link',
+                'list-unordered',
+                'list-ordered',
+                'block-wrap',
+                'logger',
+                'mode-toggle'
+              ]}
             />
           </Col>
         </Form.Row>
@@ -246,13 +296,29 @@ function ContestDetail (props) {
             Prizes
           </Form.Label>
           <Col>
-            <Form.Control
-              as="textarea"
-              rows={2}
-              placeholder="Prizes (only, if applicable)"
-              name="prizes"
+          <MdEditor
+              name="about"
+              style={{ height: '200px' }}
+              renderHTML={(text) => (
+                <ReactMarkdown plugins={[gfm]} source={text} />
+              )}
+              onChange={handlePrizesChange}
+              placeholder="Prizes (only, if applicable). Preview will be visible on right side"
               value={prizes || ''}
-              onChange={(e) => setPrizes(e.target.value)}
+              config={{
+                linkUrl: 'https://www.google.co.in/',
+                shortcuts: true
+              }}
+              plugins={[
+                'font-bold',
+                'font-italic',
+                'link',
+                'list-unordered',
+                'list-ordered',
+                'block-wrap',
+                'logger',
+                'mode-toggle'
+              ]}
             />
           </Col>
         </Form.Row>

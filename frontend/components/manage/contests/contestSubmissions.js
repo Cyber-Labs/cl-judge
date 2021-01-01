@@ -7,13 +7,12 @@ import ContestNavPills from './contestNavPills'
 import baseUrl from '../../../shared/baseUrl'
 import Loading from '../../common/Loading'
 import Error from '../../common/Error'
-import CONSTANTS from '../../../shared/CONSTANTS'
 import ColumnFilter from '../../common/Table/ColumnFilter'
 import TableWithPagination from '../../common/Table/TableWithPagination'
 
 const maxPaginationOneSide = 2
 
-function ContestParticipants (props) {
+function ContestSubmissions (props) {
   const
     {
       contestId,
@@ -25,7 +24,7 @@ function ContestParticipants (props) {
     return <Loading/>
   }
 
-  const [participants, setParticipants] = useState([])
+  const [submissions, setSubmissions] = useState([])
   const [totalPages, setTotalPages] = useState([])
   const [error, setError] = useState('')
   const [keyword, setKeyword] = useState('')
@@ -33,63 +32,88 @@ function ContestParticipants (props) {
   const [indexes, setIndexes] = useState([])
   const [csvDownloading, setCsvDownloading] = useState(false)
   const { access_token: accessToken } = user
+
   const renderUsername = ({ value }) => <Link href={`/profile/${value}`}>
     <p style={{ color: 'black', fontWeight: 'bold', textDecoration: 'none', cursor: 'pointer' }}>{value}</p>
     </Link>
 
-  const courseFilter = ({ column }) => {
+  const renderSubmissionId = ({ value }) => <Link href={`/manage/contests/${contestId}/submissions/${value}`}>
+  <p style={{ color: 'blue', fontWeight: 'bold', cursor: 'pointer' }}>{value}</p>
+  </Link>
+
+  const renderTime = ({ value }) => <p>{`${new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true
+  }).format(
+    new Date(Date.parse(value))
+  )}`} </p>
+
+  const renderStatus = ({ value }) => <p>{value === 1 ? 'Judged' : 'Pending'}</p>
+
+  const renderType = ({ value }) => <p>{value !== 'mcq' ? value === 'subjective' ? 'Subjective' : 'Coding' : 'MCQ'}</p>
+
+  const typeFilter = ({ column }) => {
     return <ColumnFilter
       column={column}
-      title='Filter courses'
-      optionList={CONSTANTS.COURSES.map((course, i) => ({ value: i, label: course }))} />
+      title='Filter by type'
+      optionList={[{ value: 'mcq', label: 'MCQ' }, { value: 'subjective', label: 'Subjective' }, { value: 'coding', label: 'Coding' }]} />
   }
 
-  const departmentFilter = ({ column }) => {
+  const statusFilter = ({ column }) => {
     return <ColumnFilter
       column={column}
-      title='Filter departments'
-      optionList={CONSTANTS.DEPARTMENTS.map((course, i) => ({ value: i, label: course }))} />
+      title='Filter by status'
+      optionList={[{ value: 0, label: 'Pending' }, { value: 1, label: 'Judged' }]} />
   }
 
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Username',
+        Header: '#',
+        accessor: 'id',
+        Cell: renderSubmissionId,
+        disableFilters: true
+      },
+      {
+        Header: 'Who',
         accessor: 'username',
         Cell: renderUsername,
         disableFilters: true
       },
       {
-        Header: 'Full Name',
-        accessor: 'full_name',
+        Header: 'Problem',
+        accessor: 'name',
         disableFilters: true
       },
       {
-        Header: 'Admission No.',
-        accessor: 'admission_number',
+        Header: 'When',
+        accessor: 'submission_time',
+        Cell: renderTime,
         disableFilters: true
       },
       {
-        Header: 'Email',
-        accessor: 'email',
-        disableFilters: true
-      },
-      {
-        Header: 'Course',
-        accessor: 'course',
+        Header: 'Type',
+        accessor: 'type',
+        Cell: renderType,
         disableSortBy: true,
-        Filter: courseFilter
+        Filter: typeFilter
       },
       {
-        Header: 'Department',
-        accessor: 'department',
-        disableSortBy: true,
-        Filter: departmentFilter
-      },
-      {
-        Header: 'Admission Year',
-        accessor: 'admission_year',
+        Header: 'Score',
+        accessor: 'score',
         disableFilters: true
+      },
+      {
+        Header: 'Status',
+        accessor: 'judged',
+        Cell: renderStatus,
+        disableSortBy: true,
+        Filter: statusFilter
       }
     ],
     []
@@ -97,7 +121,7 @@ function ContestParticipants (props) {
 
   const tableInstance = useTable({
     columns,
-    data: participants,
+    data: submissions,
     manualSortBy: true,
     manualFilters: true,
     initialState: {
@@ -138,7 +162,7 @@ function ContestParticipants (props) {
       method: 'GET',
       headers: reqHeaders
     }
-    let url = `${baseUrl}/contests/${contestId}/participants_details?`
+    let url = `${baseUrl}/contests/${contestId}/submissions?`
     if (keyword) {
       url += `search=${keyword}&`
     }
@@ -154,11 +178,11 @@ function ContestParticipants (props) {
       .then((res) => {
         const { success, results } = res
         if (success) {
-          const { participant_records: participantRecords, page_count: numPages } = results
+          const { submissions, page_count: numPages } = results
           setError('')
-          const participantData = participantRecords.map((person) =>
-            ({ ...person, department: CONSTANTS.DEPARTMENTS[person.department], course: CONSTANTS.COURSES[person.course] }))
-          setParticipants(participantData)
+          const submissionData = submissions.map((person) =>
+            ({ ...person, id: person.type[0] + person.id }))
+          setSubmissions(submissionData)
           setTotalPages(numPages)
           if (numPages > 2 * maxPaginationOneSide + 1) {
             const newIndexes = []
@@ -169,13 +193,13 @@ function ContestParticipants (props) {
             setIndexes(newIndexes)
           }
         } else {
-          setParticipants([])
+          setSubmissions([])
           setTotalPages(0)
         }
         setNewDataLoading(false)
       })
       .catch((error) => {
-        setParticipants([])
+        setSubmissions([])
         setError(error.message)
         setNewDataLoading(false)
         setTotalPages(0)
@@ -190,7 +214,7 @@ function ContestParticipants (props) {
       method: 'GET',
       headers: reqHeaders
     }
-    let url = `${baseUrl}/contests/${contestId}/participants_details?`
+    let url = `${baseUrl}/contests/${contestId}/submissions?`
     if (keyword) {
       url += `search=${keyword}&`
     }
@@ -205,14 +229,10 @@ function ContestParticipants (props) {
     fetch(url, requestOptions)
       .then((res) => res.text())
       .then((res) => {
-        res += '\n\ncourse_code,course\n'
-        res += CONSTANTS.COURSES.map((course, i) => `${i},${course}`).join('\n')
-        res += '\n\ndepartment_code,department\n'
-        res += CONSTANTS.DEPARTMENTS.map((department, i) => `${i},${department}`).join('\n')
         const element = document.createElement('a')
         const file = new Blob([res], { type: 'text/plain' })
         element.href = URL.createObjectURL(file)
-        element.download = `${contestName}_participants.csv`
+        element.download = `${contestName}_submissions.csv`
         document.body.appendChild(element)
         element.click()
         setCsvDownloading(false)
@@ -226,7 +246,6 @@ function ContestParticipants (props) {
   useEffect(() => {
     onFetchDataDebounced({ pageIndex, pageSize, sortBy, filters })
   }, [onFetchDataDebounced, pageIndex, pageSize, sortBy, filters, keyword])
-
   return <div className='container mt-2'>
     <ContestNameEdit
       contestId={contestId}
@@ -234,12 +253,12 @@ function ContestParticipants (props) {
       accessToken={accessToken}
       setContestName={setContestName}
     />
-    <ContestNavPills contestId={contestId} activeTab='Participants' />
+    <ContestNavPills contestId={contestId} activeTab='Submissions' />
     {error && <Error message={error}></Error>}
     {!error && <TableWithPagination
           searchKeyword={keyword}
           handleSearch={handleSearch}
-          searchLabel='Search participants'
+          searchLabel='Search by username'
           pageSize={pageSize}
           setPageSize={setPageSize}
           newDataLoading={newDataLoading}
@@ -265,7 +284,7 @@ function ContestParticipants (props) {
     </div>
 }
 
-ContestParticipants.propTypes = {
+ContestSubmissions.propTypes = {
   contestId: PropTypes.number.isRequired,
   contestName: PropTypes.string,
   setContestName: PropTypes.func.isRequired,
@@ -276,4 +295,4 @@ ContestParticipants.propTypes = {
   })
 }
 
-export default ContestParticipants
+export default ContestSubmissions

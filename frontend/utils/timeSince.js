@@ -1,7 +1,7 @@
-export default function timeSince(date) {
-  var seconds = Math.floor((new Date() - date) / 1000)
+export default function timeSince (date) {
+  const seconds = Math.floor((new Date() - date) / 1000)
 
-  var interval = seconds / 31536000
+  let interval = seconds / 31536000
 
   if (interval > 1) {
     return Math.floor(interval) + ' years'

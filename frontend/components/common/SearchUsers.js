@@ -69,15 +69,10 @@ function SearchUsers (props) {
   return (
     <>
       <Row>
+      <Col xs={12}>
         {selectedUsers &&
           selectedUsers.map((selectedUser, i) => (
-            <Col
-              xs={6}
-              md={2}
-              lg={1}
-              key={selectedUser.username + i.toString()}
-            >
-              <Badge variant="dark">
+              <Badge variant="dark" key={selectedUser.username + i.toString()} style={{ marginRight: '15px' }}>
                 <Link href={`/profile/${selectedUser}`} passHref>
                   <a style={{ color: 'white' }} target="_blank">
                     {selectedUser}
@@ -95,8 +90,8 @@ function SearchUsers (props) {
                   }}
                 />
               </Badge>
-            </Col>
           ))}
+        </Col>
       </Row>
       <InputGroup style={{ marginTop: '10px' }}>
         <InputGroup.Prepend>

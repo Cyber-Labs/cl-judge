@@ -44,7 +44,7 @@ function ManageNotifications (props) {
   }, [])
 
   return (
-    <div>
+    <div style={{ backgroundColor: '#f5f5f5', minHeight: '90vh' }}>
       <AdminNavbar
         user={user}
         isLoggedIn={isLoggedIn}
@@ -86,6 +86,7 @@ function ManageNotifications (props) {
             )
           }
         )}
+        <br/>
       </div>
     </div>
   )

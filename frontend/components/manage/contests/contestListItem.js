@@ -7,9 +7,7 @@ function ContestListItem (props) {
   const { id, contestName, participantCount, creator, isModerator, startTime, endTime } = props
   return (
     <ListGroupItem
-      style={{
-        backgroundColor: 'whitesmoke'
-      }}
+      style={{ borderRadius: '5px' }}
     >
       <Row>
         <Col lg={2} className='text-center'>
@@ -47,8 +45,8 @@ function ContestListItem (props) {
         </Col>
         <Col lg={2} className='text-center'>
           <Link href={isModerator ? `/manage/contests/${id}` : `/contests/${id}`} passHref>
-            <Button color='info'>
-              <i className='fa fa-eye' />
+            <Button variant='info'>
+              <i className='fa fa-info-circle' />
                   &nbsp; View
             </Button>
           </Link>

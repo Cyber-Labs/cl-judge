@@ -11,10 +11,10 @@ function getContest({ username, params }) {
   return new Promise((resolve, reject) => {
     const { contest_id: contestId } = params
     pool.query(
-      `SELECT id, creator, name, start_time, end_time, about, rules, prizes, participants_count FROM contests WHERE id=? 
+      `SELECT id, creator, name, start_time, end_time, about, rules, prizes, participants_count, show_leaderboard, confidential_questions, NOW() AS server_time, EXISTS(SELECT 1 FROM contests_participants WHERE contest_id=? AND participant=?) AS registered FROM contests WHERE id=? 
       AND (public=1 OR EXISTS(SELECT 1 FROM contests_groups cg INNER JOIN user_groups ug ON cg.group_id = ug.group_id 
       WHERE ug.username=? AND cg.contest_id=?))`,
-      [contestId, username, contestId],
+      [contestId, username, contestId, username, contestId],
       (error, results) => {
         if (error || results === undefined) {
           return reject(error)
@@ -24,7 +24,7 @@ function getContest({ username, params }) {
             'The contest is private and user do not belongs to any eligible groups'
           )
         }
-        return resolve(results)
+        return resolve(results[0])
       }
     )
   })
