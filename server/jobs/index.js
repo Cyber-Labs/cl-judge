@@ -7,7 +7,7 @@ const scheduleJobs = () => {
     .forEach((jobDir) => {
       const job = require(`./${jobDir}`)
       job.start()
-      console.log(`Stared job ${jobDir}`)
+      console.log(`Started job ${jobDir}`)
     })
 }
 
