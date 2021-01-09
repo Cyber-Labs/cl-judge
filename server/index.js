@@ -3,6 +3,7 @@
 // create schema, make all auth APIs
 
 const dotenv = require('dotenv')
+const { scheduleJobs } = require('./jobs')
 
 if (!process.env.NODE_ENV) {
   let result = dotenv.config()
@@ -15,6 +16,9 @@ const host = process.env.HOST
 const port = process.env.PORT || 5000
 
 const server = require('./routes')
+
+scheduleJobs()
+
 server.listen(port, () => {
   console.log(`Server is running on host: ${host} and port: ${port}`)
 })
