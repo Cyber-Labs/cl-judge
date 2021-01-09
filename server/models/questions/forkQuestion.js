@@ -43,8 +43,8 @@ function forkQuestion({ username, questionId }) {
             const forkedQuestionId = results.insertId
 
             connection.query(
-              `INSERT INTO questions_editors(question_id, editor) VALUES(?,?)`,
-              [forkedQuestionId, username],
+              `INSERT INTO questions_editors(question_id, editor, access) VALUES(?,?,?)`,
+              [forkedQuestionId, username, 'write'],
               (error) => {
                 if (error) {
                   return connection.rollback(() => {

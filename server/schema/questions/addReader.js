@@ -1,16 +1,16 @@
 module.exports = {
-  required: ['editor'],
+  required: ['reader'],
   properties: {
-    editor: {
+    reader: {
       type: 'string',
     },
   },
   errorMessage: {
     required: {
-      editor: 'Editor required',
+      reader: 'Reader required',
     },
     properties: {
-      editor: 'Invalid field editor',
+      reader: 'Invalid field Reader',
     },
     _: 'Invalid data',
   },

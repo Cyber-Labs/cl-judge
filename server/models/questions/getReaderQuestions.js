@@ -29,7 +29,7 @@ function sortQuery(sortParams) {
  * @param {Array} param0.sort
  * @return {Promise}
  */
-function getEditorQuestions({
+function getReaderQuestions({
   username,
   search,
   tag_ids: tagIds,
@@ -76,10 +76,10 @@ function getEditorQuestions({
       countQuery += `WHERE `
     }
 
-    query += ` qe.editor=? AND qe.access=?`
-    countQuery += ` qe.editor=? AND qe.access=?`
-    qArr.push(username, 'write')
-    cQArr.push(username, 'write')
+    query += ` qe.editor=? `
+    countQuery += ` qe.editor=? `
+    qArr.push(username)
+    cQArr.push(username)
 
     if (
       difficulty &&
@@ -132,4 +132,4 @@ function getEditorQuestions({
   })
 }
 
-module.exports = getEditorQuestions
+module.exports = getReaderQuestions
