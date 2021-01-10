@@ -7,6 +7,7 @@ const addGroupSchema = require('./addGroup')
 const removeGroupSchema = require('./removeGroup')
 const addQuestionSchema = require('./addQuestion')
 const removeQuestionSchema = require('./removeQuestion')
+const updateQuestionSchema = require('./updateQuestion')
 
 ajv.addFormat('dateTimeFormat', (dateTimeString) => {
   return !isNaN(Date.parse(dateTimeString))
@@ -21,4 +22,5 @@ module.exports = {
   removeGroupSchema,
   addQuestionSchema,
   removeQuestionSchema,
+  updateQuestionSchema,
 }

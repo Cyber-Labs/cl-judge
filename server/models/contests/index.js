@@ -14,6 +14,7 @@ const getAllParticipants = require('./getAllParticipants')
 const getAllParticipantsDetails = require('./getAllParticipantsDetails')
 const addQuestion = require('./addQuestion')
 const removeQuestion = require('./removeQuestion')
+const updateQuestion = require('./updateQuestion')
 const getAllQuestions = require('./getAllQuestions')
 const getQuestion = require('./getQuestion')
 
@@ -34,6 +35,7 @@ module.exports = {
   getAllParticipantsDetails,
   addQuestion,
   removeQuestion,
+  updateQuestion,
   getQuestion,
   getAllQuestions,
 }
