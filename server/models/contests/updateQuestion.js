@@ -14,7 +14,7 @@ function updateQuestion({ params, body, username }) {
     const { max_score: maxScore } = body
     pool.query(
       `UPDATE contests_questions SET max_score = ? WHERE question_id = ? 
-        AND contest_id = (SELECT contest_id FROM contests_moderators WHERE contest_id = ? AND moderator = ?)`,
+        AND contest_id = ? AND EXISTS (SELECT 1 FROM contests_moderators WHERE contest_id = ? AND moderator = ?)`,
       [maxScore, questionId, contestId, username],
       (error, res) => {
         if (error || res === undefined) {
