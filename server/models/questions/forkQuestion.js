@@ -22,12 +22,12 @@ function forkQuestion({ username, questionId }) {
         connection.query(
           `INSERT INTO questions(creator,type,name,problem_statement,input_format,
             output_format,constraints,options,correct,difficulty)
-            SELECT creator,type,name,problem_statement,input_format,
+            SELECT ?,type,name,problem_statement,input_format,
             output_format,constraints,options,correct,difficulty 
             FROM questions WHERE
             EXISTS(SELECT 1 FROM questions_editors WHERE question_id=? AND editor=?) 
             AND id=?`,
-          [questionId, username, questionId],
+          [username, questionId, username, questionId],
           (error, results) => {
             if (error || !results) {
               connection.release()

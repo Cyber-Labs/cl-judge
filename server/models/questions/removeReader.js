@@ -13,9 +13,9 @@ function removeReader({ username, reader, questionId }) {
   return new Promise((resolve, reject) => {
     pool.query(
       `DELETE FROM questions_editors a WHERE
-       EXISTS(SELECT 1 FROM (SELECT * FROM questions_editors) b WHERE editor=? AND question_id=?)
+       EXISTS(SELECT 1 FROM (SELECT * FROM questions_editors) b WHERE editor=? AND question_id=? AND access=?)
        AND editor=? AND access=?`,
-      [username, questionId, reader, 'read'],
+      [username, questionId, 'write', reader, 'read'],
       (error, results) => {
         if (error || !results) {
           return reject(error)
