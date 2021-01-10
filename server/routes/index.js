@@ -77,6 +77,7 @@ router.use('/contests', contestsRouter.getAllParticipantsRouter)
 router.use('/contests', contestsRouter.getAllParticipantsDetailsRouter)
 router.use('/contests', contestsRouter.addQuestionRouter)
 router.use('/contests', contestsRouter.removeQuestionRouter)
+router.use('/contests', contestsRouter.updateQuestionRouter)
 router.use('/contests', contestsRouter.getAllQuestionsRouter)
 router.use('/contests', contestsRouter.getQuestionRouter)
 
