@@ -13,10 +13,12 @@ function updateEditorToReader({ username, editor, questionId }) {
   return new Promise((resolve, reject) => {
     pool.query(
       `UPDATE questions_editors q1 SET q1.access = ? 
-            WHERE q1.question_id = (
-                SELECT q1.question_id FROM
-                (SELECT DISTINCT question_id FROM questions_editors q2 WHERE q2.question_id=? AND q2.editor=? AND q2.access=?) AS qid
+            WHERE 
+            EXISTS (
+                SELECT 1 FROM
+                (SELECT question_id FROM questions_editors q2 WHERE q2.question_id=? AND q2.editor=? AND q2.access=?) AS qid
             )
+            AND q1.question_id = ?
             AND q1.editor=?`,
       ['read', questionId, username, 'write', editor],
       (error, results) => {
