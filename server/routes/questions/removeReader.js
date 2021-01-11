@@ -2,8 +2,8 @@ const express = require('express')
 const { verifyUserAccessToken } = require('../middlewares')
 const router = express.Router()
 const ajv = require('../../schema')
-const { removeEditorSchema } = require('../../schema/questions')
-const { removeEditor } = require('../../models/questions')
+const { removeReaderSchema } = require('../../schema/questions')
+const { removeReader } = require('../../models/questions')
 
 /**
  *
@@ -15,8 +15,8 @@ function sumErrors(errArray) {
   return errArray.reduce(cb, '')
 }
 
-router.delete('/:questionId/editors', verifyUserAccessToken, (req, res) => {
-  const validate = ajv.compile(removeEditorSchema)
+router.delete('/:questionId/readers', verifyUserAccessToken, (req, res) => {
+  const validate = ajv.compile(removeReaderSchema)
   const isValid = validate(req.body)
   if (!isValid) {
     return res.status(400).json({
@@ -25,7 +25,7 @@ router.delete('/:questionId/editors', verifyUserAccessToken, (req, res) => {
       results: null,
     })
   }
-  removeEditor({
+  removeReader({
     ...req.body,
     username: req.username,
     questionId: req.params.questionId,

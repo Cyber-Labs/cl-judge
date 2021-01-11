@@ -61,8 +61,8 @@ function updateQuestion({ username, questionId, tags, questionFields }) {
     if (query[query.length - 1] === `,`) {
       query = query.slice(0, -1)
 
-      query += ` WHERE EXISTS(SELECT 1 FROM questions_editors WHERE question_id=? AND editor=?) AND id=?`
-      qArr.push(questionId, username, questionId)
+      query += ` WHERE EXISTS(SELECT 1 FROM questions_editors WHERE question_id=? AND editor=? AND access=?) AND id=?`
+      qArr.push(questionId, username, 'write', questionId)
 
       pool.query(query, qArr, (error, results) => {
         if (error || !results) {

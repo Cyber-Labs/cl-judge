@@ -223,6 +223,7 @@ CREATE TABLE `questions_editors` (
   `id` int NOT NULL AUTO_INCREMENT,
   `question_id` int NOT NULL,
   `editor` varchar(45) NOT NULL,
+  `access` enum('read', 'write') DEFAULT 'read',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_questions_editors` (`question_id`,`editor`),
   KEY `fk_questions_editors_1_idx` (`question_id`),

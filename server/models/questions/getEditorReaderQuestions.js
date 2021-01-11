@@ -27,9 +27,10 @@ function sortQuery(sortParams) {
  * @param {Number} param0.per_page_size
  * @param {Number} param0.page
  * @param {Array} param0.sort
+ * @param {Boolean} param0.writeAccess
  * @return {Promise}
  */
-function getEditorQuestions({
+function getEditorReaderQuestions({
   username,
   search,
   tag_ids: tagIds,
@@ -37,6 +38,7 @@ function getEditorQuestions({
   per_page_size: perPageSize,
   page,
   sort,
+  writeAccess,
 }) {
   return new Promise((resolve, reject) => {
     let countQuery = `SELECT COUNT(DISTINCT q.id) AS total FROM questions q
@@ -80,6 +82,13 @@ function getEditorQuestions({
     countQuery += ` qe.editor=? `
     qArr.push(username)
     cQArr.push(username)
+
+    if (writeAccess) {
+      query += `AND qe.access=? `
+      countQuery += `AND qe.access=? `
+      qArr.push('write')
+      cQArr.push('write')
+    }
 
     if (
       difficulty &&
@@ -132,4 +141,4 @@ function getEditorQuestions({
   })
 }
 
-module.exports = getEditorQuestions
+module.exports = getEditorReaderQuestions

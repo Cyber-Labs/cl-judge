@@ -4,19 +4,18 @@ const { pool } = require('../database')
  *
  * @param {*} param0
  * @param {String} param0.username
- * @param {String} param0.editor
+ * @param {String} param0.reader
  * @param {Number} param0.questionId
  * @return {Promise}
  */
 
-function removeEditor({ username, editor, questionId }) {
+function removeReader({ username, reader, questionId }) {
   return new Promise((resolve, reject) => {
     pool.query(
       `DELETE FROM questions_editors a WHERE
        EXISTS(SELECT 1 FROM (SELECT * FROM questions_editors) b WHERE editor=? AND question_id=? AND access=?)
-       AND NOT EXISTS(SELECT 1 FROM questions WHERE question_id=? AND creator=?)
-       AND editor=?`,
-      [username, questionId, 'write', questionId, editor, editor],
+       AND editor=? AND access=?`,
+      [username, questionId, 'write', reader, 'read'],
       (error, results) => {
         if (error || !results) {
           return reject(error)
@@ -28,10 +27,10 @@ function removeEditor({ username, editor, questionId }) {
           )
         }
 
-        return resolve('Editor removed successfully')
+        return resolve('Reader removed successfully')
       }
     )
   })
 }
 
-module.exports = removeEditor
+module.exports = removeReader

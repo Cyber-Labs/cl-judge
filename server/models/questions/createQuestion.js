@@ -65,8 +65,8 @@ function createQuestion({
             const questionId = results.insertId
 
             connection.query(
-              `INSERT INTO questions_editors(question_id, editor) VALUES(?,?)`,
-              [questionId, username],
+              `INSERT INTO questions_editors(question_id, editor, access) VALUES(?,?,?)`,
+              [questionId, username, 'write'],
               (error) => {
                 if (error) {
                   return connection.rollback(() => {
