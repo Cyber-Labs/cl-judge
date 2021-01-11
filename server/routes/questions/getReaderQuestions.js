@@ -1,11 +1,12 @@
 const express = require('express')
-const { getReaderQuestions } = require('../../models/questions')
+const { getEditorReaderQuestions } = require('../../models/questions')
 const { verifyUserAccessToken } = require('../middlewares')
 const router = express.Router()
 
 router.get('/reader_questions', verifyUserAccessToken, (req, res) => {
-  getReaderQuestions({
+  getEditorReaderQuestions({
     ...req.query,
+    writeAcces: false,
     username: req.username,
   })
     .then((results) => {

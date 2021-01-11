@@ -9,6 +9,9 @@ const removeEditor = require('./removeEditor')
 const addReader = require('./addReader')
 const removeReader = require('./removeReader')
 const forkQuestion = require('./forkQuestion')
+const getAllEditors = require('./getAllEditors')
+const getAllReaders = require('./getAllReaders')
+const updateEditorToReader = require('./updateEditorToReader')
 
 module.exports = {
   createQuestion,
@@ -22,4 +25,7 @@ module.exports = {
   addReader,
   removeReader,
   forkQuestion,
+  getAllEditors,
+  getAllReaders,
+  updateEditorToReader,
 }

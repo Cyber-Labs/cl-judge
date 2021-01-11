@@ -4,6 +4,7 @@ const updateQuestionSchema = require('./updateQuestion')
 const addEditorSchema = require('./addEditor')
 const addReaderSchema = require('./addReader')
 const removeReaderSchema = require('./removeReader')
+const updateEditorToReaderSchema = require('./updateEditorToReader')
 
 ajv.addFormat('arrPattern', (data) =>
   Array.isArray(JSON.parse(JSON.stringify(data)))
@@ -16,4 +17,5 @@ module.exports = {
   removeEditorSchema: addEditorSchema,
   addReaderSchema,
   removeReaderSchema,
+  updateEditorToReaderSchema,
 }

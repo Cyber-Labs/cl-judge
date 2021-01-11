@@ -18,10 +18,6 @@ function addEditor({ username, editor, questionId }) {
       [editor, 'write', username, questionId, 'write', 'write'],
       (error, results) => {
         if (error || !results) {
-          const { code } = error
-          if (code === 'ER_DUP_ENTRY') {
-            return reject('The user already has write access to the question')
-          }
           return reject(error)
         }
 

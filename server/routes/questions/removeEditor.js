@@ -15,7 +15,7 @@ function sumErrors(errArray) {
   return errArray.reduce(cb, '')
 }
 
-router.delete('/:questionId/editor', verifyUserAccessToken, (req, res) => {
+router.delete('/:questionId/editors', verifyUserAccessToken, (req, res) => {
   const validate = ajv.compile(removeEditorSchema)
   const isValid = validate(req.body)
   if (!isValid) {

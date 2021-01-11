@@ -15,7 +15,7 @@ function sumErrors(errArray) {
   return errArray.reduce(cb, '')
 }
 
-router.delete('/:questionId/reader', verifyUserAccessToken, (req, res) => {
+router.delete('/:questionId/readers', verifyUserAccessToken, (req, res) => {
   const validate = ajv.compile(removeReaderSchema)
   const isValid = validate(req.body)
   if (!isValid) {

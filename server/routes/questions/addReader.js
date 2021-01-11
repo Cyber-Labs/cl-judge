@@ -15,7 +15,7 @@ function sumErrors(errArray) {
   return errArray.reduce(cb, '')
 }
 
-router.post('/:questionId/reader', verifyUserAccessToken, (req, res) => {
+router.post('/:questionId/readers', verifyUserAccessToken, (req, res) => {
   const validate = ajv.compile(addReaderSchema)
   const isValid = validate(req.body)
   if (!isValid) {
