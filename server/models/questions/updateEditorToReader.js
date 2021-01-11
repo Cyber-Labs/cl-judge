@@ -20,7 +20,7 @@ function updateEditorToReader({ username, editor, questionId }) {
             )
             AND q1.question_id = ?
             AND q1.editor=?`,
-      ['read', questionId, username, 'write', editor],
+      ['read', questionId, username, 'write', questionId, editor],
       (error, results) => {
         if (error || results === undefined) {
           return reject(error)
