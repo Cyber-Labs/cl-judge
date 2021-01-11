@@ -76,8 +76,8 @@ function getEditorQuestions({
       countQuery += `WHERE `
     }
 
-    query += ` qe.editor=? AND qe.access=?`
-    countQuery += ` qe.editor=? AND qe.access=?`
+    query += ` qe.editor=? AND qe.access=? `
+    countQuery += ` qe.editor=? AND qe.access=? `
     qArr.push(username, 'write')
     cQArr.push(username, 'write')
 
